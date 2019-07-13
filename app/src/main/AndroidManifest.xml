@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.metrocem.mismetrocem">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".EmployeeTradePromotions.ExistingTradeActivity"></activity>
+        <activity android:name=".EmployeeOrderInfo.AllocatedDOActivity" />
+        <activity android:name=".EmployeeOrderInfo.ProcessedDOActivity" />
+        <activity android:name=".EmployeeOrderInfo.RequestedOrderActivity" />
+        <activity android:name=".Activity.SMSActivity" />
+        <activity android:name=".Activity.PushNotificationActivity" />
+        <activity android:name=".Activity.OrderTrendActivity" />
+        <activity android:name=".Activity.CurrentPendingOrderActivity" />
+        <activity android:name=".Activity.OrderHistoryActivity" />
+        <activity android:name=".Activity.EmployeeTradeProActivity" />
+        <activity android:name=".Activity.OrderPendingActivity" />
+        <activity android:name=".Activity.OrderDeliveredActivity" />
+        <activity android:name=".Activity.BrandCommunicationActivity" />
+        <activity android:name=".Activity.TradePromotionActivity" />
+        <activity android:name=".Activity.OrderDetailActivity" />
+        <activity android:name=".SignIn.SignInActivity" />
+        <activity
+            android:name=".Home.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

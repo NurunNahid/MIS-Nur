@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/mainGroup">
+
+        <!--<item-->
+        <!--android:id="@+id/nav_home"-->
+        <!--android:icon="@mipmap/home_icon"-->
+        <!--android:title="Home" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_sale_item"-->
+        <!--android:icon= "@mipmap/add_item"-->
+        <!--android:title="Sales" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_category"-->
+        <!--android:icon="@mipmap/category_icon"-->
+        <!--android:title="Category" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_item"-->
+        <!--android:icon="@mipmap/add_item_icon"-->
+        <!--android:title="Add item" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_expenses"-->
+        <!--android:icon="@mipmap/expense_icon"-->
+        <!--android:title="Expenses" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_client"-->
+        <!--android:icon="@mipmap/client_icon"-->
+        <!--android:title="Customer" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_staff"-->
+        <!--android:icon="@mipmap/staff_icon"-->
+        <!--android:title="Staff" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_reports"-->
+        <!--android:icon="@mipmap/report_icon"-->
+        <!--android:title="Report" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_sales_report"-->
+        <!--android:icon="@mipmap/sales_report"-->
+        <!--android:title="Sales Report" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_item_report"-->
+        <!--android:icon="@mipmap/item_report"-->
+        <!--android:title="Item Report" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_stock"-->
+        <!--android:icon="@mipmap/stock_icon"-->
+        <!--android:title="Stock" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_faq"-->
+        <!--android:icon="@mipmap/help_icon"-->
+        <!--android:title="FAQ" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_about_us"-->
+        <!--android:icon="@mipmap/about_us"-->
+        <!--android:title="About us" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_signout"-->
+        <!--android:icon="@mipmap/signout_icon"-->
+        <!--android:title="Signout"-->
+        <!--/>-->
+    </group>
+
+
+    <!--<group android:checkableBehavior="single">-->
+        <!--<item-->
+            <!--android:id="@+id/request"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/menu_home" />-->
+        <!--<item-->
+            <!--android:id="@+id/order_info"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/order_info" />-->
+        <!--<item-->
+            <!--android:id="@+id/delivery_info"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/delivery_info" />-->
+        <!--<item-->
+            <!--android:id="@+id/financial_info"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/financial_info" />-->
+        <!--<item-->
+            <!--android:id="@+id/commission_incentive"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/commission_incentive" />-->
+        <!--<item-->
+            <!--android:id="@+id/trade_brand"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/trade_brand" />-->
+        <!--<item-->
+            <!--android:id="@+id/communication"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/communication" />-->
+        <!--<item-->
+            <!--android:id="@+id/report_us"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/report" />-->
+        <!--<item-->
+            <!--android:id="@+id/about_us"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/about_us" />-->
+
+        <!--<item-->
+            <!--android:id="@+id/contact_us"-->
+            <!--android:icon="@drawable/ic_menu_gallery"-->
+            <!--android:title="@string/contact_us" />-->
+
+    <!--</group>-->
+
+
+</menu>

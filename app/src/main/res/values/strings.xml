@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">MIS Metrocem</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Dashboard</string>
+    <string name="do_request">Do Requesting</string>
+    <string name="order_info">Order Information</string>
+    <string name="delivery_info">Delivery Information</string>
+    <string name="financial_info">Financial Information</string>
+    <string name="commission_incentive">Commission &amp; Incentive</string>
+    <string name="trade_brand">Trade &amp; Brand Promotions</string>
+    <string name="communication">Communication Center</string>
+    <string name="report">Reports</string>
+    <string name="about_us">About Us</string>
+    <string name="contact_us">Contact Us</string>
+
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_tools">Tools</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+
+    <!--Reports-->
+    <string name="request_history">Do Request History</string>
+    <string name="target_sales_report">Target &amp; Sales Report</string>
+
+
+</resources>
