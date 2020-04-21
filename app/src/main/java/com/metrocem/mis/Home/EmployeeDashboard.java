@@ -1,8 +1,5 @@
-package com.metrocem.mis.Fragment;
+package com.metrocem.mis.Home;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,17 +17,17 @@ import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.metrocem.mis.Adapter.SecurityAdapter;
-import com.metrocem.mis.Home.MainActivity;
 import com.metrocem.mis.R;
-import com.metrocem.mis.Subclasses.ChallanInfo;
-import com.metrocem.mis.Subclasses.ChallanList;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
-import com.metrocem.mis.Subclasses.Order;
-import com.metrocem.mis.Subclasses.OrderList;
-import com.metrocem.mis.Subclasses.SecurityInfo;
-import com.metrocem.mis.Subclasses.SecurityInfoContainer;
-import com.metrocem.mis.Subclasses.SecurityList;
+import com.metrocem.mis.Model.ChallanInfo;
+import com.metrocem.mis.Model.ChallanList;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.Order;
+import com.metrocem.mis.Model.OrderList;
+import com.metrocem.mis.Model.SecurityInfo;
+import com.metrocem.mis.Model.SecurityInfoContainer;
+import com.metrocem.mis.Model.SecurityList;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -85,6 +82,7 @@ public class EmployeeDashboard extends Fragment {
         TextView nameTV = view.findViewById(R.id.nameTV);
         TextView emailTV = view.findViewById(R.id.emailTV);
         TextView phoneNoTV = view.findViewById(R.id.phoneNoTV);
+
         if (loggedInUser.userName != null){
             nameTV.setText(loggedInUser.userName);
         }
@@ -101,7 +99,7 @@ public class EmployeeDashboard extends Fragment {
         Log.d("image path", imagePath);
         Picasso.with(getContext()).load(imagePath).fit().centerCrop().into(user_photo);
 
-        if (isNetworkAvailable()){
+        if (CheckNetworkConnection.isNetworkAvailable(getContext())){
 
             getSecurityList();
             getOrderRequest();
@@ -114,12 +112,6 @@ public class EmployeeDashboard extends Fragment {
 
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
     private void parseData(List<SecurityInfoContainer> securityInfos) {
         SecurityAdapter securityAdapter = new SecurityAdapter(getContext(), securityInfos);
@@ -132,27 +124,6 @@ public class EmployeeDashboard extends Fragment {
         hud.show();
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
-//        final String accept = "application/json";
-//        final String token = "Bearer " + loggedInUser.accessToken;
-
-//        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//        httpClient.addInterceptor(new Interceptor() {
-//            @Override
-//            public okhttp3.Response intercept(Chain chain) throws IOException {
-//                Request request = chain.request().newBuilder()
-//                        .addHeader("Accept", accept)
-//                        .addHeader("Authorization", token)
-//                        .build();
-//                return chain.proceed(request);
-//            }
-//        });
-
-
-        //Retrofit retrofit = builder.build();
-        //Retrofit retrofit = builder.client(httpClient.build()).build();
-        //ApiClient userApiClient = retrofit.create(ApiClient.class);
-        //Call<SecurityList> call = userApiClient.getSecurityList(loggedInUser.userId);
 
         Call<SecurityList> call = MainActivity.apiClient.getSecurityList(loggedInUser.userId);
 

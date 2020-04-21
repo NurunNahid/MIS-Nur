@@ -10,27 +10,21 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.metrocem.mis.EmployeeOrderInfo.RequestedOrderActivity;
+import com.metrocem.mis.ReuestedDOInfo.RequestedOrderActivity;
+import com.metrocem.mis.Home.MainActivity;
 import com.metrocem.mis.R;
-import com.metrocem.mis.SignIn.ApiClient;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
-import com.metrocem.mis.Subclasses.Order;
-import com.metrocem.mis.Subclasses.OrderList;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.Order;
+import com.metrocem.mis.Model.OrderList;
 
-import java.io.IOException;
 import java.util.List;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class OrderHistoryActivity extends AppCompatActivity {
+public class ChallanInfoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +37,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
         //will be executed onResume
         super.onResume();
 
-        getSupportActionBar().setTitle("Order History"); // for set actionbar title
+        getSupportActionBar().setTitle("Challan History"); // for set actionbar title
         //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorGreen)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.toolbar_gradient));
@@ -55,8 +49,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(OrderHistoryActivity.this, RequestedOrderActivity.class);
-                intent.putExtra("DO_STATUS", "requested");
+                Intent intent = new Intent(ChallanInfoActivity.this, RequestedOrderActivity.class);
+                intent.putExtra("CHALLAN_STATUS", "Draft");
                 startActivity(intent);
 
             }
@@ -67,8 +61,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(OrderHistoryActivity.this, RequestedOrderActivity.class);
-                intent.putExtra("DO_STATUS", "approved");
+                Intent intent = new Intent(ChallanInfoActivity.this, RequestedOrderActivity.class);
+                intent.putExtra("CHALLAN_STATUS", "In Transit");
                 startActivity(intent);
 
             }
@@ -79,8 +73,8 @@ public class OrderHistoryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(OrderHistoryActivity.this, RequestedOrderActivity.class);
-                intent.putExtra("DO_STATUS", "allocated");
+                Intent intent = new Intent(ChallanInfoActivity.this, RequestedOrderActivity.class);
+                intent.putExtra("CHALLAN_STATUS", "Received");
                 startActivity(intent);
 
             }
@@ -111,7 +105,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 .show();
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(this);
-        final String accept = "application/json";
+        /*final String accept = "application/json";
         final String token = "Bearer " + loggedInUser.accessToken;
         Log.d("response", token);
         Log.d("response", loggedInUser.id.toString());
@@ -169,8 +163,9 @@ public class OrderHistoryActivity extends AppCompatActivity {
         //Retrofit retrofit = builder.build();
         Retrofit retrofit = builder.client(httpClient.build()).build();
         ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<OrderList> call = userApiClient.getOrderList(loggedInUser.id);
+        Call<OrderList> call = userApiClient.getOrderList(loggedInUser.id);*/
 
+        Call<OrderList> call = MainActivity.apiClient.getOrderList(loggedInUser.id);
 
         call.enqueue(new Callback<OrderList>() {
             @Override

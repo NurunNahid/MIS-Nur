@@ -3,20 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@drawable/side_nav_bar"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="0dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:gravity="center"
+    android:background="@color/colorPrimary"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="0dp">
+        android:gravity="center_vertical">
 
         <ImageView
             android:layout_width="36dp"
@@ -29,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="12dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="3dp">
 
             <TextView
@@ -38,8 +37,10 @@
                 android:layout_height="wrap_content"
                 android:paddingTop="0dp"
                 android:text="@string/nav_header_title"
-                android:textSize="15sp"
+                android:textSize="@dimen/subtitle_font_size"
+                android:fontFamily="@font/latobold"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
 
             <TextView
                 android:id="@+id/mobileNo"
@@ -47,8 +48,10 @@
                 android:layout_height="match_parent"
                 android:paddingTop="0dp"
                 android:text="@string/nav_header_title"
-                android:textSize="12sp"
+                android:textSize="@dimen/default_font_size"
+                android:fontFamily="@font/latoregular"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
 
         </LinearLayout>
 

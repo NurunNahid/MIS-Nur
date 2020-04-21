@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view2"
         android:layout_width="match_parent"
@@ -24,22 +24,25 @@
             >
 
             <LinearLayout
+                android:id="@+id/doRequestLayout"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:orientation="horizontal"
                 android:weightSum="1.0"
                 android:gravity="center"
-                android:layout_marginRight="5dp">
+                android:layout_marginEnd="5dp">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:text="@string/request_history"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="1.0"
-                    android:textColor="@color/colorTextTheme"/>
+                    android:textColor="@color/colorTextTheme"
+                    android:textSize="@dimen/default_font_size"
+                    android:transitionName="DORequestHistory"/>
                 <ImageView
                     android:layout_width="16dp"
                     android:layout_height="16dp"
@@ -53,7 +56,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
                 android:background="@color/colorBorder"/>
 
             <LinearLayout
@@ -63,12 +66,13 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:text="@string/target_sales_report"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
+                    android:layout_marginStart="20dp"
+                    android:fontFamily="@font/latobold"
+                    android:textSize="@dimen/default_font_size"
                     android:layout_weight="1.0"
                     android:textColor="@color/colorTextTheme"/>
 
@@ -76,7 +80,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/arrow_icon"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginEnd="5dp"
                     />
 
 
@@ -89,10 +93,7 @@
 
 
 
-
-
-
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 </LinearLayout>

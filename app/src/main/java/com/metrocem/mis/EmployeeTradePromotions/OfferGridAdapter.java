@@ -1,25 +1,29 @@
-package com.metrocem.mismetrocem.EmployeeTradePromotions;
+package com.metrocem.mis.EmployeeTradePromotions;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.R;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.Promotion;
+
+import java.util.ArrayList;
 
 public class OfferGridAdapter extends BaseAdapter {
     private Context mContext;
+    ArrayList promotionArray;
 
     // Constructor
-    public OfferGridAdapter(Context c) {
+    public OfferGridAdapter(Context c, ArrayList promotionArrayList) {
         mContext = c;
+        promotionArray = promotionArrayList;
     }
     @Override
     public int getCount() {
-        return 3;
+        return promotionArray.size();
     }
 
     @Override
@@ -45,8 +49,11 @@ public class OfferGridAdapter extends BaseAdapter {
             inFlateview =  convertView;
         }
 
+        Promotion promotion = (Promotion) promotionArray.get(position);
+
         //ImageView imageView = inFlateview.findViewById(R.id.imageView);
-        //TextView titleText = inFlateview.findViewById(R.id.titleTextView);
+        TextView titleText = inFlateview.findViewById(R.id.titleTextView);
+        titleText.setText(promotion.getName());
 
 
         return inFlateview;

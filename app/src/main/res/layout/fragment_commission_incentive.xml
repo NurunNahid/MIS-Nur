@@ -1,269 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:focusableInTouchMode="true"
+    android:id="@+id/swipeRefresh"
+    android:background="@color/colorBackground">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="4dp"
-        android:elevation="6dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorBackground">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorBackground">
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="4dp"
+            android:elevation="6dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
 
-            <TextView
-                android:id="@+id/titleStatus"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:text="General Commision Calculator"
-                android:gravity="center_vertical"
-                android:textSize="15dp"
-                android:textColor="@color/colorTextTheme"
-                android:textStyle="bold"/>
-
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_gravity="center"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                card_view:cardCornerRadius="4dp"
-                android:elevation="6dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
+                android:orientation="vertical"
+                android:background="@color/colorLightPrimary">
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/titleStatus"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="General Commision Calculator"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/big_font_size"
+                    android:textColor="@color/colorTextTheme"
+                    android:fontFamily="@font/latobold"/>
+
+                <androidx.cardview.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    card_view:cardCornerRadius="4dp"
+                    android:elevation="6dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:text="Bag Qty"
+                                android:gravity="center"
+                                android:paddingStart="10dp"
+                                android:textSize="@dimen/default_font_size"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorBorder"/>
+                            <TextView
+                                android:id="@+id/saleAmountTV"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:text="General Commission"
+                                android:layout_weight="0.5"
+                                android:textSize="@dimen/default_font_size"
+                                android:gravity="center"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+
+                        </LinearLayout>
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:text="Bag Qty"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBorder"
                             />
-                        <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorBorder"/>
-                        <TextView
-                            android:id="@+id/saleAmountTV"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:text="General Commission"
-                            android:layout_weight="0.5"
-                            android:textSize="14sp"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <EditText
+                                android:id="@+id/commisionCalculatorET"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:gravity="center"
+                                android:paddingStart="10dp"
+                                android:textSize="@dimen/default_font_size"
+                                android:background="@color/colrBgPrimary"
+                                android:singleLine="true"
+                                android:inputType="numberDecimal"
+                                android:text="0"
+                                android:textColor="@color/colorBlack"
+                                android:fontFamily="@font/latobold"/>
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorBorder"/>
+
+                            <TextView
+                                android:id="@+id/commisionValue"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.5"
+                                android:textSize="@dimen/big_font_size"
+                                android:gravity="center"
+                                android:textColor="@color/colorAccent"
+                                android:text="0"
+                                android:fontFamily="@font/latobold"/>
+
+
+                        </LinearLayout>
+
+
+
 
                     </LinearLayout>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorBorder"
-                        />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <EditText
-                            android:id="@+id/commisionCalculatorET"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:textSize="15sp"
-                            android:background="@color/colorYellow"
-                            android:singleLine="true"
-                            android:inputType="numberDecimal"
-                            android:text="0"
-                            android:textColor="@color/colorBlack"
-                            />
-                        <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorBorder"/>
-
-                        <TextView
-                            android:id="@+id/commisionValue"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.5"
-                            android:textSize="16sp"
-                            android:gravity="center"
-                            android:textColor="@color/colorGreen"
-                            android:textStyle="bold"
-                            android:text="0"
-                            />
 
 
-                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
 
+            </LinearLayout>
 
+        </androidx.cardview.widget.CardView>
 
-
-                </LinearLayout>
-
-
-
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="4dp"
-        android:elevation="6dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp">
-
-        <LinearLayout
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:background="@color/colorBackground">
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="4dp"
+            android:elevation="6dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginLeft="10dp"
-                android:text="Incentive Calculator"
-                android:gravity="center_vertical"
-                android:textSize="15sp"
-                android:textColor="@color/colorTextTheme"
-                android:textStyle="bold"/>
-
-            <android.support.v7.widget.CardView
-                xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                android:layout_gravity="center"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                card_view:cardCornerRadius="4dp"
-                android:elevation="6dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp">
+                android:orientation="vertical"
+                android:background="@color/colorBackground">
 
-                <LinearLayout
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="10dp"
+                    android:text="Incentive Calculator"
+                    android:gravity="center_vertical"
+                    android:textSize="@dimen/big_font_size"
+                    android:textColor="@color/colorTextTheme"
+                    android:fontFamily="@font/latobold"/>
+
+                <androidx.cardview.widget.CardView
+                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                    android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    card_view:cardCornerRadius="4dp"
+                    android:elevation="6dp"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.3"
+                                android:text="Bag Qty"
+                                android:gravity="center"
+                                android:paddingStart="10dp"
+                                android:textSize="@dimen/default_font_size"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorBorder"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.4"
+                                android:text="Promotion Name"
+                                android:gravity="center"
+                                android:paddingLeft="10dp"
+                                android:textSize="@dimen/default_font_size"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorBorder"/>
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:text="Special Commission"
+                                android:layout_weight="0.3"
+                                android:textSize="@dimen/default_font_size"
+                                android:gravity="center"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                android:paddingRight="5dp"
+                                android:paddingLeft="5dp"
+                                />
+
+                        </LinearLayout>
 
                         <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.3"
-                            android:text="Bag Qty"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorBorder"
                             />
-                        <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorBorder"/>
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.3"
-                            android:text="Promotion Name"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            />
-                        <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorBorder"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
 
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:text="Special Commission"
-                            android:layout_weight="0.4"
-                            android:textSize="14sp"
-                            android:gravity="center"
-                            android:textStyle="bold"
-                            />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorBorder"
-                        />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:orientation="horizontal"
-                        android:weightSum="1">
-
-                        <EditText
-                            android:id="@+id/incentiveCalculatorET"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.3"
-                            android:gravity="center"
-                            android:paddingLeft="10dp"
-                            android:textSize="15sp"
-                            android:background="@color/colorYellow"
-                            android:singleLine="true"
-                            android:inputType="numberDecimal"
-                            android:text="0"
-                            android:textColor="@color/colorBlack"
-                            />
-                        <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorBorder"/>
-                        <!--<TextView-->
+                            <EditText
+                                android:id="@+id/incentiveCalculatorET"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.3"
+                                android:gravity="center"
+                                android:paddingLeft="10dp"
+                                android:textSize="@dimen/default_font_size"
+                                android:background="@color/colrBgPrimary"
+                                android:singleLine="true"
+                                android:inputType="numberDecimal"
+                                android:text="0"
+                                android:textColor="@color/colorBlack"
+                                android:fontFamily="@font/latobold"
+                                />
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorBorder"/>
+                            <!--<TextView-->
                             <!--android:layout_width="0dp"-->
                             <!--android:layout_height="match_parent"-->
                             <!--android:layout_weight="0.3"-->
@@ -273,46 +289,57 @@
                             <!--android:background="@color/colorYellow"-->
                             <!--/>-->
 
-                        <Spinner
-                            android:id="@+id/spinner1"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.3"
-                            android:layout_height="55dp"
-                            android:background="@android:drawable/btn_dropdown"
-                            android:spinnerMode="dropdown"/>
+                            <Spinner
+                                android:id="@+id/promotionSpinner"
+                                android:layout_width="0dp"
+                                android:layout_weight="0.4"
+                                android:layout_height="55dp"
+                                android:background="@android:drawable/btn_dropdown"
+                                android:spinnerMode="dropdown"
+                                android:popupBackground="@color/colorPrimary"
+                                android:theme="@style/spinnerDropDownItemStyle"/>
 
-                        <TextView
-                            android:layout_width="1dp"
-                            android:layout_height="match_parent"
-                            android:background="@color/colorBorder"/>
+                            <TextView
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/colorBorder"/>
 
 
-                        <TextView
-                            android:id="@+id/incentiveValue"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="0.4"
-                            android:textSize="13sp"
-                            android:gravity="center"
-                            android:textColor="@color/colorGreen"
-                            />
+                            <TextView
+                                android:id="@+id/incentiveValue"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.3"
+                                android:textSize="@dimen/big_font_size"
+                                android:gravity="center"
+                                android:textColor="@color/colorAccent"
+                                />
+
+
+                        </LinearLayout>
+
+
 
 
                     </LinearLayout>
 
 
 
+                </androidx.cardview.widget.CardView>
 
-                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+
+    <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+        <!---->
+    <!--</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
 
-            </android.support.v7.widget.CardView>
-
-        </LinearLayout>
-
-    </android.support.v7.widget.CardView>
 
 
-
-</LinearLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

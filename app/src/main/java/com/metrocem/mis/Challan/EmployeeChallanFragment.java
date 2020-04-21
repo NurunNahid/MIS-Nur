@@ -1,14 +1,13 @@
-package com.metrocem.mis.Fragment;
+package com.metrocem.mis.Challan;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,12 +27,13 @@ import com.metrocem.mis.Container.ChallanContainer;
 import com.metrocem.mis.Container.DealerListContainer;
 import com.metrocem.mis.Home.MainActivity;
 import com.metrocem.mis.R;
-import com.metrocem.mis.Subclasses.ChallanInfo;
-import com.metrocem.mis.Subclasses.ChallanList;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
-import com.metrocem.mis.Subclasses.Dealer;
-import com.metrocem.mis.Subclasses.DealerList;
+import com.metrocem.mis.Model.ChallanInfo;
+import com.metrocem.mis.Model.ChallanList;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.Dealer;
+import com.metrocem.mis.Model.DealerList;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -53,7 +53,7 @@ public class EmployeeChallanFragment extends Fragment {
     private KProgressHUD hud;
     private TextView connectionStatus, noItem;
     private RecyclerView doRecyclerView;
-    ChallanAdapter challanAdapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     //private EditText searchEditText;
     //private CurrentUser currentUser;
 
@@ -89,7 +89,7 @@ public class EmployeeChallanFragment extends Fragment {
         //challanAdapter = new ChallanAdapter(getContext(), challanArray);
         //doRecyclerView.setAdapter(challanAdapter);
 
-        if (currentUser.role.equals("Dealer") || currentUser.role.equals("dealer")){
+        if (currentUser.role.toLowerCase().equals("dealer")){
             getChallanListByDealer(currentUser.userId);
         }
 
@@ -109,7 +109,7 @@ public class EmployeeChallanFragment extends Fragment {
 
         }else {
 
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
 
                 getDealerList();
 
@@ -132,7 +132,7 @@ public class EmployeeChallanFragment extends Fragment {
 
                 if(position==0){
 
-                    if (isNetworkAvailable()){
+                    if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                         getChallanList();
 
                     }else {
@@ -141,7 +141,7 @@ public class EmployeeChallanFragment extends Fragment {
                     }
                 }else{
                     DealerListContainer dealer = (DealerListContainer) dealerArray.get(position-1);
-                    if (isNetworkAvailable()){
+                    if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                         getChallanListByDealer(dealer.dealer_id);
 
                     }else {
@@ -180,14 +180,32 @@ public class EmployeeChallanFragment extends Fragment {
                 filterItem(s);
             }
         });
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to make your refresh action
+                // CallYourRefreshingMethod();
+                getChallanData();
+            }
+        });
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    private void getChallanData(){
+
+        CurrentUser currentUser = DataManager.getCurrentUser(getContext());
+
+        if (CheckNetworkConnection.isNetworkAvailable(getContext())){
+            getChallanList();
+
+        }else {
+            connectionStatus.setVisibility(View.VISIBLE);
+            if (mSwipeRefreshLayout.isRefreshing()) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }            //Toast.makeText(this,"Connection Error!", Toast.LENGTH_SHORT).show();
+        }
     }
+
 
     private void parseData(List<ChallanContainer> challans) {
         ChallanAdapter challanAdapter = new ChallanAdapter(getContext(), challans);
@@ -196,39 +214,10 @@ public class EmployeeChallanFragment extends Fragment {
 
     }
 
-    public void getDealerList(){
+    private void getDealerList(){
 
         hud.show();
         CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
-        /*final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DealerList> call = userApiClient.getDealerList(loggedInUser.userId);*/
 
         Call<DealerList> call = MainActivity.apiClient.getDealerList(loggedInUser.userId);
 
@@ -321,67 +310,94 @@ public class EmployeeChallanFragment extends Fragment {
         hud.show();
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
-        /*final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-        //Gson gson = new GsonBuilder()
-        //        .setLenient()
-        //        .create();
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//        httpClient.addInterceptor(new Interceptor() {
-//                                      @Override
-//                                      public okhttp3.Response intercept(Chain chain) throws IOException {
-//                                          Request original = chain.request();
-//
-//                                          Request request = original.newBuilder()
-//                                                  .header("Accept", accept)
-//                                                  .header("Accept", "Bearer"+token)
-//                                                  .method(original.method(), original.body())
-//                                                  .build();
-//
-//                                          return chain.proceed(request);
-//                                      }
-//                                  });
-//
-//        OkHttpClient client = httpClient.build();
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(API_BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .client(client)
-//                .build();
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<ChallanList> call = userApiClient.getChallanListByEmployee(loggedInUser.userId);*/
 
         Call<ChallanList> call = MainActivity.apiClient.getChallanListByEmployee(loggedInUser.userId);
+
+        call.enqueue(new Callback<ChallanList>() {
+            @Override
+            public void onResponse(Call<ChallanList> call, Response<ChallanList> response) {
+
+                Log.d("response", String.valueOf(response.code()));
+                if(response.isSuccessful()) {
+
+                    Log.d("response", String.valueOf(response.body()));
+                    ChallanList challanList = response.body();
+                    List<ChallanInfo> challanInfos = challanList.getData();
+                    Log.d("response count", String.valueOf(challanInfos.size()));
+
+                    ArrayList<ChallanContainer> challanArrayList = new ArrayList<ChallanContainer>();
+
+                    for (ChallanInfo challan: challanInfos){
+
+
+                        ChallanContainer challanContainer = new ChallanContainer();
+                        challanContainer.id = challan.getId();
+                        challanContainer.bagQuantity = challan.getBagQuantity();
+                        challanContainer.unitPrice = challan.getUnitPrice();
+                        challanContainer.doNumber = challan.getDoNumber();
+                        challanContainer.deliveryMode = challan.getDeliveryMode();
+                        challanContainer.doProcessing = challan.getDoProcessing();
+                        challanContainer.status = challan.getStatus();
+                        challanContainer.doAllocating = challan.getDoAllocating();
+                        challanContainer.employeeName = challan.getEmployeeName();
+                        challanContainer.dealerName = challan.getDealerName();
+                        challanContainer.productName = challan.getProductName();
+                        challanContainer.driverName = challan.getDriverName();
+                        challanContainer.driverPhone = challan.getDriverPhone();
+                        challanContainer.deliveryAddress = challan.getDeliveryAddress().getAddress();
+                        challanContainer.dealerPhone = challan.getDeliveryAddress().getContactNumber();
+                        challanContainer.vehicleNumber = challan.getVehicleNumber();
+
+                        challanArrayList.add(challanContainer);
+                        DataManager.setChallanList(challanArrayList, getContext());
+
+                    }
+
+                    challanArray = DataManager.getChallanList(getContext());
+
+                    //DOOrderContainer doOrder = new DOOrderContainer();
+                    if (challanArray != null){
+                        Collections.reverse(challanArray);
+                        parseData(challanArray);
+                        noItem.setVisibility(View.INVISIBLE);
+
+                    }else{
+                        noItem.setVisibility(View.VISIBLE);
+                    }
+
+                    hud.dismiss();
+
+
+                }else {
+
+                    try {
+                        hud.dismiss();
+                        Log.d("response3", "post submitted to API.");
+
+                    } catch (Exception e) {
+                        Log.d("response4", "post submitted to API." + e.getMessage().toString());
+                        hud.dismiss();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChallanList> call, Throwable t) {
+
+                hud.dismiss();
+                Log.d("Exception call", t.getLocalizedMessage());
+            }
+        });
+    }
+
+    private void getChallanListByDealer(Integer dealer_id){
+
+        DataManager.removeChallanList(getContext());
+        //challanArray.clear();
+
+        hud.show();
+
+        Call<ChallanList> call = MainActivity.apiClient.getChallanListByDealer(dealer_id);
 
         call.enqueue(new Callback<ChallanList>() {
             @Override
@@ -436,165 +452,9 @@ public class EmployeeChallanFragment extends Fragment {
                     }else{
                         noItem.setVisibility(View.VISIBLE);
                     }
-
-                    //challanAdapter = new ChallanAdapter(getContext(), challanArray);
-                    //doRecyclerView.setAdapter(challanAdapter);
-
-                    //parseData(challanArray);
-                    //challanAdapter.notifyDataSetChanged();
-
-
-
-                    //String name = modeList.get(0).getDealerName();
-                    //Log.d("response", name);
-                    hud.dismiss();
-
-
-                }else {
-
-                    try {
-                        hud.dismiss();
-                        Log.d("response3", "post submitted to API.");
-
-                    } catch (Exception e) {
-                        Log.d("response4", "post submitted to API." + e.getMessage().toString());
-                        hud.dismiss();
+                    if(mSwipeRefreshLayout.isRefreshing()) {
+                        mSwipeRefreshLayout.setRefreshing(false);
                     }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ChallanList> call, Throwable t) {
-
-                hud.dismiss();
-                Log.d("Exception call", t.getLocalizedMessage());
-            }
-        });
-    }
-
-    private void getChallanListByDealer(Integer dealer_id){
-
-        DataManager.removeChallanList(getContext());
-
-        hud.show();
-
-        /*CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-        //Gson gson = new GsonBuilder()
-        //        .setLenient()
-        //        .create();
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-//        httpClient.addInterceptor(new Interceptor() {
-//                                      @Override
-//                                      public okhttp3.Response intercept(Chain chain) throws IOException {
-//                                          Request original = chain.request();
-//
-//                                          Request request = original.newBuilder()
-//                                                  .header("Accept", accept)
-//                                                  .header("Accept", "Bearer"+token)
-//                                                  .method(original.method(), original.body())
-//                                                  .build();
-//
-//                                          return chain.proceed(request);
-//                                      }
-//                                  });
-//
-//        OkHttpClient client = httpClient.build();
-//        Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl(API_BASE_URL)
-//                .addConverterFactory(GsonConverterFactory.create(gson))
-//                .client(client)
-//                .build();
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<ChallanList> call = userApiClient.getChallanListByDealer(dealer_id);*/
-
-        Call<ChallanList> call = MainActivity.apiClient.getChallanListByDealer(dealer_id);
-
-        call.enqueue(new Callback<ChallanList>() {
-            @Override
-            public void onResponse(Call<ChallanList> call, Response<ChallanList> response) {
-
-                Log.d("response", String.valueOf(response.code()));
-                if(response.isSuccessful()) {
-
-                    Log.d("response", String.valueOf(response.body()));
-                    ChallanList challanList = response.body();
-                    List<ChallanInfo> challanInfos = challanList.getData();
-                    Log.d("response count", String.valueOf(challanInfos.size()));
-
-                    ArrayList challanArrayList = new ArrayList();
-
-                    for (ChallanInfo challan: challanInfos){
-
-
-                        ChallanContainer challanContainer = new ChallanContainer();
-                        challanContainer.id = challan.getId();
-                        challanContainer.bagQuantity = challan.getBagQuantity();
-                        challanContainer.unitPrice = challan.getUnitPrice();
-                        challanContainer.doNumber = challan.getDoNumber();
-                        challanContainer.deliveryMode = challan.getDeliveryMode();
-                        challanContainer.doProcessing = challan.getDoProcessing();
-                        challanContainer.status = challan.getStatus();
-                        challanContainer.doAllocating = challan.getDoAllocating();
-                        challanContainer.employeeName = challan.getEmployeeName();
-                        challanContainer.dealerName = challan.getDealerName();
-                        challanContainer.productName = challan.getProductName();
-                        challanContainer.driverName = challan.getDriverName();
-                        challanContainer.driverPhone = challan.getDriverPhone();
-                        challanContainer.deliveryAddress = challan.getDeliveryAddress().getAddress();
-                        challanContainer.dealerPhone = challan.getDeliveryAddress().getContactNumber();
-                        challanContainer.vehicleNumber = challan.getVehicleNumber();
-
-                        challanArrayList.add(challanContainer);
-                        DataManager.setChallanList(challanArrayList, getContext());
-
-
-
-                    }
-
-                    challanArray = DataManager.getChallanList(getContext());
-                    Collections.reverse(challanArray);
-
-                    //DOOrderContainer doOrder = new DOOrderContainer();
-                    if (challanArray != null){
-                        parseData(challanArray);
-                        noItem.setVisibility(View.INVISIBLE);
-
-                    }else{
-                        noItem.setVisibility(View.VISIBLE);
-                    }
-
                     //challanAdapter = new ChallanAdapter(getContext(), challanArray);
                     //doRecyclerView.setAdapter(challanAdapter);
                     //parseData(challanArray);
@@ -627,8 +487,7 @@ public class EmployeeChallanFragment extends Fragment {
         });
     }
 
-
-    public void filterItem(Editable charText){
+    private void filterItem(Editable charText){
 
         String searchedText = charText.toString().toLowerCase(Locale.getDefault());
         filteredChallanArray.clear();

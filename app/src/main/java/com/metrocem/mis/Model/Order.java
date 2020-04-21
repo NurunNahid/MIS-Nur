@@ -1,9 +1,7 @@
-package com.metrocem.mis.Subclasses;
+package com.metrocem.mis.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.util.Date;
 
 public class Order {
 

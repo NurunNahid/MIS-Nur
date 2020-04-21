@@ -1,4 +1,4 @@
-package com.metrocem.mismetrocem.EmployeeDO;
+package com.metrocem.mis.EmployeeDO;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

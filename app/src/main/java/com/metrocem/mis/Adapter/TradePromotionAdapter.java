@@ -1,14 +1,12 @@
-package com.metrocem.mismetrocem.Adapter;
+package com.metrocem.mis.Adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.metrocem.mismetrocem.Activity.TradePromotionActivity;
-import com.metrocem.mismetrocem.R;
+import com.metrocem.mis.R;
 
 public class TradePromotionAdapter extends BaseAdapter {
     public Context mContext;

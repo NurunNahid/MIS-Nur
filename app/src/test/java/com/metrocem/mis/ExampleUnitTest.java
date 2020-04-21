@@ -1,4 +1,4 @@
-package com.metrocem.mismetrocem;
+package com.metrocem.mis;
 
 import org.junit.Test;
 

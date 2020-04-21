@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <!--  Gradient Bg for listrow -->
+    <gradient
+        android:startColor="@color/colorPrimaryDark"
+        android:centerColor="@color/colorPrimary"
+        android:endColor="@color/colorLightBlack"
+        android:angle="135" />
+</shape>
+    <!--ffb88c-->
 
-</selector>
+<!--<gradient-->
+<!--android:startColor="#de6262"-->
+<!--android:centerColor="#dd5e89"-->
+<!--android:endColor="#ffb88c"-->
+<!--android:angle="45" />-->

@@ -1,10 +1,12 @@
-package com.metrocem.mismetrocem.CommissionAndIncentive;
+package com.metrocem.mis.CommissionAndIncentive;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -19,37 +21,33 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.metrocem.mismetrocem.Container.DealerListContainer;
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.SignIn.ApiClient;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
-import com.metrocem.mismetrocem.Container.ProductContainer;
-import com.metrocem.mismetrocem.Subclasses.Promotion;
-import com.metrocem.mismetrocem.Subclasses.PromotionList;
+import com.kaopiz.kprogresshud.KProgressHUD;
+import com.metrocem.mis.Home.MainActivity;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.Promotion;
+import com.metrocem.mis.Model.PromotionList;
+import com.metrocem.mis.Subclasses.CalculateCommission;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class CommissionIncentiveFragment extends Fragment {
 
-    TextView commisionValue, incentiveValue;
-    Spinner promotionDropdown;
-    Integer dropdownValue;
-    ArrayList<String> promotionOfferList;
-    ArrayAdapter<String> promotionAdapter;
-    ArrayList promotionArray;
-    Integer selectedPromotionIndex;
+    private TextView commisionValue, incentiveValue;
+    //private Spinner promotionDropdown;
+    private Integer dropdownValue;
+    private ArrayList<String> promotionOfferList;
+    private ArrayAdapter<String> promotionAdapter;
+    private ArrayList promotionArray;
+    private Integer selectedPromotionIndex;
+    private KProgressHUD kProgressHUD;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Nullable
     @Override
@@ -65,40 +63,29 @@ public class CommissionIncentiveFragment extends Fragment {
 
         //hideSoftKeyboard(getActivity());
 
+        kProgressHUD = KProgressHUD.create(getActivity())
+                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
+                .setLabel("Please wait")
+                .setMaxProgress(30);
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+
         commisionValue = view.findViewById(R.id.commisionValue);
         incentiveValue = view.findViewById(R.id.incentiveValue);
         promotionOfferList = new ArrayList<>();
 
         promotionArray = DataManager.getPromotionList(getContext());
         promotionOfferList.add("Select Promotion");
-        if (promotionArray != null){
 
+        if (CheckNetworkConnection.isNetworkAvailable(getContext())){
             getPromotionList();
-
-//            for (int i = 0; i<promotionList.size(); i++){
-//                ProductContainer product = (ProductContainer) promotionList.get(i);
-//                promotionOfferList.add(product.product_name);
-//            }
 
         }else {
-
-            Log.d("hello", "call");
-
-            getPromotionList();
+            //connectionStatus.setVisibility(View.VISIBLE);
+            Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
         }
 
-//        dropdown = view.findViewById(R.id.spinner1);
-//        final String[] items = new String[]{"5", "7", "10"};
-//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
-//        dropdown.setAdapter(adapter);
 
-//        promotionDropdown = view.findViewById(R.id.promotionSpinner);
-//        //final String[] typeItems = new String[]{"Product Type"};
-//        promotionAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, dealerList);
-//        //typeAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, productTypes);
-//        promotionDropdown.setAdapter(promotionAdapter);
-
-        promotionDropdown = view.findViewById(R.id.promotionSpinner);
+        Spinner promotionDropdown = view.findViewById(R.id.promotionSpinner);
         promotionAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, promotionOfferList);
         promotionDropdown.setAdapter(promotionAdapter);
 
@@ -120,7 +107,7 @@ public class CommissionIncentiveFragment extends Fragment {
                 //SaleItemActivity.this.saleAdapter.filterItem(s);
                 //saleItemListView.invalidateViews();
 
-                commisionCalculator(editTValue);
+                commissionCalculator(editTValue);
             }
         });
 
@@ -180,42 +167,39 @@ public class CommissionIncentiveFragment extends Fragment {
 
         });
 
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to make your refresh action
+                // CallYourRefreshingMethod();
+                if (CheckNetworkConnection.isNetworkAvailable(getContext())){
+                    getPromotionList();
+                }else {
+                    Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                    mSwipeRefreshLayout.setRefreshing(false);
+                }
+
+
+            }
+        });
+
     }
 
-    public void commisionCalculator(Editable editTValue){
+    private void commissionCalculator(Editable editTValue){
 
         String value = editTValue.toString();
         if (value.length() > 0){
-            if (Integer.parseInt(value) >= 20000){
 
-                Integer commvalue = (Integer.parseInt(String.valueOf(value))*31);
-                commisionValue.setText(commvalue.toString());
-            }
-            else if (Integer.parseInt(value) >= 15000 && Integer.parseInt(String.valueOf(value)) < 20000){
-                Integer commvalue = (Integer.parseInt(value)*29);
-                commisionValue.setText(commvalue.toString());
-            }
-            else if (Integer.parseInt(value) >= 10000 && Integer.parseInt(String.valueOf(value)) < 15000){
-                Integer commvalue = (Integer.parseInt(value)*26);
-                commisionValue.setText(commvalue.toString());
-            }
-            else if (Integer.parseInt(value) >= 5000 && Integer.parseInt(String.valueOf(value)) < 10000){
-                Integer commvalue = (Integer.parseInt(value)*23);
-                commisionValue.setText(commvalue.toString());
-            }
-            else if (Integer.parseInt(value) >= 100 && Integer.parseInt(String.valueOf(value)) < 5000){
-                Integer commvalue = (Integer.parseInt(value)*19);
-                commisionValue.setText(commvalue.toString());
-            }
-            else if (Integer.parseInt(value) < 100){
-                Integer commvalue = (Integer.parseInt(value)*0);
-                commisionValue.setText(commvalue.toString());
-            }
+            Integer incentiveValue = CalculateCommission.calculateCommissionAndIncentive(value);
+            String commValue = incentiveValue.toString();
+            commisionValue.setText(commValue);
+
         }
 
     }
 
-    public void incentiveCalculator(Editable editTValue){
+
+    private void incentiveCalculator(Editable editTValue){
 
         String value = editTValue.toString();
 
@@ -231,48 +215,9 @@ public class CommissionIncentiveFragment extends Fragment {
 
     private void getPromotionList(){
 
-//        final KProgressHUD hud = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-//                .setLabel("Please wait")
-//                .setMaxProgress(30)
-//                .show();
+        kProgressHUD.show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<PromotionList> call = userApiClient.getPromotionList();
-
+        Call<PromotionList> call = MainActivity.apiClient.getPromotionList();
 
         call.enqueue(new Callback<PromotionList>() {
             @Override
@@ -292,13 +237,14 @@ public class CommissionIncentiveFragment extends Fragment {
 
                     for (Promotion promotion: promotions){
 
-                        Log.d("response", promotion.getName());
-
-                        PromotionContainer promotionData = new PromotionContainer();
-                        promotionData.promotion_name = promotion.getName();
-                        promotionData.sales_qty = promotion.getSalesQty();
-                        promotionArrayList.add(promotionData);
-                        DataManager.setPromotionList(promotionArrayList, getContext());
+                        //Log.d("response", promotion.getName());
+                        if (promotion.getType().equals("surprise_offer")){
+                            PromotionContainer promotionData = new PromotionContainer();
+                            promotionData.promotion_name = promotion.getName();
+                            promotionData.sales_qty = promotion.getSalesQty();
+                            promotionArrayList.add(promotionData);
+                            DataManager.setPromotionList(promotionArrayList, getContext());
+                        }
 
 
                     }
@@ -317,7 +263,8 @@ public class CommissionIncentiveFragment extends Fragment {
                     promotionAdapter.notifyDataSetChanged();
 
 
-                    //hud.dismiss();
+                    kProgressHUD.dismiss();
+                    mSwipeRefreshLayout.setRefreshing(false);
 
 
                 }else {

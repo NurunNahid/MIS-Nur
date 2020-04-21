@@ -1,6 +1,4 @@
-package com.metrocem.mismetrocem.Container;
-
-import android.os.Parcelable;
+package com.metrocem.mis.Container;
 
 import java.io.Serializable;
 

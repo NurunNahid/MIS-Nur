@@ -7,14 +7,58 @@
     android:background="@color/colorBackground">
 
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="2dp"
+            card_view:cardBackgroundColor="@color/colorBackground"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="3dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/btnView"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:text="Today"
+                    android:fontFamily="@font/latobold"
+                    android:textSize="@dimen/default_font_size"
+                    android:textColor="@color/colorTextTheme"
+                    android:gravity="center"
+                    android:background="@color/colorWhite"
+                    />
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/arrow_down"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingTop="12dp"/>
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
 
         <ListView
             android:layout_marginTop="10dp"
             android:id="@+id/orderPendingListView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:divider="@null" />
 
@@ -27,7 +71,7 @@
         <!--/>-->
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <!--<android.support.v7.widget.CardView-->
     <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->

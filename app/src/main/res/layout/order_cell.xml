@@ -7,7 +7,7 @@
     android:descendantFocusability="blocksDescendants"
     >
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view2"
         android:layout_gravity="center"
@@ -35,31 +35,34 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="0dp"
-                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginBottom="12dp"
                     android:orientation="vertical"
                     android:background="#F3F2F1"
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/stockQuantity"
+                        android:id="@+id/bagQuantity"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
                         android:gravity="center"
                         android:text="19:30"
-                        android:textColor="@color/colorOrange"
-                        android:textSize="14sp" />
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/font_size_medium"
+                        android:fontFamily="@font/latobold"
+                        android:transitionName="qty"/>
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="15dp"
                         android:gravity="center"
-                        android:text="30-01-2019"
+                        android:text="Bag Qty"
                         android:textSize="11dp"
                         android:textColor="@color/colorBlack"
                         android:layout_marginTop="5dp"
+                        android:fontFamily="@font/latoregular"
                         />
 
                 </LinearLayout>
@@ -71,7 +74,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:layout_marginLeft="15dp">
+                android:layout_marginStart="15dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -81,26 +84,36 @@
                     android:layout_marginBottom="10dp">
 
                     <TextView
+                        android:id="@+id/doNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Product Name"
                         android:textColor="@color/colorTextTheme"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
+                        android:textSize="@dimen/default_font_size"
+                        android:fontFamily="@font/latobold"
+                        android:transitionName="do_no"
                         />
                     <TextView
+                        android:id="@+id/product_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="01710000000"
-                        android:textSize="13sp"
-                        android:textColor="#515151"/>
+                        android:textSize="@dimen/font_size_medium"
+                        android:textColor="#515151"
+                        android:fontFamily="@font/latoregular"
+                        android:layout_marginTop="5dp"
+                        android:transitionName="product_name"/>
 
                     <TextView
+                        android:id="@+id/approve_date"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Rony Enterprise, 64 Tongi, Dhaka"
                         android:textColor="#898989"
-                        android:textSize="14sp" />
+                        android:textSize="@dimen/font_size_medium"
+                        android:fontFamily="@font/latoregular"
+                        android:layout_marginTop="5dp"
+                        android:transitionName="date"/>
 
                 </LinearLayout>
 
@@ -115,11 +128,11 @@
                 android:background="#00DB1212"
                 android:gravity="right">
 
-                <android.support.v7.widget.CardView
+                <androidx.cardview.widget.CardView
                     xmlns:card_view="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/card_view3"
                     android:layout_gravity="center"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     card_view:cardCornerRadius="4dp"
                     card_view:cardElevation="5dp"
@@ -130,17 +143,18 @@
                     >
 
                     <Button
-                        android:id="@+id/receiveBtn"
+                        android:id="@+id/statusBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:background="#E60D56"
+                        android:background="@color/colorCellBg"
                         android:text="Not Received"
-                        android:textSize="9sp"
-                        android:textColor="@color/colorWhite"/>
+                        android:textSize="10sp"
+                        android:textColor="@color/colorPrimary"
+                        android:fontFamily="@font/latobold"/>
 
 
 
-                </android.support.v7.widget.CardView>
+                </androidx.cardview.widget.CardView>
 
 
 
@@ -158,7 +172,7 @@
 
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 

@@ -1,54 +1,56 @@
-package com.metrocem.mismetrocem.Home;
+package com.metrocem.mis.Home;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v7.app.ActionBarDrawerToggle;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.core.view.GravityCompat;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+
 import android.util.Log;
 import android.view.MenuItem;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import com.google.android.material.navigation.NavigationView;
+import androidx.drawerlayout.widget.DrawerLayout;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.FinancialFragment;
-import com.metrocem.mismetrocem.Fragment.AboutUsFragment;
-import com.metrocem.mismetrocem.CommissionAndIncentive.CommissionIncentiveFragment;
-import com.metrocem.mismetrocem.Fragment.CommunicationFragment;
-import com.metrocem.mismetrocem.Fragment.ContactUsFragment;
-import com.metrocem.mismetrocem.Fragment.DORequestFragment;
-import com.metrocem.mismetrocem.Fragment.DealerChallanFragment;
-import com.metrocem.mismetrocem.Fragment.DeliveryInfoFragment;
-import com.metrocem.mismetrocem.Fragment.EmployeeChallanFragment;
-import com.metrocem.mismetrocem.Fragment.EmployeeDOFragment;
-import com.metrocem.mismetrocem.Fragment.EmployeeDashboard;
-import com.metrocem.mismetrocem.Fragment.EmployeeOrderInfoFragment;
-import com.metrocem.mismetrocem.Fragment.EmployeeReportFragment;
-import com.metrocem.mismetrocem.Fragment.HomeFragment;
-import com.metrocem.mismetrocem.Fragment.ReportFragment;
-import com.metrocem.mismetrocem.OrderFragment;
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.SignIn.SignInActivity;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
-import com.metrocem.mismetrocem.TradeFragment;
+import com.metrocem.mis.FinancialInfo.FinancialFragment;
+import com.metrocem.mis.Fragment.AboutUsFragment;
+import com.metrocem.mis.CommissionAndIncentive.CommissionIncentiveFragment;
+import com.metrocem.mis.Fragment.CommunicationFragment;
+import com.metrocem.mis.Fragment.ContactUsFragment;
+import com.metrocem.mis.Fragment.DORequestFragment;
+import com.metrocem.mis.Challan.DealerChallanFragment;
+import com.metrocem.mis.DeliveredDOInfo.DeliveryInfoFragment;
+import com.metrocem.mis.Challan.EmployeeChallanFragment;
+import com.metrocem.mis.Fragment.EmployeeDOFragment;
+import com.metrocem.mis.ReuestedDOInfo.EmployeeOrderInfoFragment;
+import com.metrocem.mis.Reports.EmployeeReportFragment;
+import com.metrocem.mis.Reports.ReportFragment;
+import com.metrocem.mis.ReuestedDOInfo.DealerOrderFragment;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Retrofit.RetrofitInstance;
+import com.metrocem.mis.Retrofit.ApiClient;
+import com.metrocem.mis.SignInAndRegistration.SignInActivity;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
+import com.metrocem.mis.TradeBrandPromotion.TradeFragment;
+import com.metrocem.mis.Utilities.APIDataManager;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -59,9 +61,12 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
     View headerView;
     TextView menuTitle, mobileNoTV;
-    public static final String MyPREFERENCES = "MyPref" ;
-    SharedPreferences sharedPreferences;
-    public static final String dashboard = "dashboard";
+    //public static final String MyPREFERENCES = "MyPref";
+    //SharedPreferences sharedPreferences;
+    //public static final String dashboard = "dashboard";
+    public static ApiClient apiClient;
+    public static String authToken;
+    //private FragmentRefreshListener fragmentRefreshListener;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -76,52 +81,75 @@ public class MainActivity extends AppCompatActivity
         navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        //toggle.setDrawerIndicatorEnabled(false);
-        //toggle.setHomeAsUpIndicator(R.drawable.home_icon);
+
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        //getSupportActionBar().setHomeButtonEnabled(true);
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setHomeAsUpIndicator(R.drawable.menu);
         navigationView.setNavigationItemSelectedListener(this);
 
         String packageName = getApplicationContext().getPackageName();
         Log.d("package", packageName);
 
+
+        currentUser = DataManager.getCurrentUser(this);
+        menu = navigationView.getMenu();
+        navigationView.setItemIconTintList(null);
         headerView = navigationView.getHeaderView(0);
         menuTitle = headerView.findViewById(R.id.menuTitle);
         mobileNoTV = headerView.findViewById(R.id.mobileNo);
 
-        //DataManager.removeCurrentUser(this);
+        if (currentUser != null){
+            getMenuOptions();
+            if (currentUser.role.toLowerCase().equals("dealer")){
+                getSupportFragmentManager().beginTransaction().add(R.id.area, new HomeFragment()).commit();
+            }else {
+                getSupportFragmentManager().beginTransaction().add(R.id.area, new EmployeeDashboard()).commit();
+            }
+            authToken = "Bearer " + currentUser.accessToken;
+            apiClient = RetrofitInstance.getRetrofitInstance().create(ApiClient.class);
+            //menuTitle.setText(currentUser.userName);
+            //mobileNoTV.setText(currentUser.phone);
 
-        menu = navigationView.getMenu();
-        navigationView.setItemIconTintList(null);
-        //navigationView.setItemTextColor(ColorStateList.valueOf(R.color.colorDarkBlack));
+            Log.d("response token", String.valueOf(currentUser.userId));
 
+        }else {
 
-    }
-
-    @Override
-    public void onDestroy() {
-
-        //Log.d("response", "call");
-
-        //SharedPreferences sp = getSharedPreferences("SIGN_IN", MODE_PRIVATE);
-        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
-        boolean cb1 = sharedPreferences.getBoolean("KEEP_SIGN_IN", false);
-        //Log.d("bool", String.valueOf(cb1));
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(dashboard, true);
-        editor.commit();
-
-
-        Log.d("response dealer", String.valueOf(sharedPreferences.getBoolean(dashboard, true)));
-
-        if (!cb1){
-            DataManager.removeCurrentUser(this);
+            Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+            MainActivity.this.startActivity(intent);
+            finish();
 
         }
-        super.onDestroy();
+
+
 
     }
+
+//    @Override
+//    public void onDestroy() {
+//
+//        //Log.d("response", "call");
+//
+//        //SharedPreferences sp = getSharedPreferences("SIGN_IN", MODE_PRIVATE);
+//        sharedPreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+//
+//        boolean cb1 = sharedPreferences.getBoolean("KEEP_SIGN_IN", false);
+//        //Log.d("bool", String.valueOf(cb1));
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean(dashboard, true);
+//        editor.commit();
+//
+//
+//        Log.d("response dealer", String.valueOf(sharedPreferences.getBoolean(dashboard, true)));
+//
+//        if (!cb1){
+//            DataManager.removeCurrentUser(this);
+//
+//        }
+//        super.onDestroy();
+//
+//    }
 
     @Override
     public void onStop() {
@@ -135,124 +163,13 @@ public class MainActivity extends AppCompatActivity
 
 
 
-    @Override
-    public void onResume() {
-        //will be executed onResume
-        super.onResume();
-
-        //currentUser = new CurrentUser();
-
-        try {
-            currentUser = DataManager.getCurrentUser(this);
-
-
-            if (currentUser.role != null){
-
-
-                //SharedPreferences sharedPreferences3 = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                //SharedPreferences.Editor homeeditor = sharedPreferences3.edit();
-                //homeeditor.putBoolean("isFlag", true);
-                //homeeditor.commit();
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-                //Log.d("Role", currentUser.role);
-                try {
-                    menuTitle.setText(currentUser.userName);
-                    mobileNoTV.setText(currentUser.email);
-                }catch (Exception e){
-                    //Log.d("error", e.getMessage());
-                }
-
-                sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                Log.d("response dealer", String.valueOf(sharedPreferences.getBoolean(dashboard, true)));
-
-                if (currentUser.role.toLowerCase().equals("dealer")){
-
-                    //Log.i("response call", "call");
-
-                    //Log.i("response dealer", sharedPreferences.getBoolean("isFlag", true));
-
-                    //toolbar.setBackgroundColor(ContextCompat.getColor(this, R.color.colorGreen));
-                    //navigationView.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
-                    //headerView.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
-
-                    //transaction.replace(R.id.area, new HomeFragment());
-                    //transaction.commit();
-
-                    //sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-
-                    if (sharedPreferences.getBoolean(dashboard, true)) {
-                        Log.d("response", currentUser.role);
-
-                        transaction.replace(R.id.area, new HomeFragment());
-                        transaction.commit();
-
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(dashboard, false);
-                        editor.commit();
-                    }
-
-
-
-
-                    //SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-
-                }else {
-
-                    //toolbar.setBackgroundColor(Color.parseColor("#232A32"));
-                    //navigationView.setBackgroundColor(ContextCompat.getColor(this,R.color.colorOrange));
-                    //headerView.setBackgroundColor(ContextCompat.getColor(this,R.color.colorGreen));
-
-                    //transaction.replace(R.id.area, new EmployeeDashboard());
-                    //transaction.commit();
-
-                    //SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-
-                    //Log.d("response dealer", String.valueOf(sharedPreferences.getBoolean("isFlag", true)));
-
-                    if (sharedPreferences.getBoolean(dashboard, true)) {
-                        Log.d("response call", "call 2");
-
-                        transaction.replace(R.id.area, new EmployeeDashboard());
-                        transaction.commit();
-
-                        //SharedPreferences sharedPreferences = getSharedPreferences("MyPref", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putBoolean(dashboard, false);
-                        editor.commit();
-                    }
-
-
-                }
-
-                getMenuOptions();
-
-            }else {
-
-                //Log.i("response2", currentUser.role);
-
-                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-                MainActivity.this.startActivity(intent);
-            }
-        }catch (Exception e){
-
-            //Log.i("response3", e.getMessage());
-            Intent intent = new Intent(MainActivity.this, SignInActivity.class);
-            MainActivity.this.startActivity(intent);
-        }
-
-    }
-
     public void getMenuOptions(){
 
-        menu.clear();
+        //menu.clear();
+
 
         try {
-            if (currentUser.role.equals("Dealer") || currentUser.role.equals("dealer")){
+            if (currentUser.role.toLowerCase().equals("dealer")){
 
                 menu.add(R.id.mainGroup, 1, 100, R.string.menu_home);
                 menu.add(R.id.mainGroup, 2, 200, R.string.do_request);
@@ -283,6 +200,20 @@ public class MainActivity extends AppCompatActivity
                 menu.getItem(11).setIcon(R.drawable.dashboard_icon);
                 menu.getItem(12).setIcon(R.drawable.signout_icon);
 
+
+                menu.getItem(0).setCheckable(true);
+                menu.getItem(1).setCheckable(true);
+                menu.getItem(2).setCheckable(true);
+                menu.getItem(3).setCheckable(true);
+                menu.getItem(4).setCheckable(true);
+                menu.getItem(5).setCheckable(true);
+                menu.getItem(6).setCheckable(true);
+                menu.getItem(7).setCheckable(true);
+                menu.getItem(8).setCheckable(true);
+                menu.getItem(9).setCheckable(true);
+                menu.getItem(10).setCheckable(true);
+                menu.getItem(11).setCheckable(true);
+
             }else {
 
                 menu.add(R.id.mainGroup, 1, 100, R.string.menu_home);
@@ -307,6 +238,16 @@ public class MainActivity extends AppCompatActivity
                 menu.getItem(7).setIcon(R.drawable.dashboard_icon);
                 menu.getItem(8).setIcon(R.drawable.dashboard_icon);
                 menu.getItem(9).setIcon(R.drawable.signout_icon);
+
+                menu.getItem(0).setCheckable(true);
+                menu.getItem(1).setCheckable(true);
+                menu.getItem(2).setCheckable(true);
+                menu.getItem(3).setCheckable(true);
+                menu.getItem(4).setCheckable(true);
+                menu.getItem(5).setCheckable(true);
+                menu.getItem(6).setCheckable(true);
+                menu.getItem(7).setCheckable(true);
+                menu.getItem(8).setCheckable(true);
 
             }
         }catch (Exception e){
@@ -343,7 +284,36 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+
+//        if (id == R.id.action_sync) {
+//
+//            if (CheckNetworkConnection.isNetworkAvailable(this)){
+//                APIDataManager.getProductList(this);
+//                APIDataManager.getDeliveryModeList(this);
+//                APIDataManager.getDealerList(this);
+//
+//                if(getFragmentRefreshListener()!= null){
+//                    getFragmentRefreshListener().onRefresh();
+//                }
+//            }
+//
+//            //return true;
+//        }
+//
+//        return super.onOptionsItemSelected(item);
     }
+
+//    public FragmentRefreshListener getFragmentRefreshListener() {
+//        return fragmentRefreshListener;
+//    }
+//
+//    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
+//        this.fragmentRefreshListener = fragmentRefreshListener;
+//    }
+//
+//    public interface FragmentRefreshListener{
+//        void onRefresh();
+//    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -370,6 +340,8 @@ public class MainActivity extends AppCompatActivity
 
         }
         else if (id == 2) {
+
+
             if (currentUser.role.toLowerCase().equals("dealer")){
 
                 transaction.replace(R.id.area, new DORequestFragment());
@@ -381,25 +353,31 @@ public class MainActivity extends AppCompatActivity
             }
         }
         else if (id == 3) {
-            if (currentUser.role.toLowerCase().equals("dealer")){
-                transaction.replace(R.id.area, new OrderFragment());
-                //fragment = new OrderFragment();
 
+            transaction.replace(R.id.area, new DealerOrderFragment());
 
-            }else {
-                transaction.replace(R.id.area, new EmployeeOrderInfoFragment());
-            }
+//            if (currentUser.role.toLowerCase().equals("dealer")){
+//                transaction.replace(R.id.area, new DealerOrderFragment());
+//                //fragment = new DealerOrderFragment();
+//
+//
+//            }else {
+//                transaction.replace(R.id.area, new EmployeeOrderInfoFragment());
+//            }
 
         }
         else if (id == 4) {
-            if (currentUser.role.toLowerCase().equals("dealer")){
-                transaction.replace(R.id.area, new DealerChallanFragment());
-                //fragment = new OrderFragment();
 
+            transaction.replace(R.id.area, new DealerChallanFragment());
 
-            }else {
-                transaction.replace(R.id.area, new EmployeeChallanFragment());
-            }
+//            if (currentUser.role.toLowerCase().equals("dealer")){
+//                transaction.replace(R.id.area, new DealerChallanFragment());
+//                //fragment = new DealerOrderFragment();
+//
+//
+//            }else {
+//                transaction.replace(R.id.area, new EmployeeChallanFragment());
+//            }
 
         }
         else if (id == 5) {
@@ -440,6 +418,7 @@ public class MainActivity extends AppCompatActivity
                 DataManager.removeCurrentUser(this);
                 Intent intent = new Intent(MainActivity.this, SignInActivity.class);
                 MainActivity.this.startActivity(intent);
+                finish();
             }
 
 
@@ -456,6 +435,7 @@ public class MainActivity extends AppCompatActivity
             DataManager.removeCurrentUser(this);
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             MainActivity.this.startActivity(intent);
+            finish();
         }
 
         if (fragment != null){

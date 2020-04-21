@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,648 +12,868 @@
 
     <!--android:background="@color/colorSalmon"-->
 
-
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_gravity="center"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginLeft="0dp"
-        card_view:cardBackgroundColor="@color/colorWhite"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp"
-        android:layout_weight="1">
-
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1.0">
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_gravity="center"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:layout_height="0dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            card_view:cardBackgroundColor="@color/colorBackground"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="5dp"
+            android:layout_weight="1">
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipeRefresh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <ScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fillViewport="true">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="@color/colorBackground">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorAccent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <Spinner
+                                android:id="@+id/spinner1"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:background="@null"
+                                android:minHeight="0dp" />
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_alignParentEnd="true"
+                                android:theme="@style/spinnerDropDownArrowStyle"
+                                />
+
+                        </RelativeLayout>
+
+                        <!--<android.support.design.widget.TextInputLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--android:layout_marginTop="10dp">-->
+
+                        <!--<android.support.design.widget.TextInputEditText-->
+                        <!--android:id="@+id/doNumberEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="DO Number*"-->
+                        <!--android:textSize="@dimen/default_font_size"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="number"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--/>-->
+
+                        <!--</android.support.design.widget.TextInputLayout>-->
 
 
 
-            <LinearLayout
+
+                        <!--<LinearLayout-->
+                            <!--android:id="@+id/retailerNameBtn"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:layout_marginTop="10dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:weightSum="1">-->
+
+
+                            <!--<Spinner-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:spinnerMode="dropdown"-->
+                                <!--android:clickable="false"-->
+                                <!--android:popupBackground="@color/colorSpinnerPopUpBackground"-->
+                                <!--android:theme="@style/spinnerDropDownItemStyle"-->
+                                <!--/>-->
+                            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="1dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:background="#919191"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_marginRight="10dp"/>&ndash;&gt;-->
+
+
+
+                        <!--</LinearLayout>-->
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorAccent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <Spinner
+                                android:id="@+id/retailerSpinner"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:background="@null"
+                                android:minHeight="0dp"
+                                android:popupBackground="@color/colorSpinnerPopUpBackground"
+                                android:theme="@style/spinnerDropDownItemStyle"/>
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_alignParentEnd="true"
+                                android:theme="@style/spinnerDropDownArrowStyle"
+                                />
+
+                        </RelativeLayout>
+
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:weightSum="1">-->
+
+                            <!--<Spinner-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:spinnerMode="dropdown"-->
+                                <!--android:popupBackground="@color/colorSpinnerPopUpBackground"-->
+                                <!--android:theme="@style/spinnerDropDownItemStyle"-->
+                                <!--/>-->
+                            <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_height="1dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:background="#919191"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+                                <!--&lt;!&ndash;android:layout_marginRight="10dp"/>&ndash;&gt;-->
+
+
+                        <!--</LinearLayout>-->
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/creditEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Credit Limit"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:enabled="false"
+                                android:fontFamily="@font/latoregular"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/descriptionEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Description"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"-->
+                        <!--android:inputType="textCapWords"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp"
+                            android:textColorHint="#919191">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/dueEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Due Balance"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:enabled="false"
+                                android:fontFamily="@font/latoregular"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/companyNameEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Company Name*"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"-->
+                        <!--android:inputType="textCapWords"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:weightSum="1">
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                                <com.google.android.material.textfield.TextInputEditText
+                                    android:id="@+id/blockAmountEditText"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:hint="Block Amount"
+                                    android:textSize="@dimen/default_font_size"
+                                    android:singleLine="true"
+                                    android:inputType="textCapWords"
+                                    android:enabled="false"
+                                    android:fontFamily="@font/latoregular"
+                                    />
+
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                            <!--<RelativeLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:background="@drawable/edit_text_cell"-->
+                            <!--android:paddingBottom="2dp"-->
+                            <!--android:paddingTop="2dp"-->
+                            <!--android:layout_weight="1">-->
+
+
+                            <!--<EditText-->
+                            <!--android:id="@+id/barcodeEditText"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:paddingLeft="10dp"-->
+                            <!--android:paddingRight="10dp"-->
+                            <!--android:hint="Barcode"-->
+                            <!--android:theme="@style/ClientEditText"-->
+                            <!--android:fontFamily="@font/latoregular"-->
+                            <!--android:textSize="14sp"-->
+                            <!--android:singleLine="true"-->
+                            <!--android:textCursorDrawable="@color/colorSalmon"/>-->
+
+                            <!--</RelativeLayout>-->
+
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorAccent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <Spinner
+                                android:id="@+id/productSpinner"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:background="@null"
+                                android:minHeight="0dp"
+                                android:popupBackground="@color/colorSpinnerPopUpBackground"
+                                android:theme="@style/spinnerDropDownItemStyle"/>
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_alignParentEnd="true"
+                                android:theme="@style/spinnerDropDownArrowStyle"
+                                />
+
+                        </RelativeLayout>
+
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:weightSum="1">-->
+
+                            <!--<Spinner-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:spinnerMode="dropdown"-->
+                                <!--android:popupBackground="@color/colorSpinnerPopUpBackground"-->
+                                <!--android:theme="@style/spinnerDropDownItemStyle"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="1dp"-->
+                                <!--android:background="#919191"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:layout_marginRight="10dp"/>-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--<android.support.design.widget.TextInputLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--android:layout_marginTop="10dp">-->
+
+                        <!--<android.support.design.widget.TextInputEditText-->
+                        <!--android:id="@+id/priceEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Price Per Unit*"-->
+                        <!--android:textSize="@dimen/default_font_size"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="number"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--/>-->
+
+                        <!--</android.support.design.widget.TextInputLayout>-->
+
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/salePriceEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Sale Price*"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="numberDecimal"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorAccent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <Spinner
+                                android:id="@+id/deliverySpinner"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:background="@null"
+                                android:minHeight="0dp"
+                                android:popupBackground="@color/colorSpinnerPopUpBackground"
+                                android:theme="@style/spinnerDropDownItemStyle"/>
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_alignParentEnd="true"
+                                android:theme="@style/spinnerDropDownArrowStyle"/>
+
+                        </RelativeLayout>
+
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:weightSum="1">-->
+
+                            <!--<Spinner-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:spinnerMode="dropdown"-->
+                                <!--android:popupBackground="@color/colorSpinnerPopUpBackground"-->
+                                <!--android:theme="@style/spinnerDropDownItemStyle"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="1dp"-->
+                                <!--android:background="#919191"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:layout_marginRight="10dp"/>-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/buyPriceEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Buy Price*"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="numberDecimal"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/colorAccent"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp">
+
+                            <Spinner
+                                android:id="@+id/locationSpinner"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:background="@null"
+                                android:minHeight="0dp"
+                                android:popupBackground="@color/colorSpinnerPopUpBackground"
+                                android:theme="@style/spinnerDropDownItemStyle"/>
+                            <ImageView
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_alignParentEnd="true"
+                                android:theme="@style/spinnerDropDownArrowStyle"
+                                />
+
+                        </RelativeLayout>
+
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:orientation="vertical"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:layout_marginLeft="10dp"-->
+                            <!--android:layout_marginRight="10dp"-->
+                            <!--android:weightSum="1">-->
+
+                            <!--<Spinner-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:spinnerMode="dropdown"-->
+                                <!--android:popupBackground="@color/colorSpinnerPopUpBackground"-->
+                                <!--android:theme="@style/spinnerDropDownItemStyle"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="1dp"-->
+                                <!--android:background="#919191"-->
+                                <!--android:layout_marginLeft="10dp"-->
+                                <!--android:layout_marginRight="10dp"/>-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/profitEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Profit (Percentage of Sale)"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="numberDecimal"-->
+                        <!--android:enabled="false"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1.0"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginTop="20dp">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.25"
+                                android:text="Delivery Address:"
+                                android:textColor="@color/colorDarkBlack"
+                                android:textSize="@dimen/default_font_size"/>
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.75"
+                                android:orientation="vertical">
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:layout_marginTop="0dp">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/nameEditText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Name"
+                                        android:textSize="@dimen/default_font_size"
+                                        android:singleLine="true"
+                                        android:inputType="textCapWords"
+                                        android:fontFamily="@font/latoregular"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:layout_marginTop="0dp">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/contactNoEditText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Contact Number"
+                                        android:textSize="@dimen/default_font_size"
+                                        android:singleLine="true"
+                                        android:inputType="textCapWords"
+                                        android:fontFamily="@font/latoregular"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+                                <com.google.android.material.textfield.TextInputLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="15dp"
+                                    android:layout_marginRight="15dp"
+                                    android:layout_marginTop="0dp">
+
+                                    <com.google.android.material.textfield.TextInputEditText
+                                        android:id="@+id/addressEditText"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:hint="Detail Address"
+                                        android:textSize="@dimen/default_font_size"
+                                        android:singleLine="true"
+                                        android:inputType="textCapWords"
+                                        android:fontFamily="@font/latoregular"/>
+
+                                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/stockEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Stock*"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="numberDecimal"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/billEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Bag Qty (Billed)"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:fontFamily="@font/latoregular"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:background="@drawable/edit_text_cell"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:paddingBottom="2dp"-->
+                        <!--android:paddingTop="2dp"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--android:layout_marginBottom="10dp">-->
+
+
+                        <!--<EditText-->
+                        <!--android:id="@+id/notificationStockEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:paddingLeft="10dp"-->
+                        <!--android:paddingRight="10dp"-->
+                        <!--android:hint="Warning when Stock limited*"-->
+                        <!--android:theme="@style/ClientEditText"-->
+                        <!--android:fontFamily="@font/latoregular"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="number"-->
+                        <!--android:textCursorDrawable="@color/colorSalmon"/>-->
+
+                        <!--</RelativeLayout>-->
+
+                        <!--<android.support.design.widget.TextInputLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginLeft="15dp"-->
+                        <!--android:layout_marginRight="15dp"-->
+                        <!--android:layout_marginTop="10dp">-->
+
+                        <!--<android.support.design.widget.TextInputEditText-->
+                        <!--android:id="@+id/bagQtyEditText"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:hint="Bag Qty (Actual)"-->
+                        <!--android:textSize="@dimen/default_font_size"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:inputType="number"-->
+                        <!--android:enabled="false"-->
+                        <!--android:fontFamily="@font/latoregular"/>-->
+
+                        <!--</android.support.design.widget.TextInputLayout>-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/capacityEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Required Vechile Capacity"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="number"
+                                android:fontFamily="@font/latoregular"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/noteEditText"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Special Note (if any)"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+
+
+                </ScrollView>
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/save_card_view"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:paddingTop="0dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginBottom="0dp"
+            card_view:cardCornerRadius="0dp"
+            card_view:cardElevation="5dp"
+            >
+
+            <TextView
+                android:id="@+id/createDOBtn"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:background="@drawable/btn_gradient"
+                android:text="SEND REQUEST"
+                android:textSize="@dimen/default_font_size"
+                android:gravity="center"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/latobold"
+                />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:weightSum="1">
 
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
+        </androidx.cardview.widget.CardView>
 
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/itemNameEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Dealer Name*"
-                            android:textSize="14sp"
-                            android:singleLine="true"
-                            android:inputType="textCapWords"
-                            />
+    </LinearLayout>
 
-                    </android.support.design.widget.TextInputLayout>
-
-                    <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@drawable/edit_text_cell"-->
-                    <!--android:paddingBottom="2dp"-->
-                    <!--android:paddingTop="2dp"-->
-
-                    <!--android:layout_weight="1">-->
-
-
-                    <!--<EditText-->
-                    <!--android:id="@+id/itemNameEditText"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:hint="Item Name*"-->
-                    <!--android:theme="@style/ClientEditText"-->
-                    <!--android:fontFamily="@font/latoregular"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textCursorDrawable="@color/colorSalmon"-->
-                    <!--android:inputType="textCapWords"/>-->
-
-                    <!--</RelativeLayout>-->
-
-                    <!--<RelativeLayout-->
-                    <!--android:layout_width="40dp"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_marginLeft="10dp"-->
-                    <!--android:background="@drawable/item_edit_cell">-->
-
-                    <!--<ImageView-->
-                    <!--android:id="@+id/addItemBtn"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:paddingTop="10dp"-->
-                    <!--android:paddingBottom="10dp"-->
-                    <!--android:src="@mipmap/plus_icon_salmon"/>-->
-
-                    <!--</RelativeLayout>-->
-
-
-
-                </LinearLayout>
-
-
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/categoryTV"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Retailer Name"
-                            android:textSize="14sp"
-                            android:singleLine="true"
-                            android:inputType="textCapWords"
-                            />
-
-                    </android.support.design.widget.TextInputLayout>
-
-
-
-                    <RelativeLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/item_edit_cell">
-
-                        <ImageView
-                            android:id="@+id/newCategoryBtn"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingLeft="10dp"
-                            android:paddingRight="10dp"
-                            android:paddingTop="10dp"
-                            android:paddingBottom="10dp"
-                            />
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/creditEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Credit Limit"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="textCapWords"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/descriptionEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Description"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"-->
-                <!--android:inputType="textCapWords"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/dueEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Due Balance"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="textCapWords"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/companyNameEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Company Name*"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"-->
-                <!--android:inputType="textCapWords"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:weightSum="1">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <android.support.design.widget.TextInputEditText
-                            android:id="@+id/blockAmountEditText"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:hint="Block Amount"
-                            android:textSize="14sp"
-                            android:singleLine="true"
-                            android:inputType="textCapWords"
-                            />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <!--<RelativeLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:background="@drawable/edit_text_cell"-->
-                    <!--android:paddingBottom="2dp"-->
-                    <!--android:paddingTop="2dp"-->
-                    <!--android:layout_weight="1">-->
-
-
-                    <!--<EditText-->
-                    <!--android:id="@+id/barcodeEditText"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:paddingLeft="10dp"-->
-                    <!--android:paddingRight="10dp"-->
-                    <!--android:hint="Barcode"-->
-                    <!--android:theme="@style/ClientEditText"-->
-                    <!--android:fontFamily="@font/latoregular"-->
-                    <!--android:textSize="14sp"-->
-                    <!--android:singleLine="true"-->
-                    <!--android:textCursorDrawable="@color/colorSalmon"/>-->
-
-                    <!--</RelativeLayout>-->
-
-                    <RelativeLayout
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/item_edit_cell">
-
-                        <ImageView
-                            android:id="@+id/barcodeScannerBtn"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:paddingBottom="8dp"
-                            android:paddingTop="8dp"
-                            android:paddingRight="8dp"
-                            android:paddingLeft="8dp"/>
-
-                    </RelativeLayout>
-
-                </LinearLayout>
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/typeEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Product Type"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="numberDecimal"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/salePriceEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Sale Price*"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/modeEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Delivery Mode"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="numberDecimal"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/buyPriceEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Buy Price*"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/locationEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Location"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="numberDecimal"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/profitEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Profit (Percentage of Sale)"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:enabled="false"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/stockEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Delivery Address"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="numberDecimal"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/stockEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Stock*"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:inputType="numberDecimal"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/billEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Bag Qty (Billed)"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@drawable/edit_text_cell"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:paddingBottom="2dp"-->
-                <!--android:paddingTop="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginRight="15dp"-->
-                <!--android:layout_marginBottom="10dp">-->
-
-
-                <!--<EditText-->
-                <!--android:id="@+id/notificationStockEditText"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:hint="Warning when Stock limited*"-->
-                <!--android:theme="@style/ClientEditText"-->
-                <!--android:fontFamily="@font/latoregular"-->
-                <!--android:textSize="14sp"-->
-                <!--android:singleLine="true"-->
-                <!--android:inputType="number"-->
-                <!--android:textCursorDrawable="@color/colorSalmon"/>-->
-
-                <!--</RelativeLayout>-->
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/bagQtyEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Bag Qty (Actual)"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/capacityEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Required Vechile Capacity"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp">
-
-                    <android.support.design.widget.TextInputEditText
-                        android:id="@+id/noteEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Special Note (if any)"
-                        android:textSize="14sp"
-                        android:singleLine="true"
-                        android:inputType="number"
-                        />
-
-                </android.support.design.widget.TextInputLayout>
-
-
-            </LinearLayout>
-        </ScrollView>
-
-
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/save_card_view"
-        android:layout_gravity="center"
+    <TextView
+        android:id="@+id/networkStatus"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:paddingTop="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp"
-        >
-
-        <TextView
-            android:id="@+id/createItemBtn"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/colorDeepOlive"
-            android:text="Request"
-            android:textSize="16sp"
-            android:gravity="center"
-            android:textColor="@color/colorWhite"
-            android:textStyle="bold"
-            />
+        android:layout_height="40dp"
+        android:text="@string/no_internet"
+        android:textColor="@color/colorWhite"
+        android:fontFamily="@font/latobold"
+        android:textSize="@dimen/default_font_size"
+        android:gravity="center"
+        android:background="#FF0000"
+        android:visibility="gone"
+        />
 
 
-    </android.support.v7.widget.CardView>
+    <!--<androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/swipeRefresh">-->
+
+        <!---->
+
+    <!--</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
 
 
-</LinearLayout>
+
+</RelativeLayout>

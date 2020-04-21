@@ -1,4 +1,4 @@
-package com.metrocem.mismetrocem.CommissionAndIncentive;
+package com.metrocem.mis.CommissionAndIncentive;
 
 public class PromotionContainer {
     public String promotion_name;

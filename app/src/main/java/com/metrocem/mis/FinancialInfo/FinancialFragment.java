@@ -1,10 +1,7 @@
-package com.metrocem.mis;
+package com.metrocem.mis.FinancialInfo;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +23,7 @@ import com.metrocem.mis.Model.CurrentUser;
 import com.metrocem.mis.Model.DataManager;
 import com.metrocem.mis.Model.Due;
 import com.metrocem.mis.Model.DueAmount;
+import com.metrocem.mis.R;
 import com.metrocem.mis.Subclasses.CheckNetworkConnection;
 
 import java.text.SimpleDateFormat;

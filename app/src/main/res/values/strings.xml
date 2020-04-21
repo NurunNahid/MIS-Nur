@@ -1,15 +1,17 @@
 <resources>
-    <string name="app_name">MIS Metrocem</string>
+    <string name="app_name">MIS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_title">Nurtech Technologies</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!--Fragment Title-->
     <string name="menu_home">Dashboard</string>
     <string name="do_request">Do Requesting</string>
     <string name="order_info">Order Information</string>
+    <string name="challan_info">Challan Information</string>
     <string name="delivery_info">Delivery Information</string>
     <string name="financial_info">Financial Information</string>
     <string name="commission_incentive">Commission &amp; Incentive</string>
@@ -23,10 +25,34 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="do_request_history">Do Request History</string>
 
     <!--Reports-->
     <string name="request_history">Do Request History</string>
     <string name="target_sales_report">Target &amp; Sales Report</string>
 
+    <!--Device Registration-->
+    <string name="device_registration">Device Registration</string>
+    <string name="device_name">Device Name*</string>
+    <string name="device_id">Device Id*</string>
+    <string name="identifier">Identifier*</string>
+    <string name="model">Model*</string>
+    <string name="brand">Brand*</string>
+    <string name="os_version">OS Version*</string>
+    <string name="register">Register</string>
+
+    <!--Sign In-->
+    <string name="sign_in">Sign In</string>
+    <string name="user_id">User Id</string>
+    <string name="password">Password</string>
+    <string name="keep_me_sign_in">Keep me Sign In</string>
+    <string name="register_device">Register your Device</string>
+
+    <string name="delivered">DELIVERED</string>
+    <string name="partial_delivered">PARTIAL DELIVERED</string>
+    <string name="no_data">Not Found!</string>
+    <string name="no_internet">No Internet Connection</string>
+    <string name="requested">REQUESTED</string>
+    <string name="approved">APPROVED</string>
 
 </resources>

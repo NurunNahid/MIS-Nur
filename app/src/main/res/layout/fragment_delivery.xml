@@ -1,100 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBackground">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorBackground"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view2"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabBtn"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="5dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginBottom="10dp"
-        android:background="@color/colorGreen">
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        app:tabTextColor="#fefefe"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="3dp">
 
-        <LinearLayout
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delivered"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/partial_delivered"/>
+
+    </com.google.android.material.tabs.TabLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefresh"
+        android:layout_marginTop="10dp">
+
+        <!--<ListView-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:id="@+id/orderListView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:divider="@null" />-->
+
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            >
+            android:layout_height="match_parent">
 
-            <LinearLayout
-                android:id="@+id/deliveredBtn"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderDeliveredListView"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal"
-                android:weightSum="1.0"
-                android:gravity="center"
-                android:layout_marginRight="5dp">
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="Delivered"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
-                    android:layout_weight="1.0"
-                    android:textColor="@color/colorTextTheme"/>
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/arrow_icon"
-                    />
-
-
-            </LinearLayout>
-
+            <ImageView
+                android:id="@+id/noItemStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:background="@drawable/no_data"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="20dp"/>
 
             <TextView
+                android:id="@+id/networkStatus"
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginLeft="20dp"
-                android:background="@color/colorBorder"/>
-
-            <LinearLayout
-                android:id="@+id/pendingBtn"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="40dp"
+                android:text="@string/no_internet"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/latobold"
+                android:textSize="@dimen/default_font_size"
                 android:gravity="center"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:text="Pending"
-                    android:gravity="center_vertical"
-                    android:layout_marginLeft="20dp"
-                    android:textStyle="bold"
-                    android:layout_weight="1.0"
-                    android:textColor="@color/colorTextTheme"/>
-
-                <ImageView
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:src="@drawable/arrow_icon"
-                    android:layout_marginRight="5dp"
-                    />
-
-
-
-            </LinearLayout>
-
-
-
-        </LinearLayout>
+                android:background="#FF0000"
+                android:visibility="invisible"
+                />
+        </RelativeLayout>
 
 
 
 
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    </android.support.v7.widget.CardView>
+
+    <!--<androidx.cardview.widget.CardView-->
+    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/card_view2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="100dp"-->
+    <!--card_view:cardCornerRadius="4dp"-->
+    <!--card_view:cardElevation="5dp"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:layout_marginRight="20dp"-->
+    <!--android:layout_marginBottom="10dp"-->
+    <!--android:background="@color/colorGreen">-->
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:orientation="vertical"-->
+    <!--&gt;-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/deliveredBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:weightSum="1.0"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_marginRight="10dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:text="Delivered"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_weight="1.0"-->
+    <!--android:textColor="@color/colorTextTheme"-->
+    <!--android:fontFamily="@font/latobold"-->
+    <!--android:textSize="@dimen/default_font_size"/>-->
+    <!--<ImageView-->
+    <!--android:layout_width="16dp"-->
+    <!--android:layout_height="16dp"-->
+    <!--android:src="@drawable/arrow_icon"-->
+    <!--/>-->
+
+
+    <!--</LinearLayout>-->
+
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="1dp"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:background="@color/colorBorder"/>-->
+
+    <!--<LinearLayout-->
+    <!--android:id="@+id/partialDeliveredBtn"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal"-->
+    <!--android:layout_marginRight="10dp">-->
+
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:text="Partial Delivered"-->
+    <!--android:gravity="center_vertical"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:layout_weight="1.0"-->
+    <!--android:textColor="@color/colorTextTheme"-->
+    <!--android:fontFamily="@font/latobold"-->
+    <!--android:textSize="@dimen/default_font_size"/>-->
+
+    <!--<ImageView-->
+    <!--android:layout_width="16dp"-->
+    <!--android:layout_height="16dp"-->
+    <!--android:src="@drawable/arrow_icon"-->
+    <!--/>-->
+
+
+
+    <!--</LinearLayout>-->
+
+
+
+    <!--</LinearLayout>-->
+
+
+
+
+
+
+    <!--</androidx.cardview.widget.CardView>-->
 
 
 </LinearLayout>

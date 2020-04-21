@@ -1,7 +1,7 @@
-package com.metrocem.mismetrocem.Adapter;
+package com.metrocem.mis.Adapter;
 
 import android.content.Context;
-import android.support.v4.app.FragmentActivity;
+import androidx.fragment.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.R;
+import com.metrocem.mis.R;
 
 public class TradeAdapter extends BaseAdapter {
 

@@ -1,9 +1,516 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignIn.DeviceRegistrationActivity">
+    android:orientation="vertical"
+    android:background="@color/colorBackground"
+    android:weightSum="1">
 
-</android.support.constraint.ConstraintLayout>
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cart_cell_card_view"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="#FFFFFF"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="6dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@color/colorBackground">
+
+            <ImageView
+                android:id="@+id/crossBtn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="end"
+                android:src="@drawable/cross_icon_black"/>
+
+            <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Online POS"-->
+            <!--android:fontFamily="@font/latobold"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="24sp"-->
+            <!--android:textColor="@color/colorOrange"/>-->
+
+            <!--<androidx.cardview.widget.CardView-->
+                <!--android:id="@+id/card_view"-->
+                <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+                <!--app:cardBackgroundColor="@color/colorWhite"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginLeft="15dp"-->
+                <!--android:layout_marginRight="15dp"-->
+                <!--android:layout_marginBottom="15dp"-->
+                <!--app:cardCornerRadius="0dp"-->
+                <!--app:cardElevation="6dp"-->
+                <!--&gt;-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="0dp"
+                        android:layout_marginTop="0dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/image"
+                        android:layout_weight="1.0"
+                        android:transitionName="logo_transition"
+                        />
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:text="@string/device_registration"
+                        android:fontFamily="@font/latobold"
+                        android:textSize="24sp"
+                        android:gravity="center"
+                        android:textColor="@color/colorAccent"/>
+
+                    <LinearLayout
+                        android:id="@+id/rLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <!--Device Name-->
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="45dp"-->
+                            <!--android:layout_marginLeft="20dp"-->
+                            <!--android:layout_marginTop="25dp"-->
+                            <!--android:layout_marginRight="20dp"-->
+                            <!--android:background="@drawable/item_edit_cell">-->
+
+                            <!--<ImageView-->
+                                <!--android:contentDescription="@string/device_name"-->
+                                <!--android:layout_width="26dp"-->
+                                <!--android:layout_height="26dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginTop="9dp"-->
+                                <!--android:src="@drawable/phone_icon"-->
+                                <!--android:tint="@color/colorAccent"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="1dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:background="@color/colorTextDeepGray"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginBottom="10dp"/>-->
+                            <!--<EditText-->
+                                <!--android:id="@+id/nameET"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:hint="@string/device_name"-->
+                                <!--android:fontFamily="@font/latoregular"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:theme="@style/ClientEditText"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textSize="@dimen/default_font_size"-->
+                                <!--android:textCursorDrawable="@color/colorAccent"-->
+                                <!--android:inputType="textCapWords"-->
+                                <!--android:textColor="@color/colorTextTheme"/>-->
+
+                        <!--</LinearLayout>-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="20dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/nameET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Device Name"
+                                android:textSize="@dimen/default_font_size"
+                                android:textColor="@color/colorTextTheme"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                        <!--Device Id-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="5dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/deviceIdET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="Device Id"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                android:enabled="false"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="45dp"-->
+                            <!--android:layout_marginLeft="20dp"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:layout_marginRight="20dp"-->
+                            <!--android:background="@drawable/item_edit_cell">-->
+
+                            <!--<ImageView-->
+                                <!--android:layout_width="26dp"-->
+                                <!--android:layout_height="26dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginTop="9dp"-->
+                                <!--android:src="@drawable/phone_icon"-->
+                                <!--android:tint="@color/colorAccent"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="1dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:background="@color/colorTextDeepGray"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginBottom="10dp"/>-->
+                            <!--<EditText-->
+                                <!--android:id="@+id/deviceIdET"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:hint="@string/device_id"-->
+                                <!--android:fontFamily="@font/latoregular"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:theme="@style/ClientEditText"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textSize="@dimen/default_font_size"-->
+                                <!--android:textCursorDrawable="@color/colorAccent"-->
+                                <!--android:inputType="textCapWords"-->
+                                <!--android:enabled="false"-->
+                                <!--android:textColor="@color/colorDarkBlack"/>-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--IMEI-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="5dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/identifierET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/identifier"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                android:enabled="false"/>
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="45dp"-->
+                            <!--android:layout_marginLeft="20dp"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:layout_marginRight="20dp"-->
+                            <!--android:background="@drawable/item_edit_cell">-->
+
+                            <!--<ImageView-->
+                                <!--android:layout_width="26dp"-->
+                                <!--android:layout_height="26dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginTop="9dp"-->
+                                <!--android:src="@drawable/phone_icon"-->
+                                <!--android:tint="@color/colorAccent"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="1dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:background="@color/colorTextDeepGray"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginBottom="10dp"/>-->
+                            <!--<EditText-->
+                                <!--android:id="@+id/identifierET"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:hint="@string/identifier"-->
+                                <!--android:fontFamily="@font/latoregular"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:theme="@style/ClientEditText"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textSize="@dimen/default_font_size"-->
+                                <!--android:textCursorDrawable="@color/colorAccent"-->
+                                <!--android:inputType="textCapWords"-->
+                                <!--android:enabled="false"-->
+                                <!--android:textColor="@color/colorDarkBlack"/>-->
+
+                        <!--</LinearLayout>-->
+
+
+                        <!--Device Model-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="5dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/typeET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/model"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="45dp"-->
+                            <!--android:layout_marginLeft="20dp"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:layout_marginRight="20dp"-->
+                            <!--android:background="@drawable/item_edit_cell">-->
+
+                            <!--<ImageView-->
+                                <!--android:layout_width="26dp"-->
+                                <!--android:layout_height="26dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginTop="9dp"-->
+                                <!--android:src="@drawable/phone_icon"-->
+                                <!--android:tint="@color/colorAccent"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="1dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:background="@color/colorTextDeepGray"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginBottom="10dp"/>-->
+                            <!--<EditText-->
+                                <!--android:id="@+id/typeET"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:hint="@string/model"-->
+                                <!--android:fontFamily="@font/latoregular"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:theme="@style/ClientEditText"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textSize="@dimen/default_font_size"-->
+                                <!--android:textCursorDrawable="@color/colorAccent"-->
+                                <!--android:inputType="textEmailAddress"-->
+                                <!--android:textColor="@color/colorDarkBlack"/>-->
+
+                        <!--</LinearLayout>-->
+
+
+                        <!--Device brand-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="5dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/osET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/brand"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<LinearLayout-->
+                            <!--android:contentDescription="@string/brand"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="45dp"-->
+                            <!--android:layout_marginLeft="20dp"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:layout_marginRight="20dp"-->
+                            <!--android:background="@drawable/item_edit_cell">-->
+
+                            <!--<ImageView-->
+                                <!--android:contentDescription="@string/brand"-->
+                                <!--android:layout_width="26dp"-->
+                                <!--android:layout_height="26dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginTop="9dp"-->
+                                <!--android:src="@drawable/phone_icon"-->
+                                <!--android:tint="@color/colorAccent"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="1dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:background="@color/colorTextDeepGray"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginBottom="10dp"/>-->
+                            <!--<EditText-->
+                                <!--android:id="@+id/osET"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:hint="@string/brand"-->
+                                <!--android:fontFamily="@font/latoregular"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:theme="@style/ClientEditText"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textSize="@dimen/default_font_size"-->
+                                <!--android:textCursorDrawable="@color/colorAccent"-->
+                                <!--android:textColor="@color/colorDarkBlack"/>-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--OS Version-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:layout_marginTop="5dp"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            >
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/versionET"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/os_version"
+                                android:textSize="@dimen/default_font_size"
+                                android:singleLine="true"
+                                android:inputType="textCapWords"
+                                android:fontFamily="@font/latoregular"
+                                android:textColor="@color/colorTextTheme"
+                                />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--<LinearLayout-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="45dp"-->
+                            <!--android:layout_marginLeft="20dp"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--android:layout_marginRight="20dp"-->
+                            <!--android:background="@drawable/item_edit_cell">-->
+
+                            <!--<ImageView-->
+                                <!--android:layout_width="26dp"-->
+                                <!--android:layout_height="26dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginTop="9dp"-->
+                                <!--android:src="@drawable/phone_icon"-->
+                                <!--android:tint="@color/colorAccent"/>-->
+                            <!--<TextView-->
+                                <!--android:layout_width="1dp"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:background="@color/colorTextDeepGray"-->
+                                <!--android:layout_marginTop="10dp"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:layout_marginBottom="10dp"/>-->
+                            <!--<EditText-->
+                                <!--android:id="@+id/versionET"-->
+                                <!--android:layout_width="match_parent"-->
+                                <!--android:layout_height="match_parent"-->
+                                <!--android:hint="@string/os_version"-->
+                                <!--android:fontFamily="@font/latoregular"-->
+                                <!--android:layout_marginStart="10dp"-->
+                                <!--android:theme="@style/ClientEditText"-->
+                                <!--android:singleLine="true"-->
+                                <!--android:textSize="@dimen/default_font_size"-->
+                                <!--android:inputType="number"-->
+                                <!--android:textCursorDrawable="@color/colorAccent"-->
+                                <!--android:textColor="@color/colorDarkBlack"/>-->
+
+                        <!--</LinearLayout>-->
+
+                        <!--Register Button-->
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/signIn"
+                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                            app:cardBackgroundColor="@color/colorAccent"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_margin="20dp"
+                            app:cardCornerRadius="4dp"
+                            app:cardElevation="6dp"
+                            >
+                            <TextView
+                                android:id="@+id/registerBtn"
+                                android:layout_width="match_parent"
+                                android:layout_height="50dp"
+                                android:text="@string/register"
+                                android:gravity="center"
+                                android:textColor="#FFFFFF"
+                                android:textSize="20sp"
+                                android:background="@drawable/btn_gradient"
+                                android:fontFamily="@font/latobold"
+                                />
+
+
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+
+
+
+
+                </LinearLayout>
+            <!--</androidx.cardview.widget.CardView>-->
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+
+</LinearLayout>

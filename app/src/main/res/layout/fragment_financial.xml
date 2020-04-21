@@ -5,15 +5,15 @@
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="5dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/colorGreen">
 
@@ -38,22 +38,24 @@
                     android:text="Credit Limit"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="0.5"
                     android:textColor="@color/colorTextTheme"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/big_font_size"/>
 
                 <TextView
+                    android:id="@+id/creditLimit"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:text="50,00,000"
                     android:gravity="right|center"
-                    android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="0.5"
-                    android:textColor="@color/colorOrange"
-                    android:textSize="16sp"
-                    android:layout_marginRight="20dp"/>
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/default_font_size"
+                    android:layout_marginEnd="20dp"
+                    />
 
             </LinearLayout>
 
@@ -64,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:id="@+id/creditLimitBtn"
@@ -72,8 +74,7 @@
                     android:layout_height="match_parent"
                     android:text="Tap for Credit Limit"
                     android:gravity="center_vertical"
-                    android:textStyle="bold"
-                    android:layout_weight="1.0"
+                    android:fontFamily="@font/latobold"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -83,10 +84,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@drawable/financial_cell_bg"
-                    android:textColor="@color/colorDeepOlive"/>
-
-
-
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_size_medium"/>
 
             </LinearLayout>
 
@@ -99,17 +98,17 @@
 
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="5dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/colorGreen">
 
@@ -132,11 +131,11 @@
                     android:layout_height="40dp"
                     android:text="DSO"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="0.5"
                     android:textColor="@color/colorTextTheme"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/big_font_size"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -144,10 +143,10 @@
                     android:text="35 days"
                     android:gravity="right|center"
                     android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="0.5"
-                    android:textColor="@color/colorOrange"
-                    android:textSize="16sp"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="@dimen/default_font_size"
                     android:layout_marginRight="20dp"/>
 
 
@@ -161,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:id="@+id/dsoBtn"
@@ -169,8 +168,7 @@
                     android:layout_height="match_parent"
                     android:text="Tap for DSO"
                     android:gravity="center_vertical"
-                    android:textStyle="bold"
-                    android:layout_weight="1.0"
+                    android:fontFamily="@font/latobold"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -180,7 +178,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@drawable/financial_cell_bg"
-                    android:textColor="@color/colorDeepOlive"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_size_medium"/>
 
 
 
@@ -196,17 +195,17 @@
 
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="5dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/colorGreen">
 
@@ -229,28 +228,123 @@
                     android:layout_height="40dp"
                     android:text="Collection Report"
                     android:gravity="center_vertical"
-                    android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.5"
+                    android:layout_marginStart="25dp"
+                    android:fontFamily="@font/latobold"
                     android:textColor="@color/colorTextTheme"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/big_font_size"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="10,00,000"
-                    android:gravity="right|center"
-                    android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
-                    android:layout_weight="0.5"
-                    android:textColor="@color/colorOrange"
-                    android:textSize="16sp"
-                    android:layout_marginRight="20dp"/>
+                <!--<androidx.cardview.widget.CardView-->
+                    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+                    <!--android:id="@+id/card_view"-->
+                    <!--android:layout_gravity="center"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_marginTop="0dp"-->
+                    <!--android:layout_marginBottom="2dp"-->
+                    <!--card_view:cardBackgroundColor="@color/colorWhite"-->
+                    <!--card_view:cardCornerRadius="0dp"-->
+                    <!--card_view:cardElevation="0dp"-->
+                    <!--android:layout_weight="0.5">-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content">-->
+
+                        <!--<TextView-->
+                            <!--android:id="@+id/btnView"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="40dp"-->
+                            <!--android:text="Today"-->
+                            <!--android:fontFamily="@font/latobold"-->
+                            <!--android:textSize="@dimen/default_font_size"-->
+                            <!--android:textColor="@color/colorTextTheme"-->
+                            <!--android:gravity="center"-->
+                            <!--android:background="@color/colorWhite"-->
+                            <!--/>-->
+                        <!--<ImageView-->
+                            <!--android:layout_width="40dp"-->
+                            <!--android:layout_height="28dp"-->
+                            <!--android:src="@drawable/arrow_down"-->
+                            <!--android:layout_alignParentEnd="true"-->
+                            <!--android:layout_alignParentRight="true"-->
+                            <!--android:paddingTop="12dp"/>-->
+
+                    <!--</RelativeLayout>-->
+
+
+                <!--</androidx.cardview.widget.CardView>-->
+
 
 
 
             </LinearLayout>
 
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1.0"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="20dp">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:layout_marginEnd="10dp">
+
+                    <TextView
+                        android:id="@+id/startDateTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="Start Date"
+                        android:fontFamily="@font/latoregular"
+                        android:textSize="@dimen/default_font_size"
+                        android:textColor="@color/colorTextTheme"
+                        android:gravity="center_vertical"
+                        android:background="@color/colorWhite"
+                        />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/arrow_down"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:paddingTop="12dp"/>
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:id="@+id/endDateTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="0dp"
+                        android:background="@color/colorWhite"
+                        android:fontFamily="@font/latoregular"
+                        android:gravity="center_vertical"
+                        android:text="End Date"
+                        android:textColor="@color/colorTextTheme"
+                        android:textSize="@dimen/default_font_size" />
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="28dp"
+                        android:src="@drawable/arrow_down"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:paddingTop="12dp"/>
+
+                </RelativeLayout>
+
+
+            </LinearLayout>
 
 
             <LinearLayout
@@ -258,16 +352,15 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:id="@+id/collectionReportBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:text="Tap for Collection Report"
+                    android:text="Tap for Collection Amount"
                     android:gravity="center_vertical"
-                    android:textStyle="bold"
-                    android:layout_weight="1.0"
+                    android:fontFamily="@font/latobold"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -277,7 +370,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@drawable/financial_cell_bg"
-                    android:textColor="@color/colorDeepOlive"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_size_medium"/>
 
 
 
@@ -293,17 +387,17 @@
 
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="5dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:background="@color/colorGreen">
 
@@ -327,21 +421,22 @@
                     android:text="Due Balace"
                     android:gravity="center_vertical"
                     android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="0.5"
                     android:textColor="@color/colorTextTheme"
-                    android:textSize="16sp"/>
+                    android:textSize="@dimen/big_font_size"/>
 
                 <TextView
+                    android:id="@+id/dueBalanceTV"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:text="56,00,000"
+                    android:text=""
                     android:gravity="right|center"
                     android:layout_marginLeft="25dp"
-                    android:textStyle="bold"
+                    android:fontFamily="@font/latobold"
                     android:layout_weight="0.5"
-                    android:textColor="@color/colorOrange"
-                    android:textSize="16sp"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/default_font_size"
                     android:layout_marginRight="20dp"/>
 
 
@@ -355,7 +450,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:layout_marginLeft="10dp">
+                android:layout_marginStart="10dp">
 
                 <TextView
                     android:id="@+id/dueBalanceBtn"
@@ -363,8 +458,7 @@
                     android:layout_height="match_parent"
                     android:text="Tap for Due Balance"
                     android:gravity="center_vertical"
-                    android:textStyle="bold"
-                    android:layout_weight="1.0"
+                    android:fontFamily="@font/latobold"
                     android:layout_marginBottom="15dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
@@ -374,7 +468,8 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="@drawable/financial_cell_bg"
-                    android:textColor="@color/colorDeepOlive"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="@dimen/font_size_medium"/>
 
 
 
@@ -390,7 +485,7 @@
 
 
 
-    </android.support.v7.widget.CardView>
+    </androidx.cardview.widget.CardView>
 
 
 

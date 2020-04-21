@@ -1,18 +1,19 @@
-package com.metrocem.mismetrocem.Activity;
+package com.metrocem.mis.Activity;
 
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.metrocem.mismetrocem.EmployeeTradePromotions.ExistingTradeActivity;
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
+import com.metrocem.mis.EmployeeTradePromotions.ExistingTradeActivity;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
 
 public class EmployeeTradeProActivity extends AppCompatActivity {
 
@@ -30,7 +31,9 @@ public class EmployeeTradeProActivity extends AppCompatActivity {
         CurrentUser currentUser = DataManager.getCurrentUser(this);
 
         getSupportActionBar().setTitle("Trade Promotions"); // for set actionbar title
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorOrange)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.toolbar_gradient));
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         LinearLayout existingTrade = findViewById(R.id.existingTrade);
@@ -49,7 +52,7 @@ public class EmployeeTradeProActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //Intent intent = new Intent(getActivity(), OrderHistoryActivity.class);
+                //Intent intent = new Intent(getActivity(), ChallanInfoActivity.class);
                 //getActivity().startActivity(intent);
 
             }

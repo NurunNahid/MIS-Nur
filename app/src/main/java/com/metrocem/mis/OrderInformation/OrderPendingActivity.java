@@ -1,11 +1,11 @@
-package com.metrocem.mismetrocem.OrderInformation;
+package com.metrocem.mis.OrderInformation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,11 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.Activity.OrderDetailActivity;
-import com.metrocem.mismetrocem.Adapter.DeliveredOrderAdapter;
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
+import com.metrocem.mis.Activity.OrderDetailActivity;
+import com.metrocem.mis.Adapter.DeliveredOrderAdapter;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -82,7 +82,7 @@ public class OrderPendingActivity extends AppCompatActivity {
         if (currentUser.role.equals("Dealer") || currentUser.role.equals("dealer")){
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorGreen)));
         }else {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorOrange)));
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

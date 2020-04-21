@@ -1,4 +1,4 @@
-package com.metrocem.mismetrocem.Adapter;
+package com.metrocem.mis.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.Activity.OrderDeliveredActivity;
-import com.metrocem.mismetrocem.R;
+import com.metrocem.mis.R;
 
 public class DeliveredOrderAdapter extends BaseAdapter {
     public Context mContext;

@@ -1,4 +1,4 @@
-package com.metrocem.mis;
+package com.metrocem.mis.TradeBrandPromotion;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,8 +13,9 @@ import android.widget.LinearLayout;
 import com.metrocem.mis.Activity.BrandCommunicationActivity;
 import com.metrocem.mis.Activity.EmployeeTradeProActivity;
 import com.metrocem.mis.EmployeeTradePromotions.ExistingTradeActivity;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
 
 public class TradeFragment extends Fragment {
 
@@ -64,6 +65,16 @@ public class TradeFragment extends Fragment {
             }
         });
 
+        LinearLayout multimediaBtn = view.findViewById(R.id.multimediaBtn);
+        multimediaBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getActivity(), MultimediaActivity.class);
+                getActivity().startActivity(intent);
+
+            }
+        });
 
     }
 

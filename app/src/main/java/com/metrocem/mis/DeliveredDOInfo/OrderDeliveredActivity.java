@@ -1,5 +1,6 @@
-package com.metrocem.mis.DeliveryInfo;
+package com.metrocem.mis.DeliveredDOInfo;
 
+import android.content.Intent;
 import android.os.Build;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,9 +15,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
+import com.metrocem.mis.Activity.OrderDetailActivity;
 import com.metrocem.mis.Adapter.DOAdapter;
 import com.metrocem.mis.Container.DOOrderContainer;
-import com.metrocem.mis.Container.DeliveredOrderContainer;
 import com.metrocem.mis.Home.MainActivity;
 import com.metrocem.mis.R;
 import com.metrocem.mis.Model.CurrentUser;
@@ -24,8 +25,8 @@ import com.metrocem.mis.Model.DataManager;
 import com.metrocem.mis.Model.Order;
 import com.metrocem.mis.Model.OrderList;
 import com.metrocem.mis.Subclasses.CheckNetworkConnection;
-import com.metrocem.mis.Subclasses.Container;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,7 +35,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderDeliveredActivity extends AppCompatActivity {
+public class OrderDeliveredActivity extends AppCompatActivity implements DOAdapter.SelectedDO {
 
     String[] monthNameArray;
     //TextView btnView;
@@ -137,7 +138,7 @@ public class OrderDeliveredActivity extends AppCompatActivity {
 
 
     private void parseData(ArrayList orders) {
-        DOAdapter doAdapter = new DOAdapter(this, orders);
+        DOAdapter doAdapter = new DOAdapter(this, orders, this);
         doRecyclerView.setAdapter(doAdapter);
     }
 
@@ -254,5 +255,10 @@ public class OrderDeliveredActivity extends AppCompatActivity {
         });
     }
 
-
+    @Override
+    public void selectedDO(DOOrderContainer selectedOrder) {
+        Intent intent = new Intent(this, OrderDetailActivity.class);
+        intent.putExtra("SELECTED_DO", (Serializable) selectedOrder);
+        startActivity(intent);
+    }
 }

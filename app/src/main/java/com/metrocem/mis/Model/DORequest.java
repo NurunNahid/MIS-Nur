@@ -1,4 +1,4 @@
-package com.metrocem.mis.Subclasses;
+package com.metrocem.mis.Model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

@@ -1,6 +1,164 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colorBackground">
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/challan_card_view"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="2dp"
+        card_view:cardBackgroundColor="@color/colorBackground"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="3dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite">
+
+            <Spinner
+                android:id="@+id/dealerSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:spinnerMode="dropdown"
+                android:clickable="true"
+                />
+
+
+            <!--<TextView-->
+            <!--android:id="@+id/btnView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:text="Select Dealer"-->
+            <!--android:fontFamily="@font/latobold"-->
+            <!--android:textSize="@dimen/default_font_size"-->
+            <!--android:textColor="@color/colorTextTheme"-->
+            <!--android:gravity="center"-->
+            <!--android:background="@color/colorWhite"-->
+            <!--/>-->
+            <!--<ImageView-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="28dp"-->
+            <!--android:src="@drawable/arrow_down"-->
+            <!--android:layout_alignParentEnd="true"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:paddingTop="12dp"/>-->
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="2dp"
+        android:layout_height="wrap_content"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="5dp">
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:ems="10"
+            android:hint="Search by DO Numer or Status"
+            android:drawableRight="@drawable/search_cell"
+            android:drawablePadding="0dp"
+            android:paddingRight="5dp"
+            android:gravity="center"
+            android:background="@null"
+            android:textSize="16sp"
+            android:fontFamily="@font/latoregular"
+            android:layout_marginBottom="0dp"
+            android:singleLine="true">
+        </EditText>
+    </androidx.cardview.widget.CardView>
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!--<ListView-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:id="@+id/orderListView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:divider="@null" />-->
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/swipeRefresh">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/challanListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+        <TextView
+            android:id="@+id/noItemStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No data to display..."
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorLightBlack"
+            android:fontFamily="@font/latobold"
+            android:textSize="@dimen/default_font_size"
+            android:visibility="invisible"
+            />
+        <TextView
+            android:id="@+id/networkStatus"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="No Internet Connection..."
+            android:textColor="@color/colorWhite"
+            android:fontFamily="@font/latobold"
+            android:textSize="@dimen/default_font_size"
+            android:gravity="center"
+            android:background="#FF0000"
+            android:visibility="invisible"
+            />
+
+
+    </RelativeLayout>
+
+    <!--<android.support.v7.widget.CardView-->
+    <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/card_view2"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--card_view:cardCornerRadius="4dp"-->
+    <!--card_view:cardElevation="5dp"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:layout_marginTop="10dp"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_marginBottom="10dp">-->
+
+
+
+
+
+    <!--</android.support.v7.widget.CardView>-->
+
 
 </LinearLayout>

@@ -1,30 +1,29 @@
-package com.metrocem.mis.SignIn;
+package com.metrocem.mis.Retrofit;
 
 import com.metrocem.mis.Firebase.FirebaseTokenResponse;
-import com.metrocem.mis.Subclasses.ChallanList;
-import com.metrocem.mis.Subclasses.ChallanReceiveInfo;
-import com.metrocem.mis.Subclasses.Collection;
-import com.metrocem.mis.Subclasses.DORequestResponse;
-import com.metrocem.mis.Subclasses.DealerAddressData;
-import com.metrocem.mis.Subclasses.DealerList;
-import com.metrocem.mis.Subclasses.DeliveryModeList;
-import com.metrocem.mis.Subclasses.DeviceRegistration;
-import com.metrocem.mis.Subclasses.Due;
-import com.metrocem.mis.Subclasses.OrderList;
-import com.metrocem.mis.Subclasses.ProductList;
-import com.metrocem.mis.Subclasses.PromotionList;
-import com.metrocem.mis.Subclasses.RetailerList;
-import com.metrocem.mis.Subclasses.SecurityList;
+import com.metrocem.mis.SignInAndRegistration.LoginResponse;
+import com.metrocem.mis.Model.ChallanList;
+import com.metrocem.mis.Model.ChallanReceiveInfo;
+import com.metrocem.mis.Model.Collection;
+import com.metrocem.mis.Model.DORequestResponse;
+import com.metrocem.mis.Model.DealerAddressData;
+import com.metrocem.mis.Model.DealerList;
+import com.metrocem.mis.Model.DeliveryModeList;
+import com.metrocem.mis.Model.DeviceRegistration;
+import com.metrocem.mis.Model.Due;
+import com.metrocem.mis.Model.OrderList;
+import com.metrocem.mis.Model.ProductList;
+import com.metrocem.mis.Model.PromotionList;
+import com.metrocem.mis.Model.RetailerList;
+import com.metrocem.mis.Model.SecurityList;
 
 import java.util.ArrayList;
-import java.util.Map;
 
 import com.metrocem.mis.EmployeeDO.DealerCreditList;
 import com.metrocem.mis.TradeBrandPromotion.MultimediaList;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -159,4 +158,13 @@ public interface ApiClient {
     Call<FirebaseTokenResponse> updateFirebaseToken(
             @Field("token") String token
     );
+
+    @GET("delivery-order/list-by-dealer/{id}/{type}/{start_date}/{end_date}")
+    Call<OrderList> getALLOrderList(
+            @Path("id") Integer dealerId,
+            @Path("type") String type,
+            @Path("start_date") String start_date,
+            @Path("end_date") String end_date
+
+            );
 }

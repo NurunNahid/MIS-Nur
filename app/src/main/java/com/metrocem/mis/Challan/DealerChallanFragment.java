@@ -1,8 +1,5 @@
-package com.metrocem.mis.Fragment;
+package com.metrocem.mis.Challan;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,10 +23,11 @@ import com.metrocem.mis.Adapter.ChallanAdapter;
 import com.metrocem.mis.Container.ChallanContainer;
 import com.metrocem.mis.Home.MainActivity;
 import com.metrocem.mis.R;
-import com.metrocem.mis.Subclasses.ChallanInfo;
-import com.metrocem.mis.Subclasses.ChallanList;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
+import com.metrocem.mis.Model.ChallanInfo;
+import com.metrocem.mis.Model.ChallanList;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -46,10 +44,10 @@ public class DealerChallanFragment extends Fragment {
     private KProgressHUD hud;
     private TextView connectionStatus, noItem;
     private RecyclerView challanRecyclerView;
-    private ArrayList challanArray, filteredChallanArray;
+    private ArrayList<ChallanContainer> challanArray, filteredChallanArray;
     //private EditText searchEditText;
     private SwipeRefreshLayout mSwipeRefreshLayout;
-
+    private CurrentUser currentUser;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -68,6 +66,7 @@ public class DealerChallanFragment extends Fragment {
                 .setLabel("Please wait")
                 .setMaxProgress(30);
 
+        currentUser = DataManager.getCurrentUser(getContext());
         connectionStatus = view.findViewById(R.id.networkStatus);
         noItem = view.findViewById(R.id.noItemStatus);
         CardView cardView = view.findViewById(R.id.challan_card_view);
@@ -78,10 +77,10 @@ public class DealerChallanFragment extends Fragment {
         challanRecyclerView.setHasFixedSize(true);
         challanRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        challanArray = new ArrayList<>();
-        filteredChallanArray = new ArrayList<>();
+        challanArray = new ArrayList<ChallanContainer>();
+        filteredChallanArray = new ArrayList<ChallanContainer>();
 
-        ArrayList challanArray = DataManager.getChallanList(getContext());
+        challanArray = DataManager.getChallanList(getContext());
         if (challanArray != null){
 
             parseData(challanArray);
@@ -94,6 +93,7 @@ public class DealerChallanFragment extends Fragment {
 
         }
 
+        getChallanData();
 
 
         EditText searchEditText = view.findViewById(R.id.searchEditText);
@@ -129,12 +129,25 @@ public class DealerChallanFragment extends Fragment {
 
     private void getChallanData(){
 
-        CurrentUser currentUser = DataManager.getCurrentUser(getContext());
 
-        if (isNetworkAvailable()){
+        if (CheckNetworkConnection.isNetworkAvailable(getContext())){
             getChallanListByDealer(currentUser.userId);
+            connectionStatus.setVisibility(View.GONE);
 
         }else {
+            challanArray.clear();
+            challanArray = DataManager.getChallanList(getContext());
+            if (challanArray != null){
+
+                noItem.setVisibility(View.GONE);
+                challanRecyclerView.setVisibility(View.VISIBLE);
+                parseData(challanArray);
+                //getOrderData();
+
+            }else{
+                noItem.setVisibility(View.VISIBLE);
+                challanRecyclerView.setVisibility(View.GONE);
+            }
             connectionStatus.setVisibility(View.VISIBLE);
             if (mSwipeRefreshLayout.isRefreshing()) {
                 mSwipeRefreshLayout.setRefreshing(false);
@@ -142,12 +155,6 @@ public class DealerChallanFragment extends Fragment {
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
     private void parseData(List<ChallanContainer> challans) {
         ChallanAdapter challanAdapter = new ChallanAdapter(getContext(), challans);
@@ -159,11 +166,19 @@ public class DealerChallanFragment extends Fragment {
     private void getChallanListByDealer(Integer dealer_id){
 
         DataManager.removeChallanList(getContext());
+        challanArray.clear();
 
         if(!mSwipeRefreshLayout.isRefreshing()) {
             hud.show();
         }
-        Call<ChallanList> call = MainActivity.apiClient.getChallanListByDealer(dealer_id);
+        Call<ChallanList> call;
+        if(currentUser.role.toLowerCase().equals("dealer")){
+            call = MainActivity.apiClient.getChallanListByDealer(dealer_id);
+
+        }else {
+            call = MainActivity.apiClient.getChallanListByEmployee(currentUser.userId);
+
+        }
 
         call.enqueue(new Callback<ChallanList>() {
             @Override
@@ -177,7 +192,7 @@ public class DealerChallanFragment extends Fragment {
                     List<ChallanInfo> challanInfos = challanList.getData();
                     Log.d("response count", String.valueOf(challanInfos.size()));
 
-                    ArrayList challanArrayList = new ArrayList();
+                    //ArrayList<ChallanContainer> challanArrayList = new ArrayList<ChallanContainer>();
 
                     for (ChallanInfo challan: challanInfos){
 
@@ -200,15 +215,15 @@ public class DealerChallanFragment extends Fragment {
                         challanContainer.dealerPhone = challan.getDeliveryAddress().getContactNumber();
                         challanContainer.vehicleNumber = challan.getVehicleNumber();
 
-                        challanArrayList.add(challanContainer);
-                        DataManager.setChallanList(challanArrayList, getContext());
+                        challanArray.add(challanContainer);
+                        DataManager.setChallanList(challanArray, getContext());
 
                     }
 
-                    challanArray = DataManager.getChallanList(getContext());
+                    //challanArray = DataManager.getChallanList(getContext());
 
                     //DOOrderContainer doOrder = new DOOrderContainer();
-                    if (challanArray != null){
+                    if (challanArray.size() != 0){
                         Collections.reverse(challanArray);
                         parseData(challanArray);
                         noItem.setVisibility(View.INVISIBLE);
@@ -221,15 +236,7 @@ public class DealerChallanFragment extends Fragment {
                         mSwipeRefreshLayout.setRefreshing(false);
                     }
 
-                    //challanAdapter = new ChallanAdapter(getContext(), challanArray);
-                    //doRecyclerView.setAdapter(challanAdapter);
-                    //parseData(challanArray);
-                    //challanAdapter.notifyDataSetChanged();
-
-                    //String name = modeList.get(0).getDealerName();
-                    //Log.d("response", name);
                     hud.dismiss();
-
 
                 }else {
 
@@ -253,14 +260,13 @@ public class DealerChallanFragment extends Fragment {
         });
     }
 
-    public void filterItem(Editable charText){
+    private void filterItem(Editable charText){
 
         String searchedText = charText.toString().toLowerCase(Locale.getDefault());
         filteredChallanArray.clear();
 
         if (searchedText.length() == 0){
             filteredChallanArray.addAll(challanArray);
-            parseData(filteredChallanArray);
 
         }
         else {
@@ -271,7 +277,7 @@ public class DealerChallanFragment extends Fragment {
 
                     ChallanContainer challanOrder = (ChallanContainer) challanArray.get(i);
 
-                    if (challanOrder.doNumber.toLowerCase(Locale.getDefault()).contains(searchedText) || challanOrder.status.toLowerCase(Locale.getDefault()).contains(searchedText)){
+                    if (challanOrder.doNumber.toLowerCase(Locale.getDefault()).contains(searchedText) || challanOrder.status.toLowerCase(Locale.getDefault()).contains(searchedText) || challanOrder.dealerName.toLowerCase(Locale.getDefault()).contains(searchedText)){
 
                         filteredChallanArray.add(challanArray.get(i));
 
@@ -279,10 +285,22 @@ public class DealerChallanFragment extends Fragment {
 
                 }
 
-                parseData(filteredChallanArray);
+                //parseData(filteredChallanArray);
             }
 
         }
+
+        if (filteredChallanArray.size() != 0){
+            noItem.setVisibility(View.GONE);
+            challanRecyclerView.setVisibility(View.VISIBLE);
+            parseData(filteredChallanArray);
+            //doRecyclerView.setAdapter(new DOAdapter(getContext(),doArray));
+
+        }else{
+            challanRecyclerView.setVisibility(View.GONE);
+            noItem.setVisibility(View.VISIBLE);
+        }
+
 
 
     }

@@ -1,21 +1,15 @@
-package com.metrocem.mismetrocem.Activity;
+package com.metrocem.mis.Activity;
 
-import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Container.DOOrderContainer;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
-
-import java.util.ArrayList;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Container.DOOrderContainer;
+import com.metrocem.mis.Model.DataManager;
 
 public class OrderDetailActivity extends AppCompatActivity {
 

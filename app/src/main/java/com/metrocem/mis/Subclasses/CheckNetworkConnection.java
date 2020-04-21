@@ -1,4 +1,4 @@
-package com.metrocem.mis.Utilities;
+package com.metrocem.mis.Subclasses;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

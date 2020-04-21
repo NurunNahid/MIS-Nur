@@ -1,14 +1,13 @@
-package com.metrocem.mis.Fragment;
+package com.metrocem.mis.Home;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,18 +15,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.metrocem.mis.Home.MainActivity;
+import com.metrocem.mis.Container.DOOrderContainer;
 import com.metrocem.mis.R;
-import com.metrocem.mis.Subclasses.Collection;
-import com.metrocem.mis.Subclasses.CollectionAmount;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
-import com.metrocem.mis.Subclasses.Due;
-import com.metrocem.mis.Subclasses.DueAmount;
-import com.metrocem.mis.Subclasses.Order;
-import com.metrocem.mis.Subclasses.OrderList;
+import com.metrocem.mis.Model.Collection;
+import com.metrocem.mis.Model.CollectionAmount;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.Due;
+import com.metrocem.mis.Model.DueAmount;
+import com.metrocem.mis.Model.Order;
+import com.metrocem.mis.Model.OrderList;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -43,7 +44,18 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
         return inflater.inflate(R.layout.fragment_home, null);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        //inflater.inflate(R.menu.main, menu);
+        //menu.clear();
+        //super.onCreateOptionsMenu(menu, inflater);
+        if (menu != null) {
+            menu.findItem(R.id.action_sync).setVisible(true);
+        }
     }
 
     @Override
@@ -54,7 +66,7 @@ public class HomeFragment extends Fragment {
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
-        hud = KProgressHUD.create(getActivity())
+        hud = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
                 .setLabel("Please wait")
                 .setMaxProgress(30);
@@ -89,11 +101,11 @@ public class HomeFragment extends Fragment {
         }
 
         if (loggedInUser.collectionAmount == null){
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                 getCollectionAmount();
 
             }else {
-                Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
             }
         }else {
             String amount = "৳"+loggedInUser.collectionAmount;
@@ -101,11 +113,11 @@ public class HomeFragment extends Fragment {
         }
 
         if (loggedInUser.dueAmount == null){
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                 getDueAmount();
 
             }else {
-                Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
             }
         }else {
             String due_amount = "৳"+loggedInUser.dueAmount;
@@ -113,22 +125,18 @@ public class HomeFragment extends Fragment {
         }
 
 
-        if (isNetworkAvailable()){
+        if (CheckNetworkConnection.isNetworkAvailable(getContext())){
             getOrderRequest();
 
         }else {
-            Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+
+            getOrderCount();
+            //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
         }
 
     }
 
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
     // Order Count
     private void getOrderRequest(){
@@ -169,9 +177,7 @@ public class HomeFragment extends Fragment {
                         }
                     }
 
-                    orderRequested.setText(String.valueOf(requestedCount));
-                    orderDelivered.setText(String.valueOf(deliveredCount));
-                    orderPartialDelivered.setText(String.valueOf(partialDeliveredCount));
+                    setOrderText();
 
                     hud.dismiss();
 
@@ -204,7 +210,7 @@ public class HomeFragment extends Fragment {
 
         hud.show();
 
-        final CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
+        final CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
         Call<Collection> call = MainActivity.apiClient.getCollectionAmount(loggedInUser.userId, null, null);
 
@@ -258,7 +264,7 @@ public class HomeFragment extends Fragment {
 //                .setMaxProgress(30)
 //                .show();
 
-        final CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
+        final CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
         Call<Due> call = MainActivity.apiClient.getDueAmount(loggedInUser.userId);
 
@@ -310,5 +316,36 @@ public class HomeFragment extends Fragment {
                 Log.d("Exception call", t.getLocalizedMessage());
             }
         });
+    }
+
+    private void getOrderCount(){
+        ArrayList allDOArray = DataManager.getDOOrderList(getContext());
+
+        if (allDOArray != null){
+
+            for (int i=0; i<allDOArray.size();i++){
+                DOOrderContainer order = (DOOrderContainer) allDOArray.get(i);
+                if (order.status.toLowerCase().equals("requested")) {
+                    requestedCount +=1;
+
+                }
+                if (order.status.toLowerCase().equals("delivered")) {
+                    deliveredCount +=1;
+
+                }
+                if (order.status.toLowerCase().equals("partial_delivered")) {
+                    partialDeliveredCount +=1;
+
+                }
+            }
+        }
+
+        setOrderText();
+    }
+
+    private void setOrderText(){
+        orderRequested.setText(String.valueOf(requestedCount));
+        orderDelivered.setText(String.valueOf(deliveredCount));
+        orderPartialDelivered.setText(String.valueOf(partialDeliveredCount));
     }
 }

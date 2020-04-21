@@ -1,33 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/colorBackground">
 
+    <!--<androidx.cardview.widget.CardView-->
+        <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+        <!--android:layout_gravity="center"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:layout_marginBottom="2dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--card_view:cardCornerRadius="4dp"-->
+        <!--card_view:cardElevation="5dp">-->
+        <!--<EditText-->
+            <!--android:id="@+id/searchEditText"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:ems="10"-->
+            <!--android:hint="Search by DO Number or Product Name"-->
+            <!--android:drawableRight="@drawable/search_cell"-->
+            <!--android:drawablePadding="0dp"-->
+            <!--android:paddingRight="5dp"-->
+            <!--android:gravity="center"-->
+            <!--android:background="@null"-->
+            <!--android:textSize="16sp"-->
+            <!--android:fontFamily="@font/latoregular"-->
+            <!--android:layout_marginBottom="0dp"-->
+            <!--android:singleLine="true">-->
+        <!--</EditText>-->
+    <!--</androidx.cardview.widget.CardView>-->
 
-    <RelativeLayout
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabBtn"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        app:tabTextColor="#fefefe"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabIndicatorHeight="3dp">
 
-        <ListView
-            android:layout_marginTop="10dp"
-            android:id="@+id/orderListView"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:divider="@null" />
+            android:text="@string/requested"
+            />
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/approved"/>
 
-        <!--<TextView-->
-        <!--android:id="@+id/noItemDisplay"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="No data to display..."-->
-        <!--android:layout_centerInParent="true"-->
-        <!--/>-->
+    </com.google.android.material.tabs.TabLayout>
 
 
-    </RelativeLayout>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/swipeRefresh">
+
+        <!--<ListView-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:id="@+id/orderListView"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:divider="@null" />-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/orderListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingTop="10dp"/>
+
+            <ImageView
+                android:id="@+id/noItemStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                android:background="@drawable/no_data"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="20dp"/>
+            <TextView
+                android:id="@+id/networkStatus"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:text="@string/no_internet"
+                android:textColor="@color/colorWhite"
+                android:fontFamily="@font/latobold"
+                android:textSize="@dimen/default_font_size"
+                android:gravity="center"
+                android:background="#FF0000"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!--<android.support.v7.widget.CardView-->
         <!--xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
@@ -49,4 +125,4 @@
     <!--</android.support.v7.widget.CardView>-->
 
 
-</RelativeLayout>
+</LinearLayout>

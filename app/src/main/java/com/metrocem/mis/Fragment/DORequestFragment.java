@@ -1,14 +1,15 @@
-package com.metrocem.mismetrocem.Fragment;
+package com.metrocem.mis.Fragment;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -18,26 +19,26 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.SignIn.ApiClient;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DORequest;
-import com.metrocem.mismetrocem.Subclasses.DORequestResponse;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
-import com.metrocem.mismetrocem.Subclasses.DealerAddress;
-import com.metrocem.mismetrocem.Subclasses.DealerAddressData;
-import com.metrocem.mismetrocem.Subclasses.DeliveryMode;
-import com.metrocem.mismetrocem.Container.DeliveryModeContainer;
-import com.metrocem.mismetrocem.Subclasses.DeliveryModeList;
-import com.metrocem.mismetrocem.Container.ProductContainer;
-import com.metrocem.mismetrocem.Subclasses.ProductList;
-import com.metrocem.mismetrocem.Subclasses.ProductType;
-import com.metrocem.mismetrocem.Subclasses.Retailer;
-import com.metrocem.mismetrocem.Container.RetailerContainer;
-import com.metrocem.mismetrocem.Subclasses.RetailerList;
+import com.metrocem.mis.Home.MainActivity;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DORequest;
+import com.metrocem.mis.Model.DORequestResponse;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.DealerAddress;
+import com.metrocem.mis.Model.DealerAddressData;
+import com.metrocem.mis.Model.DeliveryMode;
+import com.metrocem.mis.Container.DeliveryModeContainer;
+import com.metrocem.mis.Model.DeliveryModeList;
+import com.metrocem.mis.Container.ProductContainer;
+import com.metrocem.mis.Model.ProductList;
+import com.metrocem.mis.Model.ProductType;
+import com.metrocem.mis.Model.Retailer;
+import com.metrocem.mis.Container.RetailerContainer;
+import com.metrocem.mis.Model.RetailerList;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,39 +46,42 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.metrocem.mismetrocem.EmployeeDO.DealerCreditInfo;
-import com.metrocem.mismetrocem.EmployeeDO.DealerCreditList;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import com.metrocem.mis.EmployeeDO.DealerCreditInfo;
+import com.metrocem.mis.EmployeeDO.DealerCreditList;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
+import com.metrocem.mis.Utilities.APIDataManager;
+import com.metrocem.mis.Utilities.Dialog;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
-public class DORequestFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class DORequestFragment extends Fragment implements View.OnClickListener {
 
-    Spinner dealerDropdown, retailerDropdown, typeDropdown, modeDropdown, locationDropdown;
+    private Spinner dealerDropdown, retailerDropdown, typeDropdown, modeDropdown, locationDropdown;
     String[] items;
-    EditText creditLimitET, billEditText, dueAmountET,blockAmountET, nameET, addressET, contactNoET, capacityEditText, noteEditText, doNumberEditText, priceEditText;
-    ArrayAdapter<String> typeAdapter, modeAdapter, retailerAdapter;
+    private EditText creditLimitET, billEditText, dueAmountET,blockAmountET, nameET, addressET, contactNoET, capacityEditText, noteEditText, doNumberEditText, priceEditText;
+    private ArrayAdapter<String> typeAdapter, modeAdapter, retailerAdapter;
     //ArrayList productTypes;
-    ArrayList<String> deliveryType, productType, retailerList;
+    private ArrayList<String> deliveryType, productType, retailerList;
     //List<DeliveryModeContainer> modelist;
     //SwipeRefreshLayout swipeRefresh;
-    TextView createDOBtn;
-    public Integer productId, retailerId;
-    String retailer_name, retailer_contact_no, retailer_address, dealer_name, dealer_no, dealer_address;
-    Integer selectedRetailerIndex, selectedProductIndex, selectedModeIndex, selectedlocationIndex;
-    ArrayList productArray, retailerArray;
-    KProgressHUD hud;
+    private TextView createDOBtn, connectionStatus;
+    private Integer productId, retailerId;
+    private String retailer_name, retailer_contact_no, retailer_address, dealer_name, dealer_no, dealer_address, productName;
+    private Integer selectedRetailerIndex, selectedProductIndex, selectedModeIndex, selectedlocationIndex;
+    private ArrayList productArray;
+    private ArrayList retailerArray;
+    private KProgressHUD hud;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_request, null);
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -85,48 +89,30 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
         getActivity().setTitle(R.string.do_request);
 
-        productType = new ArrayList<>();
-        retailerList = new ArrayList<>();
-        deliveryType = new ArrayList<>();
+        //MainActivity activity = (MainActivity) getContext();
+
+        initView(view);
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
-        creditLimitET = view.findViewById(R.id.creditEditText);
-        dueAmountET = view.findViewById(R.id.dueEditText);
-        blockAmountET = view.findViewById(R.id.blockAmountEditText);
-        blockAmountET.setText("0");
-        //bagQtyET = view.findViewById(R.id.bagQtyEditText);
-        nameET = view.findViewById(R.id.nameEditText);
-        addressET = view.findViewById(R.id.addressEditText);
-        contactNoET = view.findViewById(R.id.contactNoEditText);
-        capacityEditText = view.findViewById(R.id.capacityEditText);
-        noteEditText = view.findViewById(R.id.noteEditText);
-        //doNumberEditText = view.findViewById(R.id.doNumberEditText);
-        //priceEditText = view.findViewById(R.id.priceEditText);
 
-        hud = KProgressHUD.create(getContext())
-                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-                .setLabel("Please wait")
-                .setMaxProgress(30);
-
-        dealerDropdown = view.findViewById(R.id.spinner1);
-        if (loggedInUser.role.equals("Dealer") || loggedInUser.role.equals("dealer")){
+        if (loggedInUser.role.toLowerCase().equals("dealer")){
             items = new String[]{loggedInUser.userName};
-//            String creditLimit = loggedInUser.creditLimit.toString();
-//            creditLimitET.setText(creditLimit);
-//            if (loggedInUser.dueAmount != null){
-//                dueAmountET.setText(loggedInUser.dueAmount.toString());
-//            }else{
-//                dueAmountET.setText("0");
-//            }
 
         }else {
             items = new String[]{"Dealer Name"};
         }
 
-        getDealerInfo();
-        getDealerAddress();
+        if(CheckNetworkConnection.isNetworkAvailable(getContext())){
+            getDealerInfo();
+            getDealerAddress();
+        }else{
+            connectionStatus.setVisibility(View.VISIBLE);
+            //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
+        }
 
-        DataManager.removeRetailerList(getContext());
+
+
+        /*DataManager.removeRetailerList(getContext());
         //DataManager.removeProductItems(getContext());
         //DataManager.removeDeliveryMode(getContext());
         retailerArray = DataManager.getRetailerList(getContext());
@@ -142,78 +128,184 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
         }else {
 
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                 getRetailerList();
 
             }else {
-                Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
 
-        productArray = DataManager.getProductItems(getContext());
+        /*productArray = DataManager.getProductItems(getContext());
         //Log.d("product", String.valueOf(productList.size()));
         productType.clear();
         productType.add("--Select your Product--");
-        if (productArray != null){
+        if (productArray != null) {
 
-            for (int i = 0; i<productArray.size(); i++){
+            //getProductList();
+
+            for (int i = 0; i < productArray.size(); i++) {
                 ProductContainer product = (ProductContainer) productArray.get(i);
                 productType.add(product.product_name);
             }
+        }
+        else {
 
-        }else {
-
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
 
                 getProductList();
 
             }else {
-                Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
             }
+        }*/
+
+        if (!CheckNetworkConnection.isNetworkAvailable(getContext())){
+            retailerList = APIDataManager.getRetailerFromLocal(getContext());
+            productType = APIDataManager.getProductFromLocal(getContext());
+            deliveryType = APIDataManager.getDeliveryModeFromLocal(getContext());
+            productArray = DataManager.getProductItems(getContext());
+            retailerArray = DataManager.getRetailerList(getContext());
+        }else {
+            getRetailerList();
+            getProductList();
+            getDeliveryModeList();
         }
 
-        final ArrayList deliveryModeType = DataManager.getDeliveryModeItems(getContext());
+        /*final ArrayList deliveryModeType = DataManager.getDeliveryModeItems(getContext());
         deliveryType.clear();
         deliveryType.add("--Select Delivery Mode--");
         if (deliveryModeType != null){
+            //getDeliveryModeList();
 
             for (int i = 0; i<deliveryModeType.size(); i++){
                 DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
                 deliveryType.add(item.deliveryType);
             }
 
-        }else {
-            if (isNetworkAvailable()){
-                getDeliveryModeList();
-
-            }else {
-                Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
-            }
         }
+//        else {
+//            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
+//                getDeliveryModeList();
+//
+//            }else {
+//                Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+//            }
+//        }*/
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items);
+
+
+        //final String[] retailerItems = new String[]{"Retailer Name"};
+
+
+        //DOThread doThread = new DOThread();
+        //doThread.start();
+
+        initDealerDropdown();
+        initRetailerDropdown();
+        initProductDropdown();
+        initDeliveryMode();
+        initLocationDropdown();
+
+        setSwipeRefresh();
+
+
+
+//        ((MainActivity)getActivity()).setFragmentRefreshListener(new MainActivity.FragmentRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                // your method
+//                Log.d("response fragment","call");
+//
+//            }
+//        });
+
+
+
+
+    }
+
+
+
+    private void initView(View view){
+
+        productArray = new ArrayList();
+        retailerArray = new ArrayList();
+        productType = new ArrayList<>();
+        retailerList = new ArrayList<>();
+        deliveryType = new ArrayList<>();
+        mSwipeRefreshLayout = view.findViewById(R.id.swipeRefresh);
+        connectionStatus = view.findViewById(R.id.networkStatus);
+
+        creditLimitET = view.findViewById(R.id.creditEditText);
+        dueAmountET = view.findViewById(R.id.dueEditText);
+        blockAmountET = view.findViewById(R.id.blockAmountEditText);
+        creditLimitET.setText("0");
+        dueAmountET.setText("0");
+        blockAmountET.setText("0");
+
+        //bagQtyET = view.findViewById(R.id.bagQtyEditText);
+        nameET = view.findViewById(R.id.nameEditText);
+        addressET = view.findViewById(R.id.addressEditText);
+        contactNoET = view.findViewById(R.id.contactNoEditText);
+        capacityEditText = view.findViewById(R.id.capacityEditText);
+        noteEditText = view.findViewById(R.id.noteEditText);
+        //doNumberEditText = view.findViewById(R.id.doNumberEditText);
+        //priceEditText = view.findViewById(R.id.priceEditText);
+
+        hud = KProgressHUD.create(getContext())
+                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
+                .setLabel("Please wait")
+                .setMaxProgress(30);
+
+        billEditText = view.findViewById(R.id.billEditText);
+        dealerDropdown = view.findViewById(R.id.spinner1);
+        retailerDropdown = view.findViewById(R.id.retailerSpinner);
+        locationDropdown = view.findViewById(R.id.locationSpinner);
+        modeDropdown = view.findViewById(R.id.deliverySpinner);
+        typeDropdown = view.findViewById(R.id.productSpinner);
+
+        createDOBtn = view.findViewById(R.id.createDOBtn);
+        createDOBtn.setOnClickListener(this);
+
+
+    }
+
+    class DOThread extends Thread{
+        @Override
+        public void run() {
+            initRetailerDropdown();
+            initProductDropdown();
+            initDeliveryMode();
+            initLocationDropdown();
+        }
+    }
+
+    private void initDealerDropdown() {
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, items);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         dealerDropdown.setAdapter(adapter);
+    }
 
-        retailerDropdown = view.findViewById(R.id.retailerSpinner);
-        //final String[] retailerItems = new String[]{"Retailer Name"};
-        retailerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, retailerList);
+    private void initRetailerDropdown(){
+        retailerAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, retailerList);
         retailerDropdown.setAdapter(retailerAdapter);
         retailerDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                selectedRetailerIndex = position;
+                //selectedRetailerIndex = position;
                 locationDropdown.setSelection(0);
 
-                if (position>0){
-                    RetailerContainer retailer = (RetailerContainer) retailerArray.get(position-1);
-                    Log.d("value", String.valueOf(retailer.address));
-                    retailerId = retailer.retailer_id;
-                    retailer_name = retailer.retailer_name;
-                    retailer_contact_no = retailer.phone;
-                    retailer_address = retailer.address;
-                }
+//                if (position>0){
+//                    RetailerContainer retailer = (RetailerContainer) retailerArray.get(position-1);
+//                    Log.d("value", String.valueOf(retailer.address));
+//                    retailerId = retailer.retailer_id;
+//                    retailer_name = retailer.retailer_name;
+//                    retailer_contact_no = retailer.phone;
+//                    retailer_address = retailer.address;
+//                }
 
             }
 
@@ -222,24 +314,20 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
                 // your code here
             }
         });
+    }
 
-
-        typeDropdown = view.findViewById(R.id.productSpinner);
-        //final String[] typeItems = new String[]{"Product Type"};
-        typeAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, productType);
-        //typeAdapter = new ArrayAdapter<>(getContext(),  android.R.layout.simple_spinner_dropdown_item, productTypes);
+    private void initProductDropdown(){
+        typeAdapter = new ArrayAdapter<String>(getContext(), R.layout.spinner_item, productType);
         typeDropdown.setAdapter(typeAdapter);
-        typeDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*typeDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
-                Log.d("response", String.valueOf(productType.size()));
                 selectedProductIndex = position;
                 if (position>0){
-                    Log.d("response new", String.valueOf(productArray));
                     ProductContainer product = (ProductContainer) productArray.get(position-1);
-                    Log.d("response", String.valueOf(product.product_id));
                     productId = product.product_id;
+                    productName = product.product_name;
                 }
 
             }
@@ -248,15 +336,13 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-        });
+        });*/
+    }
 
-
-        modeDropdown = view.findViewById(R.id.deliverySpinner);
-        //final String[] modeItems = new String[]{"Delivery Mode", "MCL", "FOB"};
-        modeAdapter = new ArrayAdapter<String>(getContext(),  android.R.layout.simple_spinner_dropdown_item, deliveryType);
-        //typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+    private void initDeliveryMode(){
+        modeAdapter = new ArrayAdapter<String>(getContext(),  R.layout.spinner_item, deliveryType);
         modeDropdown.setAdapter(modeAdapter);
-        modeDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*modeDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
 
@@ -267,25 +353,25 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
             public void onNothingSelected(AdapterView<?> parentView) {
                 // your code here
             }
-        });
+        });*/
+    }
 
-
-
-        locationDropdown = view.findViewById(R.id.locationSpinner);
+    private void initLocationDropdown(){
         final String[] locationItems = new String[]{"--Select Location--","Shop","Site"};
-        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, locationItems);
+        ArrayAdapter<String> locationAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, locationItems);
         locationDropdown.setAdapter(locationAdapter);
         locationDropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
-                selectedlocationIndex = position;
+                //selectedlocationIndex = position;
 
                 if (locationItems[position].equals("Shop")){
-                    //RetailerContainer retailer = (RetailerContainer) retailerArray.get(retailerId);
-                    if (selectedRetailerIndex != 0){
-                        nameET.setText(retailer_name);
-                        addressET.setText(retailer_address);
-                        contactNoET.setText(retailer_contact_no);
+                    if (retailerDropdown.getSelectedItemPosition() != 0){
+                        RetailerContainer retailer = (RetailerContainer) retailerArray.get(position-1);
+
+                        nameET.setText(retailer.retailer_name);
+                        addressET.setText(retailer.address);
+                        contactNoET.setText(retailer.phone);
                     }else{
                         nameET.setText(dealer_name);
                         addressET.setText(dealer_address);
@@ -305,108 +391,58 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
                 // your code here
             }
         });
+    }
 
-
-        //Data user = new Data();
-
-        //Log.d("response", user.getEmail());
-        //sendDORequest();
-        //getRetailerList();
-        //getDeliveryModeList();
-        //getProductList();
-
-//        swipeRefresh = view.findViewById(R.id.swipeRefresh);
-//        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                Log.d("response refresh","call");
-//                getProductList();
-//                swipeRefresh.setRefreshing(false);
-//
-//            }
-//        });
-
-
-
-        billEditText = view.findViewById(R.id.billEditText);
-
-//        billEditText.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                //SaleItemActivity.this.saleAdapter.filterItem(s);
-//                //saleItemListView.invalidateViews();
-//
-//                if (s.length() > 0){
-//                    String searchedText = s.toString();
-//                    String result = String.valueOf(Integer.parseInt(searchedText)*1.04);
-//                    Integer actualBag = math(Float.parseFloat(result));
-//                    Log.d("response", String.valueOf(result)+" "+actualBag);
-//
-//                    //bagQtyET.setText(actualBag.toString());
-//
-//
-//                }else{
-//                    //bagQtyET.setText("0");
-//                }
-//
-//            }
-//        });
-
-        createDOBtn = view.findViewById(R.id.createDOBtn);
-        createDOBtn.setOnClickListener(new View.OnClickListener() {
+    private void setSwipeRefresh(){
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onClick(View v) {
-                if (isNetworkAvailable()){
-                    checkParameter();
+            public void onRefresh() {
+                // Your code to make your refresh action
+                // CallYourRefreshingMethod();
+                if (CheckNetworkConnection.isNetworkAvailable(getContext())){
+                    getDealerInfo();
+                    getDealerAddress();
+                    getProductList();
+                    getRetailerList();
+                    getDeliveryModeList();
                 }else {
-                    Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                    connectionStatus.setVisibility(View.VISIBLE);
+                    if(mSwipeRefreshLayout.isRefreshing()) {
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
                 }
+
+
             }
         });
-
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
-        switch (parent.getId()){
-            case R.id.productSpinner:
-                //Do another thing
-                Log.d("call","call");
-                Toast.makeText(getContext(), "Option Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.deliverySpinner:
-                //Do something
-                Log.d("call","call");
-                Toast.makeText(getContext(), "Alarm Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.locationSpinner:
-                //Do another thing
-                Log.d("call","call");
-                Toast.makeText(getContext(), "Option Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    public void checkParameter(){
-//        if (selectedRetailerIndex == 0){
-//            DataManager.alertShow("Error!","Select Retailer", getContext());
+//    @Override
+//    public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+//        switch (parent.getId()){
+//            case R.id.retailerSpinner:
+//                locationDropdown.setSelection(0);
+//                Toast.makeText(getContext(), "Option Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.deliverySpinner:
+//                Toast.makeText(getContext(), "Alarm Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                break;
+//            case R.id.locationSpinner:
+//                Toast.makeText(getContext(), "Option Selected: " + parent.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
+//                break;
 //        }
-        if (selectedProductIndex == 0){
+//    }
+//
+//    @Override
+//    public void onNothingSelected(AdapterView<?> parent) {
+//
+//    }
+
+    private void checkParameter(){
+
+        if (typeDropdown.getSelectedItemPosition() == 0){
             DataManager.alertShow("Error!","Select your Product", getContext());
         }
         else if (creditLimitET.getText().length() <= 0){
@@ -421,10 +457,10 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 //        else if (priceEditText.getText().length() <= 0){
 //            DataManager.alertShow("Error!","Price per Unit field is Empty", getContext());
 //        }
-        else if (selectedModeIndex == 0){
+        else if (modeDropdown.getSelectedItemPosition() == 0){
             DataManager.alertShow("Error!","Select Delivery mode", getContext());
         }
-        else if (selectedlocationIndex == 0){
+        else if (locationDropdown.getSelectedItemPosition() == 0){
             DataManager.alertShow("Error!","Select Location", getContext());
         }
         else if (nameET.getText().length() <= 0){
@@ -435,18 +471,14 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
         }
         else if (addressET.getText().length() <= 0){
             DataManager.alertShow("Error!","Address field is Empty", getContext());
+        }else if (billEditText.getText().length() <= 0){
+            DataManager.alertShow("Error!","Billed Qty field is Empty", getContext());
         }
         else {
             sendDORequest();
         }
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
 
 //    public static int math(float f) {
 //        int c = (int) ((f) + 0.5f);
@@ -457,39 +489,33 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
     private void sendDORequest(){
 
-        final KProgressHUD hud = KProgressHUD.create(getActivity())
+        final KProgressHUD hud = KProgressHUD.create(getContext())
                 .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
                 .setLabel("Please wait")
                 .setMaxProgress(30)
                 .show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
+        CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
-        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        dateFormatter.setLenient(false);
-        Date today = new Date();
-        final String todays = dateFormatter.format(today);
-        Log.d("Date", todays);
+        //DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        //dateFormatter.setLenient(false);
+        //Date today = new Date();
+        //final String todays = dateFormatter.format(today);
 
-//        String do_number = null;
-//        if (doNumberEditText.getText().length()>0){
-//            do_number = doNumberEditText.getText().toString();
-//        }
         Integer retailer_id = retailerId;
-        Integer product_id = productId;
+
+        final ProductContainer product = (ProductContainer) productArray.get(typeDropdown.getSelectedItemPosition()-1);
+        Integer product_id = product.product_id;
+
         String delivery_mode = modeDropdown.getSelectedItem().toString();
         String location = locationDropdown.getSelectedItem().toString();
-        ArrayList name = new ArrayList();
+        ArrayList<String> name = new ArrayList<>();
         name.add(nameET.getText().toString());
-        ArrayList address = new ArrayList();
+        ArrayList<String> address = new ArrayList<>();
         address.add(addressET.getText().toString());
-        ArrayList contactNumber = new ArrayList();
+        ArrayList<String> contactNumber = new ArrayList<>();
         contactNumber.add(contactNoET.getText().toString());
-        Number billBag = Integer.parseInt(billEditText.getText().toString());
+        final Number billBag = Integer.parseInt(billEditText.getText().toString());
         //Number actualBag = Integer.parseInt(bagQtyET.getText().toString());
         Number vechileCap = null;
         if (capacityEditText.getText().length() > 0){
@@ -499,39 +525,10 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
         if (noteEditText.getText().length()>0){
             note = noteEditText.getText().toString();
         }
-//        Integer unit_price = Integer.parseInt(priceEditText.getText().toString());
 
-        Log.d("response", todays +" "+" "+retailer_id+ " "+product_id+" "+delivery_mode+" "+location+" "+name+" "+address+" "+contactNumber+" "+billBag+" "+" "+vechileCap+" "+note+" "+note);
+        //Log.d("response", todays +" "+" "+retailer_id+ " "+product_id+" "+delivery_mode+" "+location+" "+name+" "+address+" "+contactNumber+" "+billBag+" "+" "+vechileCap+" "+note+" "+note);
 
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DORequestResponse> call = userApiClient.sendDORequest(loggedInUser.userId,retailer_id,product_id,delivery_mode,location,name,address,contactNumber,billBag,vechileCap,note);
-
+        Call<DORequestResponse> call = MainActivity.apiClient.sendDORequest(loggedInUser.userId,retailer_id,product_id,delivery_mode,location,name,address,contactNumber,billBag,vechileCap,note);
 
         call.enqueue(new Callback<DORequestResponse>() {
             @Override
@@ -539,28 +536,23 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
                 Log.d("response", String.valueOf(response.code()));
                 if(response.isSuccessful()) {
-                    //ArrayList arrayList = new ArrayList();
-                    //if (DataManager.getDOOrderList(getContext()) != null) {
-                        //arrayList = DataManager.getDOOrderList(getContext());
 
-                    //}
+                    Log.d("response", String.valueOf(response.body()));
 
                     DORequestResponse doResponse = response.body();
                     DORequest request = doResponse.getDoRequest();
 
-                    //DOOrderContainer doOrder = new DOOrderContainer();
-                    //doOrder.id = request.getId();
-                    //doOrder.type = request.getType();
-                    //doOrder.
-                    //doNumberEditText.getText().clear();
-                    //bagQtyET.getText().clear();
+                    Log.d("response 2", request.getDoNumber());
+
                     billEditText.getText().clear();
                     //priceEditText.getText().clear();
                     nameET.getText().clear();
                     addressET.getText().clear();
                     contactNoET.getText().clear();
                     hud.dismiss();
-                    DataManager.alertShow("Congratulation!","Request Successfull",getContext());
+
+                    Dialog.showDORequestSuccessfulDialog(request.getDoNumber(),product.product_name, request.getActualBagQty(),request.getCreatedAt(), getContext());
+                    //DataManager.alertShow("Congratulation!","Request Successfull",getContext());
 
 
                 }else {
@@ -590,42 +582,9 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
         hud.show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
+        CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DealerAddressData> call = userApiClient.getAddress(loggedInUser.userId);
-
+        Call<DealerAddressData> call = MainActivity.apiClient.getAddress(loggedInUser.userId);
 
         call.enqueue(new Callback<DealerAddressData>() {
             @Override
@@ -634,9 +593,6 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
                 Log.d("response222", String.valueOf(response.code()));
                 if(response.isSuccessful()) {
 
-                    //Log.d("response", String.valueOf(response.body()));
-                    //Log.d("response", String.valueOf(response.body().toString()));
-                    //List<DeliveryMode> data = (List<DeliveryMode>) response.body();
                     DealerAddressData data = response.body();
                     DealerAddress dealerObj = data.getAddress();
 
@@ -647,6 +603,7 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
                     dealer_address = dealerObj.getDetailAddress();
 
                     hud.dismiss();
+                    mSwipeRefreshLayout.setRefreshing(false);
 
 
                 }else {
@@ -676,59 +633,19 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
         hud.show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
+        CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DealerCreditList> call = userApiClient.getDealerCreditInfo(loggedInUser.userId);
-
+        Call<DealerCreditList> call = MainActivity.apiClient.getDealerCreditInfo(loggedInUser.userId);
 
         call.enqueue(new Callback<DealerCreditList>() {
             @Override
             public void onResponse(Call<DealerCreditList> call, Response<DealerCreditList> response) {
 
-                Log.d("response222", String.valueOf(response.code()));
                 if(response.isSuccessful()) {
 
-                    //Log.d("response", String.valueOf(response.body()));
-                    //Log.d("response", String.valueOf(response.body().toString()));
-                    //List<DeliveryMode> data = (List<DeliveryMode>) response.body();
                     DealerCreditList dealerCreditList = response.body();
                     DealerCreditInfo dealerCreditInfo = dealerCreditList.getDealerCreditInfo();
 
-                    //DeliveryModeContainer type = new DeliveryModeContainer();
-
-                    Log.d("response credit", dealerCreditInfo.getCreditLimit());
                     if (dealerCreditInfo.getCreditLimit() != null){
                         creditLimitET.setText(dealerCreditInfo.getCreditLimit());
                     }
@@ -741,6 +658,7 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
 
                     hud.dismiss();
+                    mSwipeRefreshLayout.setRefreshing(false);
 
 
                 }else {
@@ -768,68 +686,32 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
     private void getRetailerList(){
 
-        final KProgressHUD hud = KProgressHUD.create(getActivity())
-                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-                .setLabel("Please wait")
-                .setMaxProgress(30)
-                .show();
+        hud.show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
+        DataManager.removeRetailerList(getContext());
+        if(retailerArray != null){
+            retailerArray.clear();
+        }
+        retailerList.clear();
+        retailerList.add("--Select Retailer--");
 
+        CurrentUser loggedInUser = DataManager.getCurrentUser(getContext());
 
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<RetailerList> call = userApiClient.getRetailerList(loggedInUser.userId);
-
+        Call<RetailerList> call = MainActivity.apiClient.getRetailerList(loggedInUser.userId);
 
         call.enqueue(new Callback<RetailerList>() {
             @Override
             public void onResponse(Call<RetailerList> call, Response<RetailerList> response) {
 
-                Log.d("response", String.valueOf(response.code()));
                 if(response.isSuccessful()) {
-
-                    Log.d("response", String.valueOf(response.body().getData()));
-                    Log.d("response", response.body().getData().toString());
 
                     RetailerList retailerListObject = response.body();
                     List<Retailer> retailers = retailerListObject.getData();
 
                     if (retailers.size() > 0){
-                        ArrayList retailerArrayList = new ArrayList();
+                        ArrayList<RetailerContainer> retailerArrayList = new ArrayList<RetailerContainer>();
 
                         for (Retailer retailer: retailers){
-
-                            Log.d("response", retailer.getOwnerName());
 
                             RetailerContainer retailerContainer = new RetailerContainer();
                             retailerContainer.retailer_name = retailer.getOwnerName();
@@ -844,22 +726,19 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
                         retailerArray = DataManager.getRetailerList(getContext());
 
-
-                        for (int i = 0; i<retailerArray.size(); i++){
-                            RetailerContainer item = (RetailerContainer) retailerArray.get(i);
-                            Log.d("response", item.retailer_name);
-
-
-                            retailerList.add(item.retailer_name);
+                        if(retailerArray != null){
+                            for (int i = 0; i<retailerArray.size(); i++){
+                                RetailerContainer item = (RetailerContainer) retailerArray.get(i);
+                                retailerList.add(item.retailer_name);
+                            }
                         }
-
-
 
                         retailerAdapter.notifyDataSetChanged();
                     }
 
 
                     hud.dismiss();
+                    mSwipeRefreshLayout.setRefreshing(false);
 
 
                 }else {
@@ -887,48 +766,14 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
     private void getProductList(){
 
-//        final KProgressHUD hud = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-//                .setLabel("Please wait")
-//                .setMaxProgress(30)
-//                .show();
+        DataManager.removeProductItems(getContext());
+        if(productArray != null){
+            productArray.clear();
+        }
+        productType.clear();
+        productType.add("--Select your Product--");
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<ProductList> call = userApiClient.getProductList();
-
+        Call<ProductList> call = MainActivity.apiClient.getProductList();
 
         call.enqueue(new Callback<ProductList>() {
             @Override
@@ -942,28 +787,40 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
                     ProductList productList = response.body();
                     List<ProductType> productTypeList = productList.getProductList();
 
-                    ArrayList productArrayList = new ArrayList();
+                    if(productTypeList.size() != 0){
 
-                    for (ProductType product: productTypeList){
+                        //ArrayList productArrayList = new ArrayList();
 
-                        ProductContainer proType = new ProductContainer();
-                        proType.product_name = product.getName();
-                        proType.product_id = product.getId();
-                        productArrayList.add(proType);
-                        DataManager.setProductItems(productArrayList, getContext());
+                        for (ProductType product: productTypeList){
+
+                            //Log.d("product", String.valueOf(product.getName()));
+
+                            productType.add(product.getName());
+
+                            ProductContainer proType = new ProductContainer();
+                            proType.product_name = product.getName();
+                            proType.product_id = product.getId();
+                            productArray.add(proType);
+                            DataManager.setProductItems(productArray, getContext());
+
+                        }
+
+//                        productArray = DataManager.getProductItems(getContext());
+//
+//                        if (productArray != null){
+//                            for (int i = 0; i<productArray.size(); i++){
+//                                ProductContainer item = (ProductContainer) productArray.get(i);
+//                                productType.add(item.product_name);
+//                            }
+//                        }
+
 
                     }
 
-                    productArray = DataManager.getProductItems(getContext());
-
-
-                    for (int i = 0; i<productArray.size(); i++){
-                        ProductContainer item = (ProductContainer) productArray.get(i);
-                        productType.add(item.product_name);
-                    }
 
                     typeAdapter.notifyDataSetChanged();
 
+                    mSwipeRefreshLayout.setRefreshing(false);
                     //hud.dismiss();
 
 
@@ -991,48 +848,11 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
     private void getDeliveryModeList(){
 
-//        final KProgressHUD hud = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-//                .setLabel("Please wait")
-//                .setMaxProgress(30)
-//                .show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
+        deliveryType.clear();
+        deliveryType.add("--Select Delivery Mode--");
 
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DeliveryModeList> call = userApiClient.getDeliveryModeList();
-
+        Call<DeliveryModeList> call = MainActivity.apiClient.getDeliveryModeList();
 
         call.enqueue(new Callback<DeliveryModeList>() {
             @Override
@@ -1064,18 +884,17 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
 
                     ArrayList deliveryModeType = DataManager.getDeliveryModeItems(getContext());
 
-
-                    for (int i = 0; i<deliveryModeType.size(); i++){
-                        DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
-                        Log.d("response", item.deliveryType);
-
-
-                        deliveryType.add(item.deliveryType);
+                    if(deliveryModeType != null){
+                        for (int i = 0; i<deliveryModeType.size(); i++){
+                            DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
+                            deliveryType.add(item.deliveryType);
+                        }
                     }
-
 
                     modeAdapter.notifyDataSetChanged();
 
+                    mSwipeRefreshLayout.setRefreshing(false);
+                    connectionStatus.setVisibility(View.GONE);
 
                     //hud.dismiss();
 
@@ -1103,4 +922,25 @@ public class DORequestFragment extends Fragment implements AdapterView.OnItemSel
     }
 
 
+    @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+
+            case R.id.createDOBtn:
+                if (CheckNetworkConnection.isNetworkAvailable(getContext())){
+                    checkParameter();
+                    connectionStatus.setVisibility(View.GONE);
+                }else {
+                    connectionStatus.setVisibility(View.VISIBLE);
+                    //Toast.makeText(getContext(),"Connection Error!", Toast.LENGTH_SHORT).show();
+                }
+                break;
+
+            default:
+                break;
+        }
+
+
+    }
 }

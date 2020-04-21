@@ -1,9 +1,10 @@
-package com.metrocem.mismetrocem.Activity;
+package com.metrocem.mis.Activity;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -11,9 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.metrocem.mismetrocem.Adapter.OrderAdapter;
-import com.metrocem.mismetrocem.Adapter.TradePromotionAdapter;
-import com.metrocem.mismetrocem.R;
+import com.metrocem.mis.Adapter.TradePromotionAdapter;
+import com.metrocem.mis.R;
 
 public class TradePromotionActivity extends AppCompatActivity {
 
@@ -24,7 +24,9 @@ public class TradePromotionActivity extends AppCompatActivity {
 
         getSupportActionBar().setTitle("Trade Promotions"); // for set actionbar title
         //getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorBeach) ));
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorGreen)));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getSupportActionBar().setBackgroundDrawable(getDrawable(R.drawable.toolbar_gradient));
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ListView tradePromotionListView = findViewById(R.id.tradePromotionListView);

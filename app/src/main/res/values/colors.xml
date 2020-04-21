@@ -1,23 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
-    <color name="colorAccent">#D81B60</color>
+    <color name="colorPrimary">#121b24</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#B2F52A21</color>
+    <color name="colorLightPrimary">#F5F5F5</color>
+    <color name="colorBgBlack">#92212121</color>
+    <!--<color name="colorPrimary">#F44336</color>-->
+    <color name="colrBgPrimary">#FFCDD2</color>
 
-    <color name="colorGreen">#00B050</color>
+    <!--<color name="colorBackground">#121b24</color>-->
+    <color name="colorBackground">#FFFFFF</color>
+
+    <!--EDFF5252-->
+    <!--9E9E9E-->
+    <!--616161-->
+    <!--1C232B-->
+    <!--<color name="colorGreen">#00B050</color>-->
+    <color name="colorGhee">#F8F5E4</color>
+
+    <color name="colorGreen">#232A32</color>
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorBackground">#F2F7FA</color>
-    <color name="colorBorder">#F1F2F3</color>
-    <color name="colorYellow">#FFFF00</color>
-    <color name="colorLightGray">#D3D3D3</color>
+    <color name="colorSubtitleWhite">#b795ce</color>
+    <color name="colorLightWhite">#99FFFFFF</color>
+    <color name="colorTextTheme">#030205</color>
+    <color name="colorLightBlack">#757575</color>
     <color name="colorGray">#A9A9A9</color>
-    <color name="colorDeepOlive">#8BC34A</color>
-    <color name="colorTextTheme">#05647A</color>
+
+    <!--<color name="colorBackground">#F2F7FA</color>-->
+    <!--<color name="colorBackground">#F8F5E4</color>-->
+    <!--<color name="colorBackground">#F3F3F3</color>-->
+    <color name="colorTabBg">#808080</color>
+
+
+    <color name="colorBorder">#BDBDBD</color>
+    <!--<color name="colorYellow">#FFFF00</color>-->
+    <color name="colorLightGray">#F2F2F2</color>
+    <color name="colorDeepOlive">#FF0000</color>
     <color name="colorBlack">#515151</color>
     <color name="colorDarkBlack">#000000</color>
-    <color name="colorLightBlack">#898989</color>
+    <!--<color name="colorCursor">#898989</color>-->
+    <color name="colorTextDeepGray">#AEAEAE</color>
+    <color name="colorCellBg">#F8F5E4</color>
+    <color name="colorSpinnerPopUpBackground">#de4a3e</color>
+
 
     <!--Employee theme-->
-    <color name="colorOrange">#FA8045</color>
+    <!--<color name="colorOrange">#FF0000</color>-->
+    <color name="colorDeepGray">#cccccc</color>
+
+    <!--<color name="colorTextTheme">#05647A</color>-->
 
 </resources>

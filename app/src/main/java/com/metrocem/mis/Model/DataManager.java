@@ -1,33 +1,25 @@
-package com.metrocem.mis.Subclasses;
+package com.metrocem.mis.Model;
 
 import android.Manifest;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 
-import androidx.annotation.MainThread;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AlertDialog;
 
-import android.graphics.drawable.ColorDrawable;
 import android.telephony.TelephonyManager;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.View;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.metrocem.mis.CommissionAndIncentive.PromotionContainer;
 import com.metrocem.mis.Container.ChallanContainer;
 import com.metrocem.mis.Container.DOOrderContainer;
 import com.metrocem.mis.Container.DealerListContainer;
-import com.metrocem.mis.Container.DeliveredOrderContainer;
 import com.metrocem.mis.Container.DeliveryModeContainer;
 import com.metrocem.mis.Container.ProductContainer;
 import com.metrocem.mis.Container.RetailerContainer;
-import com.metrocem.mis.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -227,13 +219,13 @@ public class DataManager {
 
     public static ArrayList getDealerList(Context context){
 
-        SharedPreferences settings = context.getSharedPreferences(DEALER_PREFERENCE, context.MODE_PRIVATE);
+        SharedPreferences spDealer = context.getSharedPreferences(DEALER_PREFERENCE, context.MODE_PRIVATE);
 
         List<DealerListContainer> dealerList = null;
 
-        if (settings.contains(DEALER_KEY)) {
+        if (spDealer.contains(DEALER_KEY)) {
 
-            String items = settings.getString(DEALER_KEY, null);
+            String items = spDealer.getString(DEALER_KEY, null);
             Gson gson = new Gson();
 
             DealerListContainer[] favoriteItems = gson.fromJson(items,
@@ -273,13 +265,13 @@ public class DataManager {
 
     public static ArrayList getRetailerList(Context context){
 
-        SharedPreferences settings = context.getSharedPreferences(RETAILER_PREFERENCE, context.MODE_PRIVATE);
+        SharedPreferences retailerSP = context.getSharedPreferences(RETAILER_PREFERENCE, context.MODE_PRIVATE);
 
         List<RetailerContainer> retailerList = null;
 
-        if (settings.contains(RETAILER_KEY)) {
+        if (retailerSP.contains(RETAILER_KEY)) {
 
-            String items = settings.getString(RETAILER_KEY, null);
+            String items = retailerSP.getString(RETAILER_KEY, null);
             Gson gson = new Gson();
 
             RetailerContainer[] favoriteItems = gson.fromJson(items,
@@ -319,13 +311,13 @@ public class DataManager {
 
     public static ArrayList getDOOrderList(Context context){
 
-        SharedPreferences settings = context.getSharedPreferences(DO_PREFERENCE, context.MODE_PRIVATE);
+        SharedPreferences orderSP = context.getSharedPreferences(DO_PREFERENCE, context.MODE_PRIVATE);
 
         List<DOOrderContainer> doOrderList = null;
 
-        if (settings.contains(DO_KEY)) {
+        if (orderSP.contains(DO_KEY)) {
 
-            String items = settings.getString(DO_KEY, null);
+            String items = orderSP.getString(DO_KEY, null);
             Gson gson = new Gson();
 
             DOOrderContainer[] favoriteItems = gson.fromJson(items,
@@ -407,15 +399,15 @@ public class DataManager {
         editor.commit();
     }
 
-    public static ArrayList getChallanList(Context context){
+    public static ArrayList<ChallanContainer> getChallanList(Context context){
 
-        SharedPreferences settings = context.getSharedPreferences(CHALLAN_PREFERENCE, context.MODE_PRIVATE);
+        SharedPreferences challanSP = context.getSharedPreferences(CHALLAN_PREFERENCE, context.MODE_PRIVATE);
 
         List<ChallanContainer> challanList = null;
 
-        if (settings.contains(CHALLAN_KEY)) {
+        if (challanSP.contains(CHALLAN_KEY)) {
 
-            String items = settings.getString(CHALLAN_KEY, null);
+            String items = challanSP.getString(CHALLAN_KEY, null);
             Gson gson = new Gson();
 
             ChallanContainer[] favoriteItems = gson.fromJson(items,
@@ -455,13 +447,13 @@ public class DataManager {
 
     public static ArrayList getPromotionList(Context context){
 
-        SharedPreferences settings = context.getSharedPreferences(PROMOTION_PREFERENCE, context.MODE_PRIVATE);
+        SharedPreferences promotionSP = context.getSharedPreferences(PROMOTION_PREFERENCE, context.MODE_PRIVATE);
 
         List<PromotionContainer> promotionList = null;
 
-        if (settings.contains(PROMOTION_KEY)) {
+        if (promotionSP.contains(PROMOTION_KEY)) {
 
-            String items = settings.getString(PROMOTION_KEY, null);
+            String items = promotionSP.getString(PROMOTION_KEY, null);
             Gson gson = new Gson();
 
             PromotionContainer[] favoriteItems = gson.fromJson(items,
@@ -501,13 +493,13 @@ public class DataManager {
 
     public static ArrayList getSecurityList(Context context){
 
-        SharedPreferences settings = context.getSharedPreferences(SECURITY_PREFERENCE, context.MODE_PRIVATE);
+        SharedPreferences securitySP = context.getSharedPreferences(SECURITY_PREFERENCE, context.MODE_PRIVATE);
 
         List<SecurityInfoContainer> securityList = null;
 
-        if (settings.contains(SECURITY_KEY)) {
+        if (securitySP.contains(SECURITY_KEY)) {
 
-            String items = settings.getString(SECURITY_KEY, null);
+            String items = securitySP.getString(SECURITY_KEY, null);
             Gson gson = new Gson();
 
             SecurityInfoContainer[] favoriteItems = gson.fromJson(items,

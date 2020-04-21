@@ -1,4 +1,4 @@
-package com.metrocem.mis.Subclasses;
+package com.metrocem.mis.Model;
 
 public class SecurityInfoContainer {
     public Integer dealerId;

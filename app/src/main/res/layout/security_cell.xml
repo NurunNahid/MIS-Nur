@@ -1,6 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorBorder">
+
+        <TextView
+            android:id="@+id/dealerName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/latobold"
+            android:textSize="@dimen/default_font_size"
+            android:layout_marginStart="10dp"
+            android:gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.0"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="Bank Guarantee"
+            android:fontFamily="@font/latoregular"
+            android:textSize="13dp"
+            android:paddingLeft="10dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="Security Cheque"
+            android:fontFamily="@font/latoregular"
+            android:textSize="13dp"
+            android:gravity="center"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:text="Blank Cheque"
+            android:fontFamily="@font/latoregular"
+            android:textSize="13sp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorLightGray"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1.0"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <TextView
+            android:id="@+id/bank_guarantee_TV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:fontFamily="@font/latoregular"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/security_cheque_TV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:fontFamily="@font/latoregular"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"/>
+        <TextView
+            android:id="@+id/blank_cheque_TV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.30"
+            android:fontFamily="@font/latoregular"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:textColor="@color/colorBlack"/>
+
+    </LinearLayout>
+
 
 </LinearLayout>

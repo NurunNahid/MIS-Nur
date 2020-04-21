@@ -1,4 +1,4 @@
-package com.metrocem.mis.SignIn;
+package com.metrocem.mis.SignInAndRegistration;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -38,9 +38,11 @@ import com.kaopiz.kprogresshud.KProgressHUD;
 import com.metrocem.mis.Firebase.FirebaseTokenResponse;
 import com.metrocem.mis.Home.MainActivity;
 import com.metrocem.mis.R;
-import com.metrocem.mis.Subclasses.CurrentUser;
-import com.metrocem.mis.Subclasses.DataManager;
-import com.metrocem.mis.Subclasses.DeviceRegistration;
+import com.metrocem.mis.Retrofit.ApiClient;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.DeviceRegistration;
+import com.metrocem.mis.Utilities.Constants;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -61,8 +63,6 @@ public class SignInActivity extends AppCompatActivity {
     String imei_no, deviceId;
     TextView identifierET;
     KProgressHUD hud;
-    //String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-    String API_BASE_URL = "http://misstage.nurtech.xyz/api/v1/";
 
     @SuppressLint({"MissingPermission", "HardwareIds"})
     @Override
@@ -214,7 +214,7 @@ public class SignInActivity extends AppCompatActivity {
 
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create());
 
         //Retrofit retrofit = builder.build();
         Retrofit retrofit = builder.client(httpClient.build()).build();
@@ -300,7 +300,7 @@ public class SignInActivity extends AppCompatActivity {
 
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60,TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
 
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create());
 
         //Retrofit retrofit = builder.build();
         Retrofit retrofit = builder.client(httpClient.build()).build();
@@ -401,7 +401,7 @@ public class SignInActivity extends AppCompatActivity {
         //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
 
 
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create());
 
         //Retrofit retrofit = builder.build();
         Retrofit retrofit = builder.client(httpClient.build()).build();

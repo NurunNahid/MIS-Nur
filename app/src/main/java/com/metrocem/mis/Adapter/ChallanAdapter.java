@@ -1,34 +1,32 @@
-package com.metrocem.mismetrocem.Adapter;
+package com.metrocem.mis.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.os.Parcel;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.TextView;
 
-import com.metrocem.mismetrocem.Activity.ChallanDetailActivity;
-import com.metrocem.mismetrocem.Activity.OrderDetailActivity;
-import com.metrocem.mismetrocem.Container.ChallanContainer;
-import com.metrocem.mismetrocem.Container.DOOrderContainer;
-import com.metrocem.mismetrocem.R;
+import com.metrocem.mis.Challan.ChallanDetailActivity;
+import com.metrocem.mis.Container.ChallanContainer;
+import com.metrocem.mis.R;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ChallanAdapter extends RecyclerView.Adapter<ChallanAdapter.ChallanRecyclerHolder> {
 
     private List<ChallanContainer> challan;
-    Context context;
+    private Context context;
 
     public ChallanAdapter(Context context, List<ChallanContainer> challan) {
         this.challan = challan;
@@ -38,7 +36,7 @@ public class ChallanAdapter extends RecyclerView.Adapter<ChallanAdapter.ChallanR
     @NonNull
     @Override
     public ChallanAdapter.ChallanRecyclerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.order_cell, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.challan_cell, viewGroup, false);
 
         return new ChallanAdapter.ChallanRecyclerHolder(view);
     }
@@ -48,27 +46,35 @@ public class ChallanAdapter extends RecyclerView.Adapter<ChallanAdapter.ChallanR
 
         doRecyclerHolder.do_number.setText(challan.get(i).doNumber);
         doRecyclerHolder.product_name.setText(challan.get(i).productName);
-        doRecyclerHolder.approve_date.setText(challan.get(i).doAllocating);
-        doRecyclerHolder.status.setText(challan.get(i).status);
-        doRecyclerHolder.qty.setText(challan.get(i).bagQuantity.toString());
+        doRecyclerHolder.status.setText(challan.get(i).status.toUpperCase());
+        doRecyclerHolder.qty.setText(String.valueOf(challan.get(i).bagQuantity));
+
+        SimpleDateFormat spf=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        Date newDate = null;
+        try {
+            newDate = spf.parse(challan.get(i).doAllocating);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        spf= new SimpleDateFormat("dd MMM yy hh:mm a");
+        String date = spf.format(newDate);
+
+        doRecyclerHolder.approve_date.setText(date);
 
         doRecyclerHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ChallanContainer challanObj  = challan.get(i);
-                Log.d("response", String.valueOf(challan.get(i)));
                 Intent intent = new Intent(context, ChallanDetailActivity.class);
                 intent.putExtra("Challan_Obj", (Serializable) challanObj);
-
-                //intent.putExtra("SELECTED_CHALLAN", i);
-                //intent.putExtra("DO_NO",challan.get(i).doNumber);
                 context.startActivity(intent);
             }
         });
 
-        Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_left);
-        doRecyclerHolder.itemView.startAnimation(animation);
+        Animation animation = AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation);
+        doRecyclerHolder.container.startAnimation(animation);
     }
 
     @Override
@@ -78,8 +84,9 @@ public class ChallanAdapter extends RecyclerView.Adapter<ChallanAdapter.ChallanR
 
     public class ChallanRecyclerHolder extends RecyclerView.ViewHolder {
 
-        private TextView do_number,product_name,approve_date, qty;
-        private Button status;
+        private TextView do_number,product_name,approve_date, qty, status;
+        CardView container;
+        //private Button status;
 
         public ChallanRecyclerHolder(@NonNull View itemView) {
             super(itemView);
@@ -89,6 +96,7 @@ public class ChallanAdapter extends RecyclerView.Adapter<ChallanAdapter.ChallanR
             approve_date = itemView.findViewById(R.id.approve_date);
             status = itemView.findViewById(R.id.statusBtn);
             qty = itemView.findViewById(R.id.bagQuantity);
+            container = itemView.findViewById(R.id.container);
 
         }
     }

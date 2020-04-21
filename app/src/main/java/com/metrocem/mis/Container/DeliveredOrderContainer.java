@@ -1,4 +1,4 @@
 package com.metrocem.mis.Container;
 
-public class DeliveredOrderContainer {
+public class DeliveredOrderContainer extends DOOrderContainer {
 }

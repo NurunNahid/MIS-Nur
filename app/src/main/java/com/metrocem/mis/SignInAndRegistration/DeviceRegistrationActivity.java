@@ -1,4 +1,4 @@
-package com.metrocem.mis.SignIn;
+package com.metrocem.mis.SignInAndRegistration;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,14 +16,16 @@ import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.kaopiz.kprogresshud.KProgressHUD;
 import com.metrocem.mis.R;
-import com.metrocem.mis.Subclasses.DataManager;
-import com.metrocem.mis.Subclasses.DeviceRegistration;
+import com.metrocem.mis.Retrofit.ApiClient;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.DeviceRegistration;
+import com.metrocem.mis.Utilities.Constants;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -37,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DeviceRegistrationActivity extends AppCompatActivity {
 
-    EditText name, identifier, type, os, version, deviceIdET;
+    TextInputEditText name, identifier, type, os, version, deviceIdET;
     LinearLayout rLayout;
 
     @Override
@@ -157,14 +159,10 @@ public class DeviceRegistrationActivity extends AppCompatActivity {
                 .show();
 
 
-        //String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-        String API_BASE_URL = "http://misstage.nurtech.xyz/api/v1/";
-
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
 
 
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
+        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(Constants.BASE_URL).addConverterFactory(GsonConverterFactory.create());
 
         //Retrofit retrofit = builder.build();
         Retrofit retrofit = builder.client(httpClient.build()).build();

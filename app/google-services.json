@@ -8,12 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:704363939708:android:15ff7673901db4e11e46f9",
+        "mobilesdk_app_id": "1:704363939708:android:a6eec339f2dad4841e46f9",
         "android_client_info": {
-          "package_name": "com.metrocem.mismetrocem"
+          "package_name": "com.metrocem.mis"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "704363939708-dvnub6p9t9pfgpjr5ggs6gt5otgj5gvq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.metrocem.mis",
+            "certificate_hash": "9dc533a777c49130f6136080c9327d4ac807c41e"
+          }
+        },
         {
           "client_id": "704363939708-fff4vtjos3v4jq2j93r32nnbludg78v8.apps.googleusercontent.com",
           "client_type": 3

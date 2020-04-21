@@ -1,12 +1,9 @@
-package com.metrocem.mismetrocem.Fragment;
+package com.metrocem.mis.Fragment;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,26 +16,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kaopiz.kprogresshud.KProgressHUD;
-import com.metrocem.mismetrocem.Container.DealerListContainer;
-import com.metrocem.mismetrocem.Container.RetailerContainer;
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.SignIn.ApiClient;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DORequest;
-import com.metrocem.mismetrocem.Subclasses.DORequestResponse;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
-import com.metrocem.mismetrocem.Subclasses.Dealer;
-import com.metrocem.mismetrocem.Subclasses.DealerList;
-import com.metrocem.mismetrocem.Subclasses.DeliveryMode;
-import com.metrocem.mismetrocem.Container.DeliveryModeContainer;
-import com.metrocem.mismetrocem.Subclasses.DeliveryModeList;
-import com.metrocem.mismetrocem.Container.ProductContainer;
-import com.metrocem.mismetrocem.Subclasses.ProductList;
-import com.metrocem.mismetrocem.Subclasses.ProductType;
-import com.metrocem.mismetrocem.Subclasses.Retailer;
-import com.metrocem.mismetrocem.Subclasses.RetailerList;
+import com.metrocem.mis.Container.DealerListContainer;
+import com.metrocem.mis.Container.RetailerContainer;
+import com.metrocem.mis.Home.MainActivity;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DORequest;
+import com.metrocem.mis.Model.DORequestResponse;
+import com.metrocem.mis.Model.DataManager;
+import com.metrocem.mis.Model.Dealer;
+import com.metrocem.mis.Model.DealerList;
+import com.metrocem.mis.Model.DeliveryMode;
+import com.metrocem.mis.Container.DeliveryModeContainer;
+import com.metrocem.mis.Model.DeliveryModeList;
+import com.metrocem.mis.Container.ProductContainer;
+import com.metrocem.mis.Model.ProductList;
+import com.metrocem.mis.Model.ProductType;
+import com.metrocem.mis.Model.Retailer;
+import com.metrocem.mis.Model.RetailerList;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -46,33 +42,31 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import com.metrocem.mismetrocem.EmployeeDO.DealerCreditInfo;
-import com.metrocem.mismetrocem.EmployeeDO.DealerCreditList;
-import okhttp3.Interceptor;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
+import com.metrocem.mis.EmployeeDO.DealerCreditInfo;
+import com.metrocem.mis.EmployeeDO.DealerCreditList;
+import com.metrocem.mis.Subclasses.CheckNetworkConnection;
+import com.metrocem.mis.Utilities.Dialog;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class EmployeeDOFragment extends Fragment {
 
-    Spinner dealerDropdown, retailerDropdown, typeDropdown, modeDropdown, locationDropdown;
+    private Spinner dealerDropdown, retailerDropdown, typeDropdown, modeDropdown, locationDropdown;
     String[] items;
-    EditText creditLimitET, bagQtyET, billEditText, dueAmountET,blockAmountET, nameET, addressET, contactNoET, capacityEditText, noteEditText, doNumberEditText, priceEditText;
-    ArrayAdapter<String> typeAdapter, modeAdapter, dealerAdapter, retailerAdapter;
+    private EditText creditLimitET, bagQtyET, billEditText, dueAmountET,blockAmountET, nameET, addressET, contactNoET, capacityEditText, noteEditText, doNumberEditText, priceEditText;
+    private ArrayAdapter<String> typeAdapter, modeAdapter, dealerAdapter, retailerAdapter;
     //ArrayList productTypes;
-    ArrayList<String> deliveryType, productType, dealerList, retailerList;
+    private ArrayList<String> deliveryType, productType, dealerList, retailerList;
     //List<DeliveryModeContainer> modelist;
     //SwipeRefreshLayout swipeRefresh;
-    TextView createDOBtn;
-    public Integer productId, retailerId, dealerId;
-    String retailer_name, retailer_contact_no, retailer_address, dealer_name, dealer_no, dealer_address;
-    Integer selectedRetailerIndex, selectedProductIndex, selectedModeIndex, selectedlocationIndex, selectedDealerIndex;
-    ArrayList productArray, dealerArray, retailerArray;
-    KProgressHUD hud;
+    private TextView createDOBtn;
+    private Integer productId, retailerId, dealerId;
+    private String retailer_name, retailer_contact_no, retailer_address, dealer_name, dealer_no, dealer_address, productName;
+    private Integer selectedRetailerIndex, selectedProductIndex, selectedModeIndex, selectedlocationIndex, selectedDealerIndex;
+    private ArrayList productArray, dealerArray, retailerArray;
+    private KProgressHUD hud;
 
     @Nullable
     @Override
@@ -95,7 +89,10 @@ public class EmployeeDOFragment extends Fragment {
         creditLimitET = view.findViewById(R.id.creditEditText);
         dueAmountET = view.findViewById(R.id.dueEditText);
         blockAmountET = view.findViewById(R.id.blockAmountEditText);
-        //blockAmountET.setText("0");
+        creditLimitET.setText("0");
+        dueAmountET.setText("0");
+        blockAmountET.setText("0");
+
         //bagQtyET = view.findViewById(R.id.bagQtyEditText);
         nameET = view.findViewById(R.id.nameEditText);
         addressET = view.findViewById(R.id.addressEditText);
@@ -115,14 +112,17 @@ public class EmployeeDOFragment extends Fragment {
         dealerList.add("--Select your Dealer--");
         if (dealerArray != null){
 
-            for (int i = 0; i<dealerArray.size(); i++){
-                DealerListContainer dealer = (DealerListContainer) dealerArray.get(i);
-                dealerList.add(dealer.organization+" - "+dealer.dealer_name);
-            }
+            getDealerList();
+
+//            Log.d("response", String.valueOf(dealerArray.size()));
+//            for (int i = 0; i<dealerArray.size(); i++){
+//                DealerListContainer dealer = (DealerListContainer) dealerArray.get(i);
+//                dealerList.add(dealer.organization+" - "+dealer.dealer_name);
+//            }
 
         }else {
 
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
 
                 getDealerList();
 
@@ -137,14 +137,16 @@ public class EmployeeDOFragment extends Fragment {
         productType.add("--Select your Product--");
         if (productArray != null){
 
-            for (int i = 0; i<productArray.size(); i++){
-                ProductContainer product = (ProductContainer) productArray.get(i);
-                productType.add(product.product_name);
-            }
+            getProductList();
+
+//            for (int i = 0; i<productArray.size(); i++){
+//                ProductContainer product = (ProductContainer) productArray.get(i);
+//                productType.add(product.product_name);
+//            }
 
         }else {
 
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
 
                 getProductList();
 
@@ -158,13 +160,15 @@ public class EmployeeDOFragment extends Fragment {
         deliveryType.add("--Select Delivery Mode--");
         if (deliveryModeType != null){
 
-            for (int i = 0; i<deliveryModeType.size(); i++){
-                DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
-                deliveryType.add(item.deliveryType);
-            }
+            getDeliveryModeList();
+
+//            for (int i = 0; i<deliveryModeType.size(); i++){
+//                DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
+//                deliveryType.add(item.deliveryType);
+//            }
 
         }else {
-            if (isNetworkAvailable()){
+            if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                 getDeliveryModeList();
 
             }else {
@@ -198,15 +202,6 @@ public class EmployeeDOFragment extends Fragment {
 
                 }
 
-//                Log.d("response", String.valueOf(productType.size()));
-//                selectedProductIndex = position;
-//                if (position>0){
-//                    Log.d("response new", String.valueOf(productArray));
-//                    ProductContainer product = (ProductContainer) productArray.get(position-1);
-//                    Log.d("response", String.valueOf(product.product_id));
-//                    productId = product.product_id;
-//                }
-
             }
 
             @Override
@@ -229,7 +224,6 @@ public class EmployeeDOFragment extends Fragment {
 
                 if (position>0){
                     RetailerContainer retailer = (RetailerContainer) retailerArray.get(position-1);
-                    Log.d("value", String.valueOf(retailer.address));
                     retailerId = retailer.retailer_id;
                     retailer_name = retailer.retailer_name;
                     retailer_contact_no = retailer.phone;
@@ -255,10 +249,9 @@ public class EmployeeDOFragment extends Fragment {
 
                 selectedProductIndex = position;
                 if (position>0){
-                    Log.d("response new", String.valueOf(productArray));
                     ProductContainer product = (ProductContainer) productArray.get(position-1);
-                    Log.d("response", String.valueOf(product.product_id));
                     productId = product.product_id;
+                    productName = product.product_name;
                 }
 
             }
@@ -361,7 +354,7 @@ public class EmployeeDOFragment extends Fragment {
         createDOBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isNetworkAvailable()){
+                if (CheckNetworkConnection.isNetworkAvailable(getContext())){
                     checkParameter();
                 }else {
                     Toast.makeText(getActivity(),"Connection Error!", Toast.LENGTH_SHORT).show();
@@ -370,12 +363,6 @@ public class EmployeeDOFragment extends Fragment {
         });
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager
-                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
     public static int math(float f) {
         int c = (int) ((f) + 0.5f);
         float n = f + 0.5f;
@@ -430,21 +417,12 @@ public class EmployeeDOFragment extends Fragment {
         hud.show();
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
+
 
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         dateFormatter.setLenient(false);
         Date today = new Date();
         final String todays = dateFormatter.format(today);
-        Log.d("Date", todays);
-
-//        String do_number = null;
-//        if (doNumberEditText.getText().length()>0){
-//            do_number = doNumberEditText.getText().toString();
-//        }
 
         Integer retailer_id = null;
         if (selectedRetailerIndex != 0){
@@ -453,11 +431,11 @@ public class EmployeeDOFragment extends Fragment {
         Integer product_id = productId;
         String delivery_mode = modeDropdown.getSelectedItem().toString();
         String location = locationDropdown.getSelectedItem().toString().toLowerCase();
-        ArrayList name = new ArrayList();
+        ArrayList<String> name = new ArrayList<String>();
         name.add(nameET.getText().toString());
-        ArrayList address = new ArrayList();
+        ArrayList<String> address = new ArrayList<String>();
         address.add(addressET.getText().toString());
-        ArrayList contactNumber = new ArrayList();
+        ArrayList<String> contactNumber = new ArrayList<String>();
         contactNumber.add(contactNoET.getText().toString());
         Number billBag = Integer.parseInt(billEditText.getText().toString());
         //Number actualBag = 0;
@@ -475,33 +453,34 @@ public class EmployeeDOFragment extends Fragment {
 
 
 
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
+//        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
+//
+//
+//        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+//
+//        httpClient.addInterceptor(new Interceptor() {
+//            @Override
+//            public okhttp3.Response intercept(Chain chain) throws IOException {
+//                Request request = chain.request().newBuilder()
+//                        .addHeader("Accept", accept)
+//                        .addHeader("Authorization", token)
+//                        .build();
+//                return chain.proceed(request);
+//            }
+//        });
+//        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
+//
+//        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
+//
+//
+//        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
+//
+//        //Retrofit retrofit = builder.build();
+//        Retrofit retrofit = builder.client(httpClient.build()).build();
+//        ApiClient userApiClient = retrofit.create(ApiClient.class);
+//        Call<DORequestResponse> call = userApiClient.sendDORequest(dealerId,retailer_id,product_id,delivery_mode,location,name,address,contactNumber,billBag,vechileCap,note);
 
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DORequestResponse> call = userApiClient.sendDORequest(dealerId,retailer_id,product_id,delivery_mode,location,name,address,contactNumber,billBag,vechileCap,note);
-
+        Call<DORequestResponse> call = MainActivity.apiClient.sendDORequest(dealerId,retailer_id,product_id,delivery_mode,location,name,address,contactNumber,billBag,vechileCap,note);
 
         call.enqueue(new Callback<DORequestResponse>() {
             @Override
@@ -509,29 +488,19 @@ public class EmployeeDOFragment extends Fragment {
 
                 Log.d("response", String.valueOf(response.code()));
                 if(response.isSuccessful()) {
-                    //ArrayList arrayList = new ArrayList();
-                    //if (DataManager.getDOOrderList(getContext()) != null) {
-                    //arrayList = DataManager.getDOOrderList(getContext());
-
-                    //}
 
                     DORequestResponse doResponse = response.body();
                     DORequest request = doResponse.getDoRequest();
 
-                    //DOOrderContainer doOrder = new DOOrderContainer();
-                    //doOrder.id = request.getId();
-                    //doOrder.type = request.getType();
-                    //doOrder.
-                    //doNumberEditText.getText().clear();
-                    //bagQtyET.getText().clear();
                     billEditText.getText().clear();
                     //priceEditText.getText().clear();
                     nameET.getText().clear();
                     addressET.getText().clear();
                     contactNoET.getText().clear();
                     hud.dismiss();
-                    DataManager.alertShow("Congratulation!","Request Successfull",getContext());
+                    //DataManager.alertShow("Congratulation!","Request Successfull",getContext());
 
+                    Dialog.showDORequestSuccessfulDialog(request.getDoNumber(),productName, request.getActualBagQty(),request.getCreatedAt(), getContext());
 
                 }else {
 
@@ -564,39 +533,8 @@ public class EmployeeDOFragment extends Fragment {
                 .show();
 
         CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response em", token);
-        Log.d("response em", loggedInUser.userId.toString());
 
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DealerList> call = userApiClient.getDealerList(loggedInUser.userId);
-
+        Call<DealerList> call = MainActivity.apiClient.getDealerList(loggedInUser.userId);
 
         call.enqueue(new Callback<DealerList>() {
             @Override
@@ -613,7 +551,7 @@ public class EmployeeDOFragment extends Fragment {
 
                         for (Dealer dealer: dealers){
 
-                            Log.d("response", dealer.getName());
+                            //Log.d("response", dealer.getName());
 
                             DealerListContainer dealerContainer = new DealerListContainer();
                             dealerContainer.dealer_name = dealer.getName();
@@ -630,12 +568,13 @@ public class EmployeeDOFragment extends Fragment {
                         dealerArray = DataManager.getDealerList(getContext());
 
 
-                        for (int i = 0; i<dealerArray.size(); i++){
-                            DealerListContainer item = (DealerListContainer) dealerArray.get(i);
-                            Log.d("response", item.dealer_name);
-
-                            dealerList.add(item.organization+" - "+item.dealer_name);
+                        if(dealerArray != null){
+                            for (int i = 0; i<dealerArray.size(); i++){
+                                DealerListContainer item = (DealerListContainer) dealerArray.get(i);
+                                dealerList.add(item.organization+" - "+item.dealer_name);
+                            }
                         }
+
 
 
 
@@ -678,41 +617,7 @@ public class EmployeeDOFragment extends Fragment {
                 .setMaxProgress(30)
                 .show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", String.valueOf(dealerId));
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<RetailerList> call = userApiClient.getRetailerList(dealer_Id);
+        Call<RetailerList> call = MainActivity.apiClient.getRetailerList(dealer_Id);
 
 
         call.enqueue(new Callback<RetailerList>() {
@@ -728,13 +633,8 @@ public class EmployeeDOFragment extends Fragment {
                     RetailerList retailerListObject = response.body();
                     List<Retailer> retailers = retailerListObject.getData();
 
-//                    for (Retailer retailer: retailers){
-//                        retailerList.add(retailer.getOwnerName());
-//
-//                    }
-
                     if (retailers.size() > 0){
-                        ArrayList retailerArrayList = new ArrayList();
+                        ArrayList<RetailerContainer> retailerArrayList = new ArrayList<RetailerContainer>();
 
                         for (Retailer retailer: retailers){
 
@@ -753,16 +653,12 @@ public class EmployeeDOFragment extends Fragment {
 
                         retailerArray = DataManager.getRetailerList(getContext());
 
-
-                        for (int i = 0; i<retailerArray.size(); i++){
-                            RetailerContainer item = (RetailerContainer) retailerArray.get(i);
-                            Log.d("response", item.retailer_name);
-
-
-                            retailerList.add(item.retailer_name);
+                        if (retailerArray != null){
+                            for (int i = 0; i<retailerArray.size(); i++){
+                                RetailerContainer item = (RetailerContainer) retailerArray.get(i);
+                                retailerList.add(item.retailer_name);
+                            }
                         }
-
-
 
                         retailerAdapter.notifyDataSetChanged();
                     }
@@ -796,57 +692,14 @@ public class EmployeeDOFragment extends Fragment {
 
     private void getProductList(){
 
-//        final KProgressHUD hud = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-//                .setLabel("Please wait")
-//                .setMaxProgress(30)
-//                .show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<ProductList> call = userApiClient.getProductList();
-
+        Call<ProductList> call = MainActivity.apiClient.getProductList();
 
         call.enqueue(new Callback<ProductList>() {
             @Override
             public void onResponse(Call<ProductList> call, Response<ProductList> response) {
 
                 if(response.isSuccessful()) {
-
-                    //Log.d("response", String.valueOf(response.body().getProductList()));
-                    //JsonObject data = response.body().getProductList();
 
                     ProductList productList = response.body();
                     List<ProductType> productTypeList = productList.getProductList();
@@ -866,9 +719,11 @@ public class EmployeeDOFragment extends Fragment {
                     productArray = DataManager.getProductItems(getContext());
 
 
-                    for (int i = 0; i<productArray.size(); i++){
-                        ProductContainer item = (ProductContainer) productArray.get(i);
-                        productType.add(item.product_name);
+                    if(productArray != null){
+                        for (int i = 0; i<productArray.size(); i++){
+                            ProductContainer item = (ProductContainer) productArray.get(i);
+                            productType.add(item.product_name);
+                        }
                     }
 
                     typeAdapter.notifyDataSetChanged();
@@ -900,48 +755,8 @@ public class EmployeeDOFragment extends Fragment {
 
     private void getDeliveryModeList(){
 
-//        final KProgressHUD hud = KProgressHUD.create(getActivity())
-//                .setStyle(KProgressHUD.Style.ANNULAR_DETERMINATE)
-//                .setLabel("Please wait")
-//                .setMaxProgress(30)
-//                .show();
 
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DeliveryModeList> call = userApiClient.getDeliveryModeList();
-
+        Call<DeliveryModeList> call = MainActivity.apiClient.getDeliveryModeList();
 
         call.enqueue(new Callback<DeliveryModeList>() {
             @Override
@@ -961,8 +776,6 @@ public class EmployeeDOFragment extends Fragment {
 
                     for (DeliveryMode mode: modeList){
 
-                        Log.d("response", mode.getName());
-
                         DeliveryModeContainer type = new DeliveryModeContainer();
                         type.deliveryType = mode.getName();
                         arrayList.add(type);
@@ -974,13 +787,14 @@ public class EmployeeDOFragment extends Fragment {
                     ArrayList deliveryModeType = DataManager.getDeliveryModeItems(getContext());
 
 
-                    for (int i = 0; i<deliveryModeType.size(); i++){
-                        DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
-                        Log.d("response", item.deliveryType);
+                    if (deliveryModeType != null){
+                        for (int i = 0; i<deliveryModeType.size(); i++){
 
-
-                        deliveryType.add(item.deliveryType);
+                            DeliveryModeContainer item = (DeliveryModeContainer) deliveryModeType.get(i);
+                            deliveryType.add(item.deliveryType);
+                        }
                     }
+
 
 
                     modeAdapter.notifyDataSetChanged();
@@ -1013,43 +827,7 @@ public class EmployeeDOFragment extends Fragment {
 
     private void getDealerInfo(Integer dealer_Id){
 
-
-        CurrentUser loggedInUser = DataManager.getCurrentUser(getActivity());
-        final String accept = "application/json";
-        final String token = "Bearer " + loggedInUser.accessToken;
-        Log.d("response", token);
-        Log.d("response", loggedInUser.userId.toString());
-
-
-        String API_BASE_URL = "http://mis.nurtech.xyz/api/v1/";
-
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public okhttp3.Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Accept", accept)
-                        .addHeader("Authorization", token)
-                        .build();
-                return chain.proceed(request);
-            }
-        });
-        //Retrofit retrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create()).baseUrl(url).client(httpClient.build()).build();
-
-        //OkHttpClient.Builder httpClient = new OkHttpClient.Builder().readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS);
-
-
-
-
-        Retrofit.Builder builder = new Retrofit.Builder().baseUrl(API_BASE_URL).addConverterFactory(GsonConverterFactory.create());
-
-        //Retrofit retrofit = builder.build();
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        ApiClient userApiClient = retrofit.create(ApiClient.class);
-        Call<DealerCreditList> call = userApiClient.getDealerCreditInfo(dealer_Id);
-
+        Call<DealerCreditList> call = MainActivity.apiClient.getDealerCreditInfo(dealer_Id);
 
         call.enqueue(new Callback<DealerCreditList>() {
             @Override

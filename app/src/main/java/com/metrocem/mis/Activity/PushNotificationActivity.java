@@ -1,14 +1,14 @@
-package com.metrocem.mismetrocem.Activity;
+package com.metrocem.mis.Activity;
 
 import android.graphics.drawable.ColorDrawable;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 
-import com.metrocem.mismetrocem.R;
-import com.metrocem.mismetrocem.Subclasses.CurrentUser;
-import com.metrocem.mismetrocem.Subclasses.DataManager;
+import com.metrocem.mis.R;
+import com.metrocem.mis.Model.CurrentUser;
+import com.metrocem.mis.Model.DataManager;
 
 public class PushNotificationActivity extends AppCompatActivity {
 
@@ -30,7 +30,7 @@ public class PushNotificationActivity extends AppCompatActivity {
         if (currentUser.role.equals("Dealer")){
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorGreen)));
         }else {
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorOrange)));
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(this, R.color.colorPrimary)));
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
