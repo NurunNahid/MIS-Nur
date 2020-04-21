@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "704363939708",
+    "firebase_url": "https://mis-metrocem.firebaseio.com",
+    "project_id": "mis-metrocem",
+    "storage_bucket": "mis-metrocem.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704363939708:android:15ff7673901db4e11e46f9",
+        "android_client_info": {
+          "package_name": "com.metrocem.mismetrocem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704363939708-fff4vtjos3v4jq2j93r32nnbludg78v8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdhvEVcL31wSODqbsjmyoV-htaZVp9IrQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704363939708-fff4vtjos3v4jq2j93r32nnbludg78v8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
