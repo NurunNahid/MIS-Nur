@@ -77,21 +77,21 @@ public class DealerChallanFragment extends Fragment {
         challanRecyclerView.setHasFixedSize(true);
         challanRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        challanArray = new ArrayList<ChallanContainer>();
-        filteredChallanArray = new ArrayList<ChallanContainer>();
+        challanArray = new ArrayList<>();
+        filteredChallanArray = new ArrayList<>();
 
-        challanArray = DataManager.getChallanList(getContext());
-        if (challanArray != null){
-
-            parseData(challanArray);
-            //getOrderData();
-
-
-        }else {
-
-            getChallanData();
-
-        }
+//        challanArray = DataManager.getChallanList(getContext());
+//        if (challanArray != null){
+//
+//            parseData(challanArray);
+//            //getOrderData();
+//
+//
+//        }else {
+//
+//            getChallanData();
+//
+//        }
 
         getChallanData();
 
@@ -245,7 +245,7 @@ public class DealerChallanFragment extends Fragment {
                         Log.d("response3", "post submitted to API.");
 
                     } catch (Exception e) {
-                        Log.d("response4", "post submitted to API." + e.getMessage().toString());
+                        Log.d("response4", "post submitted to API." + e.getMessage());
                         hud.dismiss();
                     }
                 }
@@ -275,7 +275,7 @@ public class DealerChallanFragment extends Fragment {
 
                 for (int i= 0; i<challanArray.size(); i++){
 
-                    ChallanContainer challanOrder = (ChallanContainer) challanArray.get(i);
+                    ChallanContainer challanOrder =  challanArray.get(i);
 
                     if (challanOrder.doNumber.toLowerCase(Locale.getDefault()).contains(searchedText) || challanOrder.status.toLowerCase(Locale.getDefault()).contains(searchedText) || challanOrder.dealerName.toLowerCase(Locale.getDefault()).contains(searchedText)){
 
